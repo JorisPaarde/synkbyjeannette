@@ -1,0 +1,81 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import FAQAccordion, { type FAQItem } from './FAQAccordion';
+
+interface Props {
+  lang?: 'nl' | 'en';
+}
+
+const { lang = 'nl' } = Astro.props;
+const isEnglish = lang === 'en';
+const currentPath = isEnglish ? '/en/veelgestelde-vragen/' : '/veelgestelde-vragen/';
+
+const nlItems: FAQItem[] = [
+  {
+    question: 'Wat is het verschil tussen een VA en een remote Project Project manager- Producer?',
+    answer: '<p>Een VA voert taken uit op afstand.</p><p>Een remote Project manager- Producer, zoals Synk, denkt mee op strategisch niveau, stelt prioriteiten, bewaakt voortgang en werkt alsof het haar eigen project is.</p><p>Je krijgt dus geen assistent, maar iemand die het project vastpakt.</p>',
+  },
+  {
+    question: 'Wat zijn de voordelen van werken met een Remote Projectmanager- Producer?',
+    answer: '<ul><li>Flexibiliteit: inzetbaar op afstand én op locatie.</li><li>Efficiëntie: minder overhead dan een traditionele projectmanager.</li><li>Schaalbaarheid: werkt met jouw systemen en tools.</li><li>Productiviteit: meer rust, minder ruis, betere resultaten.</li><li>Groot netwerk in verschillende creatieve disciplines.</li></ul>',
+  },
+  {
+    question: 'Wat levert het je op?',
+    answer: '<p><strong>Tijdwinst</strong></p><p>Gemiddeld bespaar je:</p><ol><li>10–12 uur per week</li><li>40–50 uur per maand</li><li>500+ uur per jaar — dat zijn ruim 10 werkweken terug in jouw agenda</li></ol><p><strong>Efficiëntere besluitvorming</strong></p><p>Door structuur in vergaderingen, voorbereiding en opvolging verloopt besluitvorming tot 30% sneller.</p><p><strong>Financiële winst</strong></p><p>Projecten worden op tijd en binnen budget opgeleverd, wat gemiddeld 15% besparing op onverwachte kosten oplevert.</p>',
+  },
+  {
+    question: 'Voor wie is Synk?',
+    answer: '<p>Synk is voor gedreven en veeleisende mensen die veel aan hun hoofd hebben en behoefte hebben aan overzicht, structuur en een strategische sparringpartner.</p><p>Ideaal als je nog geen team wilt aannemen, maar wél regie nodig hebt. Of gewoon geen overhead zoals personeel in vaste dienst wilt.</p>',
+  },
+  {
+    question: 'Werk je alleen of met een team?',
+    answer: '<p>Ik werk zelfstandig, maar beschik over een netwerk van “bleeding edge”specialisten: strategen, copywriters, art directors, AI specialisten (nationaal en internationaal), webdevelopers, fotografen, producers, eventmanagers en productiehuizen.</p><p>Indien nodig stel ik snel een team samen dat past bij jouw project en stijl.</p>',
+  },
+  {
+    question: 'Kan ik je ook inschakelen voor een eenmalig project?',
+    answer: '<p>Zeker. Denk aan:</p><ul><li>Het coördineren van een Marketing Campagne.</li><li>Het reorganiseren van je backoffice.</li><li>Het voorbereiden van een belangrijke lancering.</li><li>Productie begeleiden van een beursstand.</li></ul><p>We bepalen samen het gewenste resultaat en de aanpak.</p><p>Heb je een deadline die gisteren al gehaald moest worden?</p><p>Geen stress. Ik ben hectiek gewend en brengt rust in chaos.</p><p>Of het nu gaat om een last-minute presentatie, eventcoördinatie of het redden van een project dat uit de bocht vliegt — ik schakel snel en doelgericht.</p>',
+  },
+  {
+    question: 'Werk je internationaal of in meerdere tijdzones?',
+    answer: '<p>Ja. Ik werk met internationale klanten, communiceer vloeiend in het Engels en stem moeiteloos af op verschillende ritmes en workflows — ook buiten kantooruren.</p>',
+  },
+];
+
+const enItems: FAQItem[] = [
+  {
+    question: 'What’s the difference between a VA and a remote Project Manager / Producer?',
+    answer: '<p>A VA carries out tasks remotely.</p><p>A remote Project Manager / Producer, like Synk, thinks along at a strategic level, sets priorities, monitors progress, and works as if it were her own project.</p><p>So you don’t get an assistant, but someone who takes ownership of the project.</p>',
+  },
+  {
+    question: 'What are the benefits of working with a Remote Project Manager / Producer?',
+    answer: '<ul><li>Flexibility: available remotely as well as on-site.</li><li>Efficiency: less overhead than a traditional project manager.</li><li>Scalability: works with your systems and tools.</li><li>Productivity: more calm, less noise, better results.</li><li>A broad network across various creative disciplines.</li></ul>',
+  },
+  {
+    question: 'What does it give you?',
+    answer: '<p><strong>Time saved</strong></p><p>On average, you save:</p><ol><li>10–12 hours per week</li><li>40–50 hours per month</li><li>500+ hours per year — that’s more than 10 working weeks back in your calendar.</li></ol><p><strong>More efficient decision-making</strong></p><p>With structure in meetings, preparation, and follow-up, decision-making can be up to 30% faster.</p><p><strong>Financial gain</strong></p><p>Projects are delivered on time and within budget, resulting in an average 15% saving on unexpected costs.</p>',
+  },
+  {
+    question: 'Who is Synk for?',
+    answer: '<p>Synk is for driven and demanding people who have a lot on their plate and need overview, structure, and a strategic sparring partner.</p><p>Ideal if you’re not ready to hire a team yet, but do need someone to take the lead. Or if you simply don’t want the overhead of permanent staff.</p>',
+  },
+  {
+    question: 'Do you work alone or with a team?',
+    answer: '<p>I work independently, but have access to a network of bleeding-edge specialists: strategists, copywriters, art directors, AI specialists both national and international, web developers, photographers, producers, event managers, and production houses.</p><p>When needed, I quickly assemble a team that fits your project and style.</p>',
+  },
+  {
+    question: 'Can I also hire you for a one-off project?',
+    answer: '<p>Absolutely. Think of:</p><ul><li>Coordinating a marketing campaign.</li><li>Reorganising your back office.</li><li>Preparing an important launch.</li><li>Managing the production of a trade show stand.</li></ul><p>We define the desired outcome and approach together.</p><p>Do you have a deadline that should have been met yesterday?</p><p>No stress. I’m used to hectic situations and bring calm to chaos.</p><p>Whether it’s a last-minute presentation, event coordination, or saving a project that’s going off track — I move quickly and with purpose.</p>',
+  },
+  {
+    question: 'Do you work internationally or across multiple time zones?',
+    answer: '<p>Yes. I work with international clients, communicate fluently in English, and adapt effortlessly to different rhythms and workflows — including outside office hours.</p>',
+  },
+];
+---
+
+<BaseLayout title="Veelgestelde vragen – Synk" lang={lang} currentPath={currentPath}>
+  <section class="faq-page">
+    <h1>{isEnglish ? 'Frequently asked questions' : 'Veelgestelde vragen'}</h1>
+    <FAQAccordion items={isEnglish ? enItems : nlItems} client:load />
+  </section>
+</BaseLayout>

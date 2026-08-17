@@ -1,0 +1,44 @@
+---
+import { ClientRouter } from 'astro:transitions';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import RevealController from '../components/RevealController.astro';
+import { withBase } from '../lib/paths';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+  lang?: 'nl' | 'en';
+  currentPath?: string;
+}
+
+const {
+  title,
+  description = 'Your PA and Project Manager Producer',
+  lang = 'nl',
+  currentPath = Astro.url.pathname,
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#000000" />
+    <link rel="canonical" href={new URL(withBase(currentPath), Astro.site ?? Astro.url.origin)} />
+    <title>{title}</title>
+    <ClientRouter fallback="animate" />
+  </head>
+  <body>
+    <a class="skip-link" href="#content">{lang === 'en' ? 'Skip to content' : 'Ga naar de inhoud'}</a>
+    <Header lang={lang} currentPath={currentPath} />
+    <main id="content">
+      <slot />
+    </main>
+    <Footer lang={lang} />
+    <RevealController />
+  </body>
+</html>

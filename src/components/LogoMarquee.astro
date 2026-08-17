@@ -1,0 +1,29 @@
+---
+import { withBase } from '../lib/paths';
+
+const logos = [
+  ['interpolis.png', 'Interpolis'],
+  ['ea-sports.png', 'EA Sports'],
+  ['canon.png', 'Canon'],
+  ['philips.png', 'Philips'],
+  ['nike.png', 'Nike'],
+  ['oneill.png', "O'Neill"],
+  ['siemens.png', 'Siemens'],
+  ['volkswagen.png', 'Volkswagen'],
+  ['wrangler.png', 'Wrangler'],
+  ['t-mobile.png', 'T-Mobile'],
+  ['achmea.png', 'Achmea'],
+];
+---
+
+<div class="logo-marquee" aria-label="Merken waarvoor Jeanette werkte">
+  <div class="logo-marquee__track">
+    {[0, 1].map((groupIndex) => (
+      <div class="logo-marquee__group" aria-hidden={groupIndex === 1 ? 'true' : undefined}>
+        {logos.map(([src, alt]) => (
+          <img src={withBase(`/assets/images/logos/${src}`)} alt={groupIndex === 0 ? alt : ''} loading="lazy" />
+        ))}
+      </div>
+    ))}
+  </div>
+</div>

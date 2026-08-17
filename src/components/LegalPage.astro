@@ -1,0 +1,16 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+interface Props {
+  title: string;
+  content: string;
+  lang?: 'nl' | 'en';
+  currentPath: string;
+}
+
+const { title, content, lang = 'nl', currentPath } = Astro.props;
+---
+
+<BaseLayout title={`${title} – Synk`} lang={lang} currentPath={currentPath}>
+  <article class="legal-page" set:html={content} />
+</BaseLayout>

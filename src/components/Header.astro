@@ -1,0 +1,98 @@
+---
+import { withBase } from '../lib/paths';
+
+interface Props {
+  lang?: 'nl' | 'en';
+  currentPath?: string;
+}
+
+const { lang = 'nl', currentPath = '/' } = Astro.props;
+const prefix = lang === 'en' ? '/en' : '';
+const items = lang === 'en'
+  ? [
+      { label: 'Home', href: `${prefix}/` },
+      { label: 'Frequently asked questions', href: `${prefix}/veelgestelde-vragen/` },
+      { label: 'Services', href: `${prefix}/diensten/` },
+    ]
+  : [
+      { label: 'Home', href: '/' },
+      { label: 'Veelgestelde vragen', href: '/veelgestelde-vragen/' },
+      { label: 'Diensten', href: '/diensten/' },
+    ];
+
+const languageHref = lang === 'en'
+  ? currentPath.replace(/^\/en(?=\/|$)/, '') || '/'
+  : `/en${currentPath === '/' ? '/' : currentPath}`;
+---
+
+<header class="site-header" data-site-header>
+  <button
+    class="menu-toggle"
+    type="button"
+    aria-label="Menu toggle"
+    aria-controls="site-menu"
+    aria-expanded="false"
+    data-menu-toggle
+  >
+    <span class="sr-only">Menu</span>
+  </button>
+
+  <nav class="site-menu" id="site-menu" aria-hidden="true" data-site-menu>
+    <ul>
+      {items.map((item) => (
+        <li>
+          <a
+            href={withBase(item.href)}
+            class:list={{ active: currentPath === item.href }}
+            aria-current={currentPath === item.href ? 'page' : undefined}
+          >
+            {item.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+
+  <a class="language-switch" href={withBase(languageHref)} data-no-translation>
+    {lang === 'en' ? 'NL' : 'EN'}
+  </a>
+</header>
+
+<script is:inline>
+  (() => {
+    const bindHeader = () => {
+      document.querySelectorAll('[data-site-header]').forEach((header) => {
+        if (header.dataset.bound === 'true') return;
+        header.dataset.bound = 'true';
+
+        const button = header.querySelector('[data-menu-toggle]');
+        const menu = header.querySelector('[data-site-menu]');
+        if (!button || !menu) return;
+
+        const setOpen = (open) => {
+          button.setAttribute('aria-expanded', String(open));
+          menu.setAttribute('aria-hidden', String(!open));
+          header.classList.toggle('is-open', open);
+        };
+
+        button.addEventListener('click', () => {
+          setOpen(button.getAttribute('aria-expanded') !== 'true');
+        });
+
+        document.addEventListener('click', (event) => {
+          if (!header.contains(event.target)) setOpen(false);
+        });
+
+        document.addEventListener('keydown', (event) => {
+          if (event.key === 'Escape') {
+            setOpen(false);
+            button.focus();
+          }
+        });
+      });
+    };
+
+    bindHeader();
+    document.addEventListener('astro:page-load', bindHeader);
+  })();
+</script>

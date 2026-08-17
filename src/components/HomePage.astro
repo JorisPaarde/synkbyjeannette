@@ -1,0 +1,153 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import LogoMarquee from './LogoMarquee.astro';
+import ScrollArt from './ScrollArt.astro';
+import { withBase } from '../lib/paths';
+
+interface Props {
+  lang?: 'nl' | 'en';
+}
+
+const { lang = 'nl' } = Astro.props;
+const isEnglish = lang === 'en';
+const currentPath = isEnglish ? '/en/' : '/';
+
+const serviceLine = isEnglish
+  ? 'EMAIL MANAGEMENT – CALENDAR AND TRAVEL PLANNING – EVENTS – CONCEPT DEVELOPMENT – PROJECT COORDINATION – BACK OFFICE –'
+  : 'E-MAILBEHEER - AGENDA EN REISPLANNING - EVENTS - CONCEPTONTWIKKELING - PROJECTREGIE - BACKOFFICE -';
+---
+
+<BaseLayout
+  title="Synk – Your PA and Project Manager Producer"
+  description="Your PA and Project Manager Producer. Rust, overzicht en strategische precisie."
+  lang={lang}
+  currentPath={currentPath}
+>
+  <section class="hero">
+    <div class="hero__content">
+      <img class="hero__logo" src={withBase('/assets/images/synk-logo.png')} alt="SYNK" fetchpriority="high" />
+      <h1 class="hero__byline">by Jeanette</h1>
+      <p class="hero__statement">
+        {isEnglish ? (
+          <>At a high level, it ultimately comes down to<br />one thing: <em>peace of mind.</em> because peace of mind creates space<br />to stay sharp and focus<br />running your business.</>
+        ) : (
+          <>Op hoog niveau draait het uiteindelijk<br />om één ding: <em>rust.</em> Want rust creëert de ruimte<br />om scherp te blijven en te focussen op<br />je expertise.</>
+        )}
+      </p>
+      <p class="hero__role">Your PA and<br />Project Manager Producer</p>
+    </div>
+  </section>
+
+  <section class="split-section bordered-section">
+    <div class="intro-copy">
+      <p data-reveal>
+        Als remote PA, Project Manager<br />
+        en Producer ben ik meer dan<br />
+        een assistent op afstand.<br />
+        Ik ontzorg, denk mee<br />
+        en kijk vooruit.<br />
+        Complexe projecten pak ik vast<br />
+        als een pitbull.<br />
+        No worries, ik bijt niet.
+      </p>
+    </div>
+    <div class="intro-quote">
+      <blockquote data-reveal>
+        {isEnglish ? (
+          <>FOR A “WOULD YOU”<br />QUESTION<br />I’LL CALL MY SECRETARY.<br />FOR A <strong>“CAN YOU”</strong><br />QUESTION<br />I CALL JEANETTE.</>
+        ) : (
+          <>VOOR EEN ‘WIL JIJ’<br />VRAAG<br />BEL IK M’N<br />SECRETARESSE.<br />VOOR EEN <strong>‘KAN JIJ’</strong><br />VRAAG<br />BEL IK JEANETTE.</>
+        )}
+        <cite>Abdu Samad<br />Marketing Director Creative Events</cite>
+      </blockquote>
+    </div>
+  </section>
+
+  <LogoMarquee />
+
+  <section class="split-section bordered-section">
+    <div class="profile-art" aria-label="Portret van Jeanette met de woorden regie zonder ruis en overzicht zonder overhead">
+      <img src={withBase('/assets/images/jeanette-portrait.png')} alt="Jeanette la Rivière" loading="lazy" />
+      <div class="profile-art__words" aria-hidden="true">
+        <span>{isEnglish ? 'Direction' : 'Regie'}</span>
+        <span>{isEnglish ? 'Without' : 'Zonder'}</span>
+        <span>{isEnglish ? 'Noise' : 'Ruis'}</span>
+        <span>{isEnglish ? 'Overview' : 'Overzicht'}</span>
+        <span>{isEnglish ? 'Without' : 'Zonder'}</span>
+        <span>{isEnglish ? 'Overhead' : 'Overhead'}</span>
+      </div>
+    </div>
+    <div class="profile-copy">
+      <p data-reveal>
+        {isEnglish ? (
+          <>I’m Jeanette la Rivière.<br />Al meer dan 25 jaar breng ik rust<br />voor bedrijven, organisaties<br />&amp; ondernemers.<br />Strategic &amp; Structured.<br />Want om het onmogelijk<br />mogelijk te maken<br />heb je overzicht nodig.</>
+        ) : (
+          <>Ik ben Jeanette la Rivière.<br />Al meer dan 25 jaar breng ik rust<br />voor bedrijven, organisaties<br />&amp; ondernemers.<br />Strategisch &amp; gestructureerd.<br />Want om het onmogelijk<br />mogelijk te maken<br />heb je overzicht nodig.</>
+        )}
+      </p>
+    </div>
+  </section>
+
+  <section class="split-section bordered-section">
+    <div class="experience-copy">
+      <p data-reveal>
+        Over 25 jaar is alles wel zo’n beetje voorbijgekomen.<br /><br />
+        Van 24 uur live radiocommercials opnemen op straat in Londen<br />
+        tot het produceren van een Achmea-campagne met 24 echte dolfijnen.<br /><br />
+        Of het produceren van beursstands voor vijf landen in Europa.
+      </p>
+    </div>
+    <div class="experience-photo" role="img" aria-label="Achmea-campagne met dolfijnen"></div>
+  </section>
+
+  <ScrollArt lang={lang} />
+
+  <section class="client-spectrum">
+    <div class="client-spectrum__copy">
+      <p data-reveal>
+        {isEnglish ? (
+          <>Synk werkt voor grote bedrijven,<br />SMEs and NGOs. Or directly for<br />CEOs, artists, directors and even<br />scientists. Very diverse,<br />but all perfectionists.</>
+        ) : (
+          <>Synk werkt voor grote bedrijven,<br />mkb’ers &amp; ngo’s. Of rechtstreeks voor<br />ceo’s, kunstenaars, regisseurs &amp; zelfs<br />wetenschappers. Heel gevarieerd,<br />maar allemaal perfectionisten.</>
+        )}
+      </p>
+    </div>
+    <div class="client-spectrum__art" aria-hidden="true"></div>
+  </section>
+
+  <div class="service-ticker" aria-label={serviceLine}>
+    <div class="service-ticker__track">
+      <span class="service-ticker__group">{serviceLine}</span>
+      <span class="service-ticker__group" aria-hidden="true">{serviceLine}</span>
+    </div>
+  </div>
+
+  <div class="tan-divider"></div>
+
+  <section class="split-section bordered-section">
+    <div class="manifesto">
+      <p data-reveal>
+        Ik breng rust, overzicht en strategische<br />
+        precisie in je bedrijf of organisatie.<br /><br />
+        Want slimmer denken is geen slogan –<br />
+        het is een manier van werken die je tijd,<br />
+        energie en mentale ruimte teruggeeft.<br /><br />
+        Think smart. Move with clarity. Live more.<br /><br />
+        {isEnglish ? 'That is Synk by Jeanette.' : 'Dat is Synk by Jeanette.'}
+      </p>
+    </div>
+    <div class="artist-quote">
+      <blockquote data-reveal>
+        {isEnglish ? <>Artists are dreamers.<br />Doers like Jeanette make<br />them possible.</> : <>Kunstenaars zijn dromers.<br />Doeners als Jeanette<br />maken ze mogelijk.</>}
+        <cite>JW Kaldenbach<br />Photographer</cite>
+      </blockquote>
+    </div>
+  </section>
+
+  <section class="problem-quote">
+    <p>Slow motion flying dancers in an exhibition for the former queen? <mark>NO PROBLEM</mark></p>
+    <p>Connecting with new clients? <mark>NO PROBLEM</mark></p>
+    <p>Dealing with difficult ones? <mark>NO PROBLEM</mark></p>
+    <cite>Rick Robin<br />Visual Architect</cite>
+  </section>
+</BaseLayout>

@@ -1,0 +1,47 @@
+---
+interface Props {
+  lang?: 'nl' | 'en';
+}
+
+const { lang = 'nl' } = Astro.props;
+const isEnglish = lang === 'en';
+---
+
+<footer class="site-footer">
+  <section class="contact-strip" aria-label={isEnglish ? 'Contact' : 'Contact'}>
+    <p>
+      {isEnglish ? 'Curious how? Email me at' : 'Nieuwsgierig hoe? Mail me op'}
+      <a href="mailto:jeanette@synkbyjeanette.com">jeanette@synkbyjeanette.com</a>
+    </p>
+    <p>
+      {isEnglish ? 'of bel' : 'of'}
+      <a href="tel:+31646611718">{isEnglish ? 'bel' : 'bel'}</a>
+      /
+      <a href="https://wa.me/31646611718">app</a>
+      <a href="tel:+31646611718">+31 6 4661 1718</a>
+      {isEnglish ? 'for an espresso macciato' : 'voor een espresso macchiato.'}
+    </p>
+  </section>
+
+  <section class="social-strip">
+    <a
+      class="linkedin-mark"
+      href="https://www.linkedin.com/in/jeanetteriviere/"
+      aria-label="LinkedIn"
+      rel="noreferrer"
+    >in</a>
+  </section>
+
+  <section class="credits-strip">
+    <h2>{isEnglish ? 'With many thanks to:' : 'Met heel veel dank aan:'}</h2>
+    <ul>
+      <li><span class="person-icon" aria-hidden="true"></span>Ward Cuiper - {isEnglish ? 'Strategy' : 'Strategie'}</li>
+      <li><span class="person-icon" aria-hidden="true"></span>Stefan Leendertse - Conceptontwikkeling / Design &amp; Copy</li>
+      <li><span class="person-icon" aria-hidden="true"></span>JP Nieuwerkerk - Copy</li>
+      <li>
+        <span class="person-icon" aria-hidden="true"></span>
+        <a href="https://jpwebcreation.nl">Joris Paardekooper - Webdevelopment</a>
+      </li>
+    </ul>
+  </section>
+</footer>

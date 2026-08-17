@@ -1,0 +1,81 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+interface Props {
+  lang?: 'nl' | 'en';
+}
+
+const { lang = 'nl' } = Astro.props;
+const isEnglish = lang === 'en';
+const currentPath = isEnglish ? '/en/diensten/' : '/diensten/';
+---
+
+<BaseLayout title="Diensten – Synk" lang={lang} currentPath={currentPath}>
+  <header class="page-title-band services-title">
+    <h1>Diensten SYNK by Jeanette</h1>
+  </header>
+
+  <article class="services-content">
+    <section class="services-content__main">
+      <p>
+        {isEnglish
+          ? 'Synk is tailored to your needs. No subscriptions, no standard packages. Just impact.'
+          : 'Synk is maatwerk. Geen abonnementen, geen standaardpakketten. Wel impact.'}
+      </p>
+      <p>{isEnglish ? 'My project management includes:' : 'Mijn projectregie omvat:'}</p>
+      <ul>
+        <li>
+          <strong>{isEnglish ? 'Email management and communication / coordination' : 'E-mailbeheer en communicatie / coördinatie'}</strong>{' '}
+          {isEnglish
+            ? 'Clear, timely, and empathetic communication with internal teams, clients, and stakeholders.'
+            : 'Heldere, tijdige en empathische communicatie met interne teams, klanten en stakeholders.'}
+        </li>
+        <li>
+          <strong>{isEnglish ? 'Calendar management and travel planning' : 'Agendabeheer en reisplanning'}</strong>{' '}
+          {isEnglish
+            ? 'Smart planning of appointments, meetings, and international travel — both professional and private.'
+            : 'Slimme planning van afspraken, vergaderingen en internationale reizen – professioneel én privé.'}
+        </li>
+        <li>
+          <strong>{isEnglish ? 'Event organisation and production coordination' : 'Eventorganisatie en productiebegeleiding'}</strong>{' '}
+          {isEnglish
+            ? 'From concept to execution: business events, charity days, and photography productions organised down to the finest detail.'
+            : 'Van concept tot uitvoering: zakelijke events, benefietdagen en fotografieproducties tot in de puntjes geregeld.'}
+        </li>
+        <li>
+          <strong>{isEnglish ? 'Concept development and production' : 'Conceptontwikkeling en productie'}</strong>{' '}
+          {isEnglish
+            ? 'Translates ideas into feasible plans, assembles teams, and monitors deadlines and deliverables. Budget management and quality control: control over costs, timely delivery, and minimisation of risks.'
+            : 'Vertaalt ideeën naar haalbare plannen, stel teams samen en bewaakt deadlines en deliverables. Budgetbewaking en kwaliteitscontrole Grip op kosten, tijdige oplevering en minimalisering van risico’s.'}
+        </li>
+        <li>
+          <strong>{isEnglish ? 'Backoffice inrichting en optimalisatie' : 'Backoffice inrichting en optimalisatie'}</strong>{' '}
+          {isEnglish
+            ? 'Creating structure in processes, systems, and internal communication for calm and scalability.'
+            : 'Structuur aanbrengen in processen, systemen en interne communicatie voor rust en schaalbaarheid.'}
+        </li>
+      </ul>
+    </section>
+
+    <section class="services-results">
+      <div class="services-results__grid">
+        <div>
+          <h2>{isEnglish ? 'Time saved' : 'Tijdwinst'} <span>{isEnglish ? 'On average, you save:' : 'Gemiddeld bespaar je:'}</span></h2>
+          <ul>
+            <li>{isEnglish ? '10–12 hours per week' : '10–12 uur per week'}</li>
+            <li>{isEnglish ? '40–50 hours per month' : '40–50 uur per maand'}</li>
+            <li>{isEnglish ? '500+ hours per year — that’s more than 10 working weeks back in your calendar.' : '500+ uur per jaar — dat zijn ruim 10 werkweken terug in jouw agenda'}</li>
+          </ul>
+        </div>
+        <div>
+          <h2>{isEnglish ? 'More efficient decision-making' : 'Efficiëntere besluitvorming'}</h2>
+          <p>{isEnglish ? 'With structure in meetings, preparation, and follow-up, decision-making can be up to 30% faster.' : 'Door structuur in vergaderingen, voorbereiding en opvolging verloopt besluitvorming tot 30% sneller.'}</p>
+        </div>
+        <div>
+          <h2>{isEnglish ? 'Financial gain' : 'Financiële winst'}</h2>
+          <p>{isEnglish ? 'Projects are delivered on time and within budget, resulting in an average 15% saving on unexpected costs.' : 'Projecten worden op tijd en binnen budget opgeleverd, wat gemiddeld 15% besparing op onverwachte kosten oplevert.'}</p>
+        </div>
+      </div>
+    </section>
+  </article>
+</BaseLayout>

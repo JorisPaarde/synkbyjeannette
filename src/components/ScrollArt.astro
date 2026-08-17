@@ -1,0 +1,61 @@
+---
+interface Props {
+  lang?: 'nl' | 'en';
+}
+
+const { lang = 'nl' } = Astro.props;
+const isEnglish = lang === 'en';
+---
+
+<section class="stretch-stage" data-stretch-stage>
+  <div class="stretch-stage__sticky">
+    <div class="stretch-stage__side">
+      <p class="stretch-stage__eyebrow">Jeanette combines an instinct for</p>
+      <p class="stretch-stage__word" data-stretch-word>{isEnglish ? 'Business' : 'Business'}</p>
+    </div>
+    <div class="stretch-stage__side">
+      <p class="stretch-stage__eyebrow">With a sense of</p>
+      <p class="stretch-stage__word" data-stretch-word>Humour</p>
+      <p class="stretch-stage__credit">Stefan Dzodan<br />Artist</p>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const mountStretchArt = () => {
+    const existing = (window as any).__synkStretchContext;
+    existing?.revert?.();
+
+    const stage = document.querySelector('[data-stretch-stage]');
+    if (!stage || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    (window as any).__synkStretchContext = gsap.context(() => {
+      const words = gsap.utils.toArray<HTMLElement>('[data-stretch-word]');
+      words.forEach((word, index) => {
+        gsap.fromTo(
+          word,
+          { scaleY: .72, letterSpacing: '-.06em' },
+          {
+            scaleY: 1.55,
+            letterSpacing: index === 0 ? '.015em' : '-.015em',
+            ease: 'none',
+            scrollTrigger: {
+              trigger: stage,
+              start: 'top top',
+              end: 'bottom bottom',
+              scrub: .8,
+            },
+          },
+        );
+      });
+    }, stage);
+  };
+
+  mountStretchArt();
+  document.addEventListener('astro:page-load', mountStretchArt);
+</script>
