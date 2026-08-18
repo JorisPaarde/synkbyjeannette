@@ -432,6 +432,8 @@ main {
 }
 
 .hero__statement em {
+  color: var(--synk-white);
+  font-style: italic;
   font-weight: 900;
 }
 
@@ -443,6 +445,10 @@ main {
   font-size: clamp(1.35rem, 1.85vw, 1.5625rem);
   font-weight: 600;
   line-height: 1.5;
+}
+
+.hero-mobile-statement {
+  display: none;
 }
 
 .intro-copy,
@@ -551,9 +557,18 @@ main {
   filter: grayscale(1) contrast(1.05);
 }
 
-.profile-art__words {
+.profile-art::before {
   position: absolute;
   z-index: 1;
+  inset: 0;
+  background: linear-gradient(68deg, rgb(255 255 255 / 0%) 50%, var(--synk-white) 77%);
+  content: '';
+  pointer-events: none;
+}
+
+.profile-art__words {
+  position: absolute;
+  z-index: 2;
   top: 0;
   right: 0;
   bottom: 0;
@@ -981,7 +996,12 @@ main {
 }
 
 @media (max-width: 767px) {
-  :root { --header-height: 52px; }
+  :root {
+    --header-height: 52px;
+    --white-panel-space: 10%;
+    --white-panel-font-size: 15px;
+    --white-panel-line-height: 1.5;
+  }
 
   .site-menu {
     right: 10px;
@@ -1018,8 +1038,8 @@ main {
   }
 
   .hero {
-    min-height: 650px;
-    padding: 0 18px 28px;
+    min-height: 360px;
+    padding: 0 18px 20px;
   }
 
   .hero__content {
@@ -1043,12 +1063,47 @@ main {
   .hero__byline {
     margin-top: 4px;
     margin-bottom: 0;
+    font-size: 1.6rem;
   }
 
   .hero__statement {
+    display: none;
+  }
+
+  .hero__role {
     margin-top: auto;
-    margin-bottom: 38px;
-    font-size: 1.05rem;
+    font-size: 18px;
+  }
+
+  .hero-mobile-statement {
+    display: flex;
+    min-height: 240px;
+    align-items: center;
+    padding: var(--white-panel-space);
+    border-right: var(--page-border);
+    border-left: var(--page-border);
+    background: var(--synk-white);
+    font-size: var(--white-panel-font-size);
+    font-weight: 900;
+    line-height: var(--white-panel-line-height);
+  }
+
+  .hero-mobile-statement p {
+    margin: 0;
+  }
+
+  .hero-mobile-statement span {
+    display: block;
+  }
+
+  .hero-mobile-statement em {
+    display: inline-block;
+    padding: .08em .28em .12em;
+    color: var(--synk-white);
+    background: var(--synk-tan);
+    font-style: italic;
+    font-weight: 800;
+    line-height: 1;
   }
 
   .intro-copy,
