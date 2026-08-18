@@ -4,53 +4,6 @@
   font-display: swap;
 }
 
-@font-face {
-  font-family: 'Balgin Display';
-  src: url('/assets/fonts/balgin-display-bold.woff2') format('woff2');
-  font-display: swap;
-  font-weight: 700 900;
-}
-
-@font-face {
-  font-family: 'Avenir';
-  src: url('/assets/fonts/avenir-light.ttf') format('truetype');
-  font-display: swap;
-  font-weight: 300;
-}
-
-@font-face {
-  font-family: 'Avenir';
-  src: url('/assets/fonts/avenir-book.ttf') format('truetype');
-  font-display: swap;
-  font-weight: 400;
-}
-
-@font-face {
-  font-family: 'Avenir';
-  src: url('/assets/fonts/avenir-heavy.ttf') format('truetype');
-  font-display: swap;
-  font-weight: 800;
-}
-
-@font-face {
-  font-family: 'Avenir';
-  src: url('/assets/fonts/avenir-black.ttf') format('truetype');
-  font-display: swap;
-  font-weight: 900;
-}
-
-@font-face {
-  font-family: 'D-DIN';
-  src: url('/assets/fonts/d-din.ttf') format('truetype');
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'LED Dot';
-  src: url('/assets/fonts/led-dot-matrix.ttf') format('truetype');
-  font-display: swap;
-}
-
 :root {
   --synk-tan: #dcb68b;
   --synk-grey: #efeff0;
@@ -58,6 +11,9 @@
   --synk-white: #fff;
   --header-height: 52px;
   --page-border: 2px solid var(--synk-black);
+  --white-panel-space: clamp(2rem, 7vw, 6rem);
+  --white-panel-font-size: clamp(1.18rem, 1.75vw, 1.55rem);
+  --white-panel-line-height: 1.55;
 }
 
 *,
@@ -317,7 +273,7 @@ main {
   border-radius: 2px;
   color: var(--synk-black);
   background: var(--synk-white);
-  font-family: Arial, sans-serif;
+  font-family: 'Futura Medium', Futura, sans-serif;
   font-size: 38px;
   font-weight: 900;
   line-height: 1;
@@ -327,12 +283,12 @@ main {
 .credits-strip {
   padding: 30px 32px 34px;
   background: var(--synk-grey);
-  font-family: 'D-DIN', sans-serif;
+  font-family: 'Futura Medium', Futura, sans-serif;
 }
 
 .credits-strip h2 {
   margin-bottom: 24px;
-  font-family: 'Futura Medium', sans-serif;
+  font-family: 'Futura Medium', Futura, sans-serif;
   font-size: 18px;
   font-weight: 500;
 }
@@ -450,7 +406,7 @@ main {
 .hero__byline {
   margin: -18px 22px 38px 0;
   color: var(--synk-white);
-  font-family: 'Balgin Display', sans-serif;
+  font-family: 'Futura Medium', Futura, sans-serif;
   font-size: clamp(2rem, 3.5vw, 3rem);
   font-weight: 700;
   line-height: 1;
@@ -458,7 +414,7 @@ main {
 
 .hero__statement {
   margin: 0 22px 36px auto;
-  font-family: 'Avenir', sans-serif;
+  font-family: 'Futura Medium', Futura, sans-serif;
   font-size: clamp(1.25rem, 2vw, 1.65rem);
   font-weight: 900;
   line-height: 1.5;
@@ -471,7 +427,7 @@ main {
 .hero__role {
   margin: 0 22px 0 0;
   color: var(--synk-tan);
-  font-family: 'Balgin Display', sans-serif;
+  font-family: 'Futura Medium', Futura, sans-serif;
   font-size: clamp(1.35rem, 2.2vw, 1.8rem);
   font-weight: 700;
   line-height: 1.25;
@@ -485,11 +441,11 @@ main {
 }
 
 .intro-copy {
-  padding: 8% 8% 8% 12%;
+  padding: var(--white-panel-space);
   background: var(--synk-white);
-  font-size: clamp(1.25rem, 2vw, 1.72rem);
+  font-size: var(--white-panel-font-size);
   font-weight: 800;
-  line-height: 1.55;
+  line-height: var(--white-panel-line-height);
 }
 
 .intro-quote {
@@ -499,7 +455,7 @@ main {
 
 .intro-quote blockquote {
   margin: 0;
-  font-family: 'D-DIN', sans-serif;
+  font-family: 'Futura Medium', Futura, sans-serif;
   font-size: clamp(2.2rem, 4.2vw, 3.2rem);
   line-height: .9;
 }
@@ -515,7 +471,7 @@ main {
   display: block;
   margin-top: 16px;
   color: #5d6876;
-  font-family: 'Avenir', sans-serif;
+  font-family: 'Futura Medium', Futura, sans-serif;
   font-size: .95rem;
   font-weight: 900;
   line-height: 1.05;
@@ -586,7 +542,7 @@ main {
   padding: 18px 12px 18px 18px;
   overflow: hidden;
   color: #d5d5d5;
-  font-family: 'D-DIN', sans-serif;
+  font-family: 'Futura Medium', Futura, sans-serif;
   font-size: clamp(3rem, 5.2vw, 5rem);
   line-height: .86;
   text-transform: uppercase;
@@ -603,11 +559,11 @@ main {
 .profile-copy {
   display: flex;
   align-items: center;
-  padding: 8% 12%;
+  padding: var(--white-panel-space);
   background: var(--synk-white);
-  font-size: clamp(1.25rem, 2vw, 1.72rem);
+  font-size: var(--white-panel-font-size);
   font-weight: 800;
-  line-height: 1.5;
+  line-height: var(--white-panel-line-height);
 }
 
 .experience-copy,
@@ -618,11 +574,11 @@ main {
 .experience-copy {
   display: flex;
   align-items: center;
-  padding: 8% 11%;
+  padding: var(--white-panel-space);
   background: var(--synk-white);
-  font-size: clamp(1.2rem, 1.8vw, 1.6rem);
+  font-size: var(--white-panel-font-size);
   font-weight: 800;
-  line-height: 1.6;
+  line-height: var(--white-panel-line-height);
 }
 
 .experience-photo {
@@ -663,7 +619,7 @@ main {
 .stretch-stage__eyebrow {
   margin-bottom: 24px;
   color: var(--synk-white);
-  font-family: 'Avenir', sans-serif;
+  font-family: 'Futura Medium', Futura, sans-serif;
   font-size: clamp(1rem, 1.8vw, 1.45rem);
   font-weight: 900;
   text-transform: uppercase;
@@ -671,7 +627,7 @@ main {
 
 .stretch-stage__word {
   margin: 0;
-  font-family: 'D-DIN', sans-serif;
+  font-family: 'Futura Medium', Futura, sans-serif;
   font-size: clamp(4rem, 11vw, 10rem);
   font-weight: 400;
   line-height: .72;
@@ -683,7 +639,7 @@ main {
   align-self: flex-end;
   margin-top: 38px;
   color: var(--synk-white);
-  font-family: 'Avenir', sans-serif;
+  font-family: 'Futura Medium', Futura, sans-serif;
   font-size: .95rem;
   font-weight: 900;
   font-style: italic;
@@ -700,11 +656,11 @@ main {
 .client-spectrum__copy {
   display: flex;
   align-items: center;
-  padding: 8% 11%;
+  padding: var(--white-panel-space);
   border-right: var(--page-border);
-  font-size: clamp(1.2rem, 2vw, 1.7rem);
+  font-size: var(--white-panel-font-size);
   font-weight: 800;
-  line-height: 1.55;
+  line-height: var(--white-panel-line-height);
 }
 
 .client-spectrum__art {
@@ -718,7 +674,7 @@ main {
   position: absolute;
   inset: 10% 10%;
   content: 'REGIE / OVERZICHT';
-  font-family: 'D-DIN', sans-serif;
+  font-family: 'Futura Medium', Futura, sans-serif;
   font-size: clamp(4rem, 8vw, 8rem);
   line-height: .78;
   text-transform: uppercase;
@@ -752,7 +708,7 @@ main {
   flex: 0 0 auto;
   margin-right: 28px;
   color: var(--synk-white);
-  font-family: 'LED Dot', monospace;
+  font-family: 'Futura Medium', Futura, sans-serif;
   font-size: 28.8px;
   line-height: 1;
   white-space: nowrap;
@@ -770,11 +726,11 @@ main {
 .manifesto {
   display: flex;
   align-items: center;
-  padding: 8% 9%;
+  padding: var(--white-panel-space);
   background: var(--synk-white);
-  font-size: clamp(1.25rem, 2vw, 1.7rem);
+  font-size: var(--white-panel-font-size);
   font-weight: 800;
-  line-height: 1.55;
+  line-height: var(--white-panel-line-height);
 }
 
 .artist-quote {
@@ -788,7 +744,7 @@ main {
 
 .artist-quote blockquote {
   margin: 0;
-  font-family: 'D-DIN', sans-serif;
+  font-family: 'Futura Medium', Futura, sans-serif;
   font-size: clamp(2.6rem, 5vw, 4.4rem);
   line-height: .92;
 }
@@ -826,7 +782,7 @@ main {
 
 .page-title-band h1 {
   margin: 0;
-  font-family: 'D-DIN', sans-serif;
+  font-family: 'Futura Medium', Futura, sans-serif;
   font-size: clamp(2.4rem, 4.5vw, 4rem);
   font-weight: 400;
   line-height: 1;
@@ -847,8 +803,10 @@ main {
 
 .services-content__main {
   min-height: 390px;
-  padding: 26vh 7.5% 40px;
+  padding: var(--white-panel-space);
   background: var(--synk-white);
+  font-size: var(--white-panel-font-size);
+  line-height: var(--white-panel-line-height);
 }
 
 .services-content__main ul {
@@ -881,10 +839,12 @@ main {
 
 .faq-page {
   min-height: 1080px;
-  padding: 10px 7.5% 90px;
+  padding: var(--white-panel-space);
   border-right: var(--page-border);
   border-left: var(--page-border);
   background: var(--synk-white);
+  font-size: var(--white-panel-font-size);
+  line-height: var(--white-panel-line-height);
 }
 
 .faq-page h1 {
@@ -897,7 +857,7 @@ main {
 
 .faq-list {
   width: 100%;
-  margin: 335px auto 0;
+  margin: var(--white-panel-space) auto 0;
 }
 
 .faq-item {
@@ -939,10 +899,10 @@ main {
 }
 
 .faq-item__answer {
-  padding: 24px 20px;
-  font-size: clamp(1rem, 1.65vw, 1.32rem);
+  padding: var(--white-panel-space);
+  font-size: var(--white-panel-font-size);
   font-weight: 800;
-  line-height: 1.45;
+  line-height: var(--white-panel-line-height);
 }
 
 .faq-item__answer p:last-child,
@@ -953,22 +913,22 @@ main {
 
 .legal-page {
   min-height: 70vh;
-  padding: 80px max(7.5%, calc((100vw - 1100px) / 2)) 100px;
+  padding: var(--white-panel-space);
   border-right: var(--page-border);
   border-left: var(--page-border);
-  font-family: 'Avenir', sans-serif;
-  font-size: 1rem;
-  line-height: 1.6;
+  font-family: 'Futura Medium', Futura, sans-serif;
+  font-size: var(--white-panel-font-size);
+  line-height: var(--white-panel-line-height);
 }
 
 .legal-page h1 {
-  font-family: 'Futura Medium', sans-serif;
+  font-family: 'Futura Medium', Futura, sans-serif;
   font-size: clamp(2rem, 4vw, 3.6rem);
 }
 
 .legal-page h2 {
   margin-top: 2.2em;
-  font-family: 'Futura Medium', sans-serif;
+  font-family: 'Futura Medium', Futura, sans-serif;
   font-size: 1.5rem;
 }
 
@@ -1059,11 +1019,7 @@ main {
     min-height: 430px;
   }
 
-  .intro-copy,
   .intro-quote,
-  .profile-copy,
-  .experience-copy,
-  .manifesto,
   .artist-quote {
     padding: 52px 32px;
   }
@@ -1131,10 +1087,6 @@ main {
     padding-left: 20px;
   }
 
-  .services-content__main {
-    padding: 140px 24px 38px;
-  }
-
   .services-content__main ul {
     padding-left: 24px;
   }
@@ -1145,21 +1097,12 @@ main {
 
   .faq-page {
     min-height: 960px;
-    padding-right: 18px;
-    padding-left: 18px;
-  }
-
-  .faq-list {
-    margin-top: 230px;
   }
 
   .faq-item__button {
     padding: 18px 14px;
   }
 
-  .legal-page {
-    padding: 55px 24px 75px;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
