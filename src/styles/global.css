@@ -409,7 +409,7 @@ main {
 }
 
 .editorial-copy p + p {
-  margin-top: 1.15em;
+  margin-top: 0;
 }
 
 .editorial-quote {
@@ -433,7 +433,7 @@ main {
 }
 
 .editorial-quote--statement > span:nth-of-type(3) {
-  margin-top: .42em;
+  margin-top: 0;
 }
 
 .editorial-quote--centered {
