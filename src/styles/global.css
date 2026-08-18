@@ -4,6 +4,14 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: 'Balgin Black';
+  src: url('/assets/fonts/balgin-display-bold.woff2') format('woff2');
+  font-display: swap;
+  font-style: normal;
+  font-weight: 900;
+}
+
 :root {
   --synk-tan: #dcb68b;
   --synk-grey: #efeff0;
@@ -381,9 +389,9 @@ main {
 .hero {
   display: flex;
   min-height: 644px;
-  align-items: flex-end;
+  align-items: stretch;
   justify-content: flex-end;
-  padding: 0 7% 22px 5%;
+  padding: 0 5% 22px;
   overflow: hidden;
   border-right: var(--page-border);
   border-left: var(--page-border);
@@ -393,27 +401,30 @@ main {
 }
 
 .hero__content {
-  width: min(720px, 56vw);
+  display: flex;
+  width: min(789px, 65vw);
+  flex-direction: column;
   text-align: right;
 }
 
 .hero__logo {
-  width: 100%;
+  width: 87.7%;
   margin-left: auto;
-  transform: translateY(-5px);
+  margin-right: 20px;
 }
 
 .hero__byline {
-  margin: -18px 22px 38px 0;
+  margin: 4px 20px 31px 0;
   color: var(--synk-white);
-  font-family: 'Futura Medium', Futura, sans-serif;
+  font-family: 'Balgin Black', 'Futura Medium', Futura, sans-serif;
   font-size: clamp(2rem, 3.5vw, 3rem);
-  font-weight: 700;
+  font-weight: 500;
   line-height: 1;
 }
 
 .hero__statement {
-  margin: 0 22px 36px auto;
+  width: 77%;
+  margin: 0 0 36px auto;
   font-family: 'Futura Medium', Futura, sans-serif;
   font-size: clamp(1.25rem, 2vw, 1.65rem);
   font-weight: 900;
@@ -425,12 +436,13 @@ main {
 }
 
 .hero__role {
-  margin: 0 22px 0 0;
+  width: 77%;
+  margin: 0 0 0 auto;
   color: var(--synk-tan);
-  font-family: 'Futura Medium', Futura, sans-serif;
-  font-size: clamp(1.35rem, 2.2vw, 1.8rem);
-  font-weight: 700;
-  line-height: 1.25;
+  font-family: 'Balgin Black', 'Futura Medium', Futura, sans-serif;
+  font-size: clamp(1.35rem, 1.85vw, 1.5625rem);
+  font-weight: 600;
+  line-height: 1.5;
 }
 
 .intro-copy,
@@ -582,7 +594,7 @@ main {
 }
 
 .experience-photo {
-  background: url('/assets/images/achmea-dolphins-1.jpeg') top center / cover no-repeat;
+  background: var(--synk-grey) url('/assets/images/achmea-dolphins-1.jpeg') top center / cover no-repeat;
 }
 
 .stretch-stage {
@@ -657,7 +669,6 @@ main {
   display: flex;
   align-items: center;
   padding: var(--white-panel-space);
-  border-right: var(--page-border);
   font-size: var(--white-panel-font-size);
   font-weight: 800;
   line-height: var(--white-panel-line-height);
@@ -666,6 +677,7 @@ main {
 .client-spectrum__art {
   position: relative;
   overflow: hidden;
+  border-right: var(--page-border);
   background: var(--synk-grey);
 }
 
@@ -975,16 +987,30 @@ main {
   }
 
   .split-section > :first-child,
-  .client-spectrum__copy,
+  .client-spectrum__art,
   .stretch-stage__side:first-child {
     border-right: 0;
     border-bottom: var(--page-border);
   }
 
+  .intro-section > .intro-copy,
+  .profile-section > .profile-art,
+  .manifesto-section > .manifesto,
+  .client-spectrum__art {
+    border-bottom: 0;
+  }
+
+  .intro-section > .intro-quote,
+  .profile-section > .profile-copy,
+  .manifesto-section > .artist-quote,
+  .client-spectrum__copy {
+    order: -1;
+    border-bottom: var(--page-border);
+  }
+
   .hero {
     min-height: 650px;
-    align-items: center;
-    padding: 28px 18px;
+    padding: 0 18px 28px;
   }
 
   .hero__content {
@@ -992,18 +1018,26 @@ main {
     text-align: center;
   }
 
-  .hero__byline,
-  .hero__statement,
-  .hero__role {
+  .hero__logo {
+    width: 100%;
     margin-right: 0;
   }
 
+  .hero__byline,
+  .hero__statement,
+  .hero__role {
+    width: 100%;
+    margin-right: 0;
+    margin-left: 0;
+  }
+
   .hero__byline {
-    margin-top: -4px;
-    margin-bottom: 64px;
+    margin-top: 4px;
+    margin-bottom: 0;
   }
 
   .hero__statement {
+    margin-top: auto;
     margin-bottom: 38px;
     font-size: 1.05rem;
   }
