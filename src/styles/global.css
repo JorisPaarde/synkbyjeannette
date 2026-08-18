@@ -19,9 +19,11 @@
   --synk-white: #fff;
   --header-height: 52px;
   --page-border: 2px solid var(--synk-black);
-  --white-panel-space: clamp(2rem, 7vw, 6rem);
-  --white-panel-font-size: clamp(1.18rem, 1.75vw, 1.55rem);
-  --white-panel-line-height: 1.55;
+  --white-panel-space: clamp(2.5rem, 6.25vw, 5.5rem);
+  --white-panel-font-size: clamp(1.18rem, 1.7vw, 1.5rem);
+  --white-panel-line-height: 1.48;
+  --editorial-copy-width: 34ch;
+  --editorial-wide-width: 40ch;
 }
 
 *,
@@ -374,6 +376,73 @@ main {
   background: var(--synk-tan);
 }
 
+.editorial-panel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--white-panel-space);
+}
+
+.editorial-panel--white {
+  background: var(--synk-white);
+}
+
+.editorial-panel--grey {
+  background: var(--synk-grey);
+}
+
+.editorial-copy {
+  width: min(100%, var(--editorial-copy-width));
+  font-size: var(--white-panel-font-size);
+  font-weight: 900;
+  letter-spacing: -.022em;
+  line-height: var(--white-panel-line-height);
+}
+
+.editorial-copy--wide {
+  width: min(100%, var(--editorial-wide-width));
+}
+
+.editorial-copy p {
+  margin: 0;
+  text-wrap: pretty;
+}
+
+.editorial-copy p + p {
+  margin-top: 1.15em;
+}
+
+.editorial-quote {
+  width: min(100%, 15ch);
+  margin: 0;
+  font-family: 'Futura Medium', Futura, sans-serif;
+  font-weight: 900;
+  letter-spacing: -.045em;
+}
+
+.editorial-quote--statement {
+  width: min(100%, 18ch);
+  font-size: clamp(1.95rem, 3.45vw, 2.9rem);
+  line-height: .96;
+  text-align: left;
+}
+
+.editorial-quote--statement > span {
+  display: block;
+  text-wrap: balance;
+}
+
+.editorial-quote--statement > span:nth-of-type(3) {
+  margin-top: .42em;
+}
+
+.editorial-quote--centered {
+  font-size: clamp(2.4rem, 4.7vw, 4.15rem);
+  line-height: .94;
+  text-align: center;
+  text-wrap: balance;
+}
+
 [data-reveal] {
   opacity: 0;
   transform: translateY(40px);
@@ -453,34 +522,20 @@ main {
 
 .intro-copy,
 .intro-quote {
-  display: flex;
   min-height: 560px;
-  align-items: center;
 }
 
 .intro-copy {
-  padding: var(--white-panel-space);
   background: var(--synk-white);
-  font-size: var(--white-panel-font-size);
-  font-weight: 800;
-  line-height: var(--white-panel-line-height);
 }
 
 .intro-quote {
-  padding: 7% 7% 7% 10%;
   background: var(--synk-grey);
-}
-
-.intro-quote blockquote {
-  margin: 0;
-  font-family: 'Futura Medium', Futura, sans-serif;
-  font-size: clamp(2.2rem, 4.2vw, 3.2rem);
-  line-height: .9;
 }
 
 .intro-quote strong {
   color: var(--synk-tan);
-  font-weight: 400;
+  font-weight: 900;
 }
 
 .intro-quote cite,
@@ -492,6 +547,7 @@ main {
   font-family: 'Futura Medium', Futura, sans-serif;
   font-size: .95rem;
   font-weight: 900;
+  letter-spacing: 0;
   line-height: 1.05;
 }
 
@@ -593,13 +649,7 @@ main {
 }
 
 .profile-copy {
-  display: flex;
-  align-items: center;
-  padding: var(--white-panel-space);
   background: var(--synk-white);
-  font-size: var(--white-panel-font-size);
-  font-weight: 800;
-  line-height: var(--white-panel-line-height);
 }
 
 .experience-copy,
@@ -608,13 +658,7 @@ main {
 }
 
 .experience-copy {
-  display: flex;
-  align-items: center;
-  padding: var(--white-panel-space);
   background: var(--synk-white);
-  font-size: var(--white-panel-font-size);
-  font-weight: 800;
-  line-height: var(--white-panel-line-height);
 }
 
 .experience-photo {
@@ -690,12 +734,7 @@ main {
 }
 
 .client-spectrum__copy {
-  display: flex;
-  align-items: center;
-  padding: var(--white-panel-space);
-  font-size: var(--white-panel-font-size);
-  font-weight: 800;
-  line-height: var(--white-panel-line-height);
+  background: var(--synk-white);
 }
 
 .client-spectrum__art {
@@ -760,44 +799,35 @@ main {
 }
 
 .manifesto {
-  display: flex;
-  align-items: center;
-  padding: var(--white-panel-space);
   background: var(--synk-white);
-  font-size: var(--white-panel-font-size);
-  font-weight: 800;
-  line-height: var(--white-panel-line-height);
 }
 
 .artist-quote {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 8%;
   background: var(--synk-grey);
-  text-align: center;
-}
-
-.artist-quote blockquote {
-  margin: 0;
-  font-family: 'Futura Medium', Futura, sans-serif;
-  font-size: clamp(2.6rem, 5vw, 4.4rem);
-  line-height: .92;
 }
 
 .problem-quote {
   min-height: 365px;
-  padding: 50px 6%;
   border-right: var(--page-border);
   border-left: var(--page-border);
   background: var(--synk-grey);
-  font-size: clamp(1.35rem, 2.45vw, 2rem);
-  font-weight: 800;
-  line-height: 1.55;
+}
+
+.problem-quote__content {
+  width: min(100%, 56ch);
+  font-size: clamp(1.35rem, 2.25vw, 1.95rem);
+  font-weight: 900;
+  letter-spacing: -.025em;
+  line-height: 1.45;
+  text-wrap: pretty;
 }
 
 .problem-quote p {
-  margin-bottom: 22px;
+  margin: 0 0 .72em;
+}
+
+.problem-quote p:last-of-type {
+  margin-bottom: 0;
 }
 
 .problem-quote mark {
@@ -833,7 +863,7 @@ main {
   border-right: var(--page-border);
   border-left: var(--page-border);
   font-size: clamp(1rem, 1.55vw, 1.25rem);
-  font-weight: 800;
+  font-weight: 900;
   line-height: 1.45;
 }
 
@@ -842,6 +872,8 @@ main {
   padding: var(--white-panel-space);
   background: var(--synk-white);
   font-size: var(--white-panel-font-size);
+  font-weight: 900;
+  letter-spacing: -.018em;
   line-height: var(--white-panel-line-height);
 }
 
@@ -854,7 +886,7 @@ main {
 }
 
 .services-results {
-  padding: 65px 7.5%;
+  padding: var(--white-panel-space);
   background: var(--synk-grey);
 }
 
@@ -880,6 +912,8 @@ main {
   border-left: var(--page-border);
   background: var(--synk-white);
   font-size: var(--white-panel-font-size);
+  font-weight: 900;
+  letter-spacing: -.018em;
   line-height: var(--white-panel-line-height);
 }
 
@@ -916,7 +950,7 @@ main {
   color: var(--synk-black);
   background: var(--synk-tan);
   font-size: clamp(1rem, 1.65vw, 1.35rem);
-  font-weight: 800;
+  font-weight: 900;
   text-align: left;
   cursor: pointer;
 }
@@ -937,7 +971,8 @@ main {
 .faq-item__answer {
   padding: var(--white-panel-space);
   font-size: var(--white-panel-font-size);
-  font-weight: 800;
+  font-weight: 900;
+  letter-spacing: -.018em;
   line-height: var(--white-panel-line-height);
 }
 
@@ -954,6 +989,8 @@ main {
   border-left: var(--page-border);
   font-family: 'Futura Medium', Futura, sans-serif;
   font-size: var(--white-panel-font-size);
+  font-weight: 900;
+  letter-spacing: -.018em;
   line-height: var(--white-panel-line-height);
 }
 
@@ -999,8 +1036,10 @@ main {
   :root {
     --header-height: 52px;
     --white-panel-space: 10%;
-    --white-panel-font-size: 15px;
+    --white-panel-font-size: 16px;
     --white-panel-line-height: 1.5;
+    --editorial-copy-width: 32ch;
+    --editorial-wide-width: 34ch;
   }
 
   .site-menu {
@@ -1117,11 +1156,6 @@ main {
     min-height: 430px;
   }
 
-  .intro-quote,
-  .artist-quote {
-    padding: 52px 32px;
-  }
-
   .profile-art {
     --profile-cutout-width: 54%;
   }
@@ -1154,7 +1188,6 @@ main {
 
   .problem-quote {
     min-height: 390px;
-    padding: 42px 28px;
   }
 
   .contact-strip,
@@ -1182,10 +1215,6 @@ main {
 
   .services-content__main ul {
     padding-left: 24px;
-  }
-
-  .services-results {
-    padding: 50px 24px;
   }
 
   .faq-page {
