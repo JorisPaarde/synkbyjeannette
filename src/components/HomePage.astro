@@ -15,6 +15,11 @@ const currentPath = isEnglish ? '/en/' : '/';
 const serviceLine = isEnglish
   ? 'EMAIL MANAGEMENT – CALENDAR AND TRAVEL PLANNING – EVENTS – CONCEPT DEVELOPMENT – PROJECT COORDINATION – BACK OFFICE –'
   : 'E-MAILBEHEER - AGENDA EN REISPLANNING - EVENTS - CONCEPTONTWIKKELING - PROJECTREGIE - BACKOFFICE -';
+
+const profileWords = isEnglish
+  ? ['Direction', 'Without', 'Noise', 'Overview', 'Without', 'Overhead']
+  : ['Regie', 'Zonder', 'Ruis', 'Overzicht', 'Zonder', 'Overhead'];
+const profileMaskId = `profile-mask-${lang}`;
 ---
 
 <BaseLayout
@@ -69,12 +74,17 @@ const serviceLine = isEnglish
     <div class="profile-art" aria-label="Portret van Jeanette met de woorden regie zonder ruis en overzicht zonder overhead">
       <img src={withBase('/assets/images/jeanette-portrait.png')} alt="Jeanette la Rivière" loading="lazy" />
       <div class="profile-art__words" aria-hidden="true">
-        <span>{isEnglish ? 'Direction' : 'Regie'}</span>
-        <span>{isEnglish ? 'Without' : 'Zonder'}</span>
-        <span>{isEnglish ? 'Noise' : 'Ruis'}</span>
-        <span>{isEnglish ? 'Overview' : 'Overzicht'}</span>
-        <span>{isEnglish ? 'Without' : 'Zonder'}</span>
-        <span>{isEnglish ? 'Overhead' : 'Overhead'}</span>
+        <svg class="profile-art__mask" viewBox="0 0 430 300" preserveAspectRatio="none" focusable="false">
+          <defs>
+            <mask id={profileMaskId} maskUnits="userSpaceOnUse">
+              <rect width="430" height="300" fill="white" />
+              {profileWords.map((word, index) => (
+                <text x="18" y={35 + index * 45} dominant-baseline="middle" text-anchor="start">{word}</text>
+              ))}
+            </mask>
+          </defs>
+          <rect width="430" height="300" fill="currentColor" mask={`url(#${profileMaskId})`} />
+        </svg>
       </div>
     </div>
     <div class="profile-copy">
