@@ -16,7 +16,8 @@ const clientCopy = isEnglish
     <!--
       WP desk composition: static right-aligned quotes left; gold BUSINESS /
       HUMOUR right (HUMOUR +20px). Stem stretch = plugin MAX_STRETCH 5.2
-      (rest ~78px @ LETTER_W=20, peak ~196px). No quote translateY. No GSAP.
+      (rest ~78px @ LETTER_W=20, peak ~196px). Shared grey-panel triangle
+      drives anti-correlated factors (BUSINESS up ↔ HUMOUR down). No GSAP.
     -->
     <div class="stretch-stage__scene">
       <aside class="stretch-stage__quotes">
@@ -347,17 +348,19 @@ const clientCopy = isEnglish
 
     applySizes();
 
-    /** Plugin .bhs-root progress: enter→peak→exit triangle, 0..1 */
-    const rowProgress = (el: HTMLElement) => {
-      const rect = el.getBoundingClientRect();
+    const valEl = document.getElementById('val');
+
+    /** Shared grey-art-panel triangle: enter→peak→exit, 0..1.
+     *  Both rows bind to this one signal (not per-row) so they stay anti-correlated. */
+    const panelProgress = () => {
+      const rect = art.getBoundingClientRect();
       const vh = window.innerHeight;
       let p = (vh - rect.top) / (vh + rect.height);
       p = Math.max(0, Math.min(1, p));
       return p <= 0.5 ? p * 2 : (1 - p) * 2;
     };
 
-    let businessP = 0;
-    let humourP = 0;
+    let currentP = 0;
     let raf = 0;
     let running = true;
 
@@ -417,32 +420,39 @@ const clientCopy = isEnglish
       );
     };
 
-    const stretchFactor = (currentP: number) => 1 + currentP * (MAX_STRETCH - 1);
+    /** Anti-correlated factors from shared currentP:
+     *  currentP=1 → BUSINESS 5.2× / HUMOUR 1×; currentP=0 → opposite. */
+    const factorsFromP = (p: number) => ({
+      fBusiness: 1 + p * (MAX_STRETCH - 1),
+      fHumour: 1 + (1 - p) * (MAX_STRETCH - 1),
+    });
 
-    // Rest pose — letter rows: transform none (stagger is layout margin)
-    paintBusiness(1);
-    paintHumour(1);
-    businessRow.style.transform = 'none';
-    humourRow.style.transform = 'none';
+    const paintBoth = (p: number) => {
+      const { fBusiness, fHumour } = factorsFromP(p);
+      paintBusiness(fBusiness);
+      paintHumour(fHumour);
+      if (valEl) valEl.textContent = `${fBusiness.toFixed(1)}×`;
+      businessRow.style.transform = 'none';
+      humourRow.style.transform = 'none';
+    };
+
+    // Initial pose from shared P (anti-correlated); transform none (stagger is layout margin)
+    paintBoth(currentP);
 
     if (reduceMotion) {
+      // Prefer a readable mid pose under reduced motion: both at rest height
+      paintBusiness(1);
+      paintHumour(1);
+      if (valEl) valEl.textContent = '1.0×';
       (window as any).__synkStretchController = { stop: () => undefined } satisfies StretchController;
       return;
     }
 
     const update = () => {
-      const targetB = rowProgress(businessRow);
-      const targetH = rowProgress(humourRow);
-      businessP += (targetB - businessP) * LERP_SPEED;
-      humourP += (targetH - humourP) * LERP_SPEED;
-      if (Math.abs(targetB - businessP) < 0.0005) businessP = targetB;
-      if (Math.abs(targetH - humourP) < 0.0005) humourP = targetH;
-
-      paintBusiness(stretchFactor(businessP));
-      paintHumour(stretchFactor(humourP));
-
-      businessRow.style.transform = 'none';
-      humourRow.style.transform = 'none';
+      const targetP = panelProgress();
+      currentP += (targetP - currentP) * LERP_SPEED;
+      if (Math.abs(targetP - currentP) < 0.0005) currentP = targetP;
+      paintBoth(currentP);
     };
 
     const loop = () => {
@@ -454,8 +464,7 @@ const clientCopy = isEnglish
 
     const onResize = () => {
       applySizes();
-      paintBusiness(stretchFactor(businessP));
-      paintHumour(stretchFactor(humourP));
+      paintBoth(currentP);
     };
     window.addEventListener('resize', onResize);
 
