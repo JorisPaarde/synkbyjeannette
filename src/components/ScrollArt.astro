@@ -15,12 +15,12 @@ const clientCopy = isEnglish
   <div class="stretch-stage__art" data-stretch-art>
     <!--
       WP desk composition: static left-aligned quotes (INSTINCT @12, SENSE OF
-      @52 = +40 inset, INSTINCT FOR→SENSE OF emph gap 10px via quote pitch 35 /
-      margin-top -15, credit +20px); gold BUSINESS / HUMOUR right (vertical
-      gap 4px, HUMOUR +20px horizontal only). Stem stretch = plugin MAX_STRETCH
+      @52 = +40 inset, ~10px positive gap INSTINCT FOR → "With a SENSE OF"
+      single line, credit +20px); gold BUSINESS / HUMOUR right (vertical gap
+      4px, HUMOUR +20px horizontal only). Stem stretch = plugin MAX_STRETCH
       5.2 (rest ~78px @ LETTER_W=20, peak ~196px). Shared grey-panel triangle
       drives anti-correlated factors (BUSINESS up ↔ HUMOUR down). No GSAP.
-      Row heights follow stems (no peak min-height).
+      Row heights follow stems (no peak min-height). Never negative quote margins.
     -->
     <div class="stretch-stage__scene">
       <aside class="stretch-stage__quotes">
@@ -29,8 +29,7 @@ const clientCopy = isEnglish
           <span class="stretch-stage__quote-emph">INSTINCT FOR</span>
         </p>
         <p class="stretch-stage__quote stretch-stage__quote--sense">
-          <span>With a</span>
-          <span class="stretch-stage__quote-emph">SENSE OF</span>
+          <span>With a <span class="stretch-stage__quote-emph">SENSE OF</span></span>
         </p>
         <p class="stretch-stage__credit">Stefan Dzodan<br />Artist</p>
       </aside>

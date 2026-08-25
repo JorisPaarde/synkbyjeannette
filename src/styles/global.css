@@ -778,18 +778,22 @@ main {
   text-transform: none;
 }
 
-.stretch-stage__quote span {
+/* Direct children only — nested emph inside "With a SENSE OF" stays inline */
+.stretch-stage__quote > span {
   display: block;
 }
 
 /*
-  Each quote <p> is 50px (2 × 25px block spans). Pitch was 60px (margin-top 10)
-  so INSTINCT FOR → SENSE OF = 10 + 25 ("With a") = 35px. WP wants that emph
-  gap at 10px → pitch 35 → margin-top -15px. Sense left = 52 (+40 inset).
+  INSTINCT FOR bottom → "With a SENSE OF" top ≈ 10px (positive; never overlap).
+  Sense is one line; left = 52 (+40 inset vs INSTINCT FOR).
 */
 .stretch-stage__quote--sense {
-  margin-top: -15px;
+  margin-top: 10px;
   padding-left: calc(var(--sense-inset) / var(--scene-w) * 100cqi);
+}
+
+.stretch-stage__quote--sense .stretch-stage__quote-emph {
+  display: inline;
 }
 
 .stretch-stage__quote-emph {
