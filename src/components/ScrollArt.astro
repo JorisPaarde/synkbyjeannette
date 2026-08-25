@@ -337,6 +337,12 @@ const clientCopy = isEnglish
       letterO!.style.width = LETTER_W + 'px';
       letterU3!.style.width = LETTER_W + 'px';
       rSvg!.style.width = LETTER_W + 'px';
+
+      // Stable .bhs-root height = peak so getBoundingClientRect progress
+      // is not feedback-limited as stems grow (align-items: flex-end).
+      const peakH = (B_FIXED + B_STRETCH * MAX_STRETCH) * PX;
+      businessRow.style.minHeight = peakH + 'px';
+      humourRow.style.minHeight = peakH + 'px';
     };
 
     applySizes();
