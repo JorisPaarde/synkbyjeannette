@@ -721,7 +721,7 @@ main {
 .stretch-stage {
   position: relative;
   display: grid;
-  min-height: 560px; /* tall enough for plugin 5.2× peak (~196px × 2 rows + gap) */
+  min-height: 560px; /* tall enough for plugin 5.2× peak + 4px gap + rest row */
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   overflow: hidden;
 }
@@ -738,14 +738,19 @@ main {
   background: var(--synk-grey);
 }
 
-/* WP desk grey scene ≈ 610px: one static quote stack left, gold letters right.
-   HUMOUR is +20px via row margin. No quote translateY.
-   Note: do NOT use cqi on this container's own grid/padding — cqi on a
-   query container resolves to the viewport. Use % here; cqi only on descendants. */
+/* WP desk grey scene ≈ 610px: static quote stack left, gold letters right.
+   Vertical row gap = 4px (humour.top − business.bottom). Horizontal HUMOUR
+   offset = +20px on letters only — do NOT reuse that 20 as vertical gap.
+   No quote translateY. Note: do NOT use cqi on this container's own
+   grid/padding — cqi on a query container resolves to the viewport.
+   Use % here; cqi only on descendants. */
 .stretch-stage__scene {
   --scene-w: 610;
   --quote-w: 305;
   --quote-gap: 5;
+  --row-gap: 4; /* vertical only — decoupled from HUMOUR +20px offset */
+  --humour-offset: 20; /* horizontal only */
+  --sense-inset: 40; /* SENSE OF left = INSTINCT left + 40 */
   container-type: inline-size;
   container-name: stretch-scene;
   display: grid;
@@ -753,12 +758,12 @@ main {
   align-items: center;
   column-gap: calc(var(--quote-gap) / var(--scene-w) * 100%);
   grid-template-columns: calc(var(--quote-w) / var(--scene-w) * 100%) max-content;
-  padding-left: calc(12 / var(--scene-w) * 100%);
+  padding-left: calc(12 / var(--scene-w) * 100%); /* INSTINCT block left = 12 */
 }
 
 .stretch-stage__quotes {
   min-width: 0;
-  text-align: right;
+  text-align: left;
   transform: none; /* static — never translateY */
 }
 
@@ -769,12 +774,18 @@ main {
   font-size: 25px;
   font-weight: 900;
   line-height: 25px;
-  text-align: right;
+  text-align: left;
   text-transform: none;
 }
 
 .stretch-stage__quote span {
   display: block;
+}
+
+/* INSTINCT FOR bottom → SENSE OF top = 10px; SENSE OF left = 52 (+40 inset) */
+.stretch-stage__quote--sense {
+  margin-top: 10px;
+  padding-left: calc(var(--sense-inset) / var(--scene-w) * 100cqi);
 }
 
 .stretch-stage__quote-emph {
@@ -785,7 +796,8 @@ main {
 .stretch-stage__rows {
   display: flex;
   flex-direction: column;
-  gap: calc(20 / var(--scene-w) * 100cqi); /* clear vertical gap between BUSINESS / HUMOUR */
+  /* 4px vertical gap — NOT the 20px horizontal offset */
+  gap: calc(var(--row-gap) / var(--scene-w) * 100cqi);
 }
 
 .stretch-stage .letters-row {
@@ -793,12 +805,13 @@ main {
   flex: 0 0 auto;
   align-items: flex-end;
   gap: clamp(2px, 0.4vw, 5px);
+  min-height: 0; /* height follows stem stretch (rest ~78px, peak ~196px) */
   transform: none; /* stagger is layout (+20px), not transform */
 }
 
-/* HUMOUR left = BUSINESS left + 20px */
+/* HUMOUR left = BUSINESS left + 20px (horizontal only) */
 .stretch-stage .letters-row--humour {
-  margin-left: calc(20 / var(--scene-w) * 100cqi);
+  margin-left: calc(var(--humour-offset) / var(--scene-w) * 100cqi);
 }
 
 .stretch-stage .letter {
@@ -833,14 +846,14 @@ main {
 }
 
 .stretch-stage__credit {
-  margin: 0.35rem 0 0;
+  margin: 20px 0 0; /* SENSE OF bottom → credit top = 20px */
   color: #6b7177;
   font-family: 'Futura Medium', Futura, sans-serif;
   font-size: 15px;
   font-weight: 400;
   font-style: italic;
   line-height: 15px;
-  text-align: right;
+  text-align: left;
 }
 
 .stretch-stage__copy {

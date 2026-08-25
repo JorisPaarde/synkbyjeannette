@@ -14,16 +14,20 @@ const clientCopy = isEnglish
 <section class="stretch-stage bordered-section" data-stretch-stage aria-label="Business of Humour">
   <div class="stretch-stage__art" data-stretch-art>
     <!--
-      WP desk composition: static right-aligned quotes left; gold BUSINESS /
-      HUMOUR right (HUMOUR +20px). Stem stretch = plugin MAX_STRETCH 5.2
-      (rest ~78px @ LETTER_W=20, peak ~196px). Shared grey-panel triangle
-      drives anti-correlated factors (BUSINESS up ↔ HUMOUR down). No GSAP.
+      WP desk composition: static left-aligned quotes (INSTINCT @12, SENSE OF
+      @52 = +40 inset, 10px between groups, credit +20px); gold BUSINESS /
+      HUMOUR right (vertical gap 4px, HUMOUR +20px horizontal only). Stem
+      stretch = plugin MAX_STRETCH 5.2 (rest ~78px @ LETTER_W=20, peak ~196px).
+      Shared grey-panel triangle drives anti-correlated factors
+      (BUSINESS up ↔ HUMOUR down). No GSAP. Row heights follow stems (no peak min-height).
     -->
     <div class="stretch-stage__scene">
       <aside class="stretch-stage__quotes">
-        <p class="stretch-stage__quote">
+        <p class="stretch-stage__quote stretch-stage__quote--instinct">
           <span>Jeanette combines an</span>
           <span class="stretch-stage__quote-emph">INSTINCT FOR</span>
+        </p>
+        <p class="stretch-stage__quote stretch-stage__quote--sense">
           <span>With a</span>
           <span class="stretch-stage__quote-emph">SENSE OF</span>
         </p>
@@ -339,11 +343,11 @@ const clientCopy = isEnglish
       letterU3!.style.width = LETTER_W + 'px';
       rSvg!.style.width = LETTER_W + 'px';
 
-      // Stable .bhs-root height = peak so getBoundingClientRect progress
-      // is not feedback-limited as stems grow (align-items: flex-end).
-      const peakH = (B_FIXED + B_STRETCH * MAX_STRETCH) * PX;
-      businessRow.style.minHeight = peakH + 'px';
-      humourRow.style.minHeight = peakH + 'px';
+      // Row heights follow stem stretch (rest ~78px, peak ~196px). Progress
+      // is measured on the grey art panel, not the row boxes — do not lock
+      // min-height at peak (that left a ~20px visual gap vs WP’s flush 4px).
+      businessRow.style.minHeight = '';
+      humourRow.style.minHeight = '';
     };
 
     applySizes();
