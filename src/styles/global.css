@@ -446,7 +446,7 @@ main {
 /* WP desk “Kunstenaars zijn dromers” — right-aligned, credit tucked left of last two lines */
 .editorial-quote--dromers {
   display: flex;
-  width: auto;
+  width: max-content;
   max-width: 100%;
   flex-direction: column;
   align-items: flex-end;
@@ -458,8 +458,9 @@ main {
   text-wrap: unset;
 }
 
-.editorial-quote--dromers > span {
+.editorial-quote--dromers > span:not(.editorial-quote--dromers__tail) {
   display: block;
+  white-space: nowrap;
 }
 
 .editorial-quote--dromers__tail {
@@ -478,6 +479,7 @@ main {
 
 .editorial-quote--dromers__lines > span {
   display: block;
+  white-space: nowrap;
 }
 
 .artist-quote .editorial-quote--dromers cite {
@@ -737,7 +739,9 @@ main {
 }
 
 /* WP desk grey scene ≈ 610px: one static quote stack left, gold letters right.
-   HUMOUR is +20px via row margin. No quote translateY. */
+   HUMOUR is +20px via row margin. No quote translateY.
+   Note: do NOT use cqi on this container's own grid/padding — cqi on a
+   query container resolves to the viewport. Use % here; cqi only on descendants. */
 .stretch-stage__scene {
   --scene-w: 610;
   --quote-w: 305;
@@ -747,12 +751,13 @@ main {
   display: grid;
   width: min(100%, 610px);
   align-items: center;
-  column-gap: calc(var(--quote-gap) / var(--scene-w) * 100cqi);
-  grid-template-columns: calc(var(--quote-w) / var(--scene-w) * 100cqi) max-content;
-  padding-left: calc(12 / var(--scene-w) * 100cqi);
+  column-gap: calc(var(--quote-gap) / var(--scene-w) * 100%);
+  grid-template-columns: calc(var(--quote-w) / var(--scene-w) * 100%) max-content;
+  padding-left: calc(12 / var(--scene-w) * 100%);
 }
 
 .stretch-stage__quotes {
+  min-width: 0;
   text-align: right;
   transform: none; /* static — never translateY */
 }
@@ -903,6 +908,9 @@ main {
 }
 
 .artist-quote {
+  justify-content: center;
+  padding-right: clamp(1.25rem, 3.5vw, 2.75rem);
+  padding-left: clamp(1rem, 2.5vw, 2rem);
   background: var(--synk-grey);
 }
 
