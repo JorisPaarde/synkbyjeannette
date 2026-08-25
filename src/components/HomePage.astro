@@ -164,9 +164,32 @@ const profileMaskId = `profile-mask-${lang}`;
       </div>
     </div>
     <div class="artist-quote editorial-panel editorial-panel--grey editorial-panel--quote">
-      <blockquote class="editorial-quote editorial-quote--centered" data-reveal>
-        {isEnglish ? 'Artists are dreamers. Doers like Jeanette make them possible.' : 'Kunstenaars zijn dromers. Doeners als Jeanette maken ze mogelijk.'}
-        <cite>JW Kaldenbach<br />Photographer</cite>
+      <blockquote class="editorial-quote editorial-quote--dromers">
+        {isEnglish ? (
+          <>
+            <span>Artists are</span>
+            <span>dreamers.</span>
+            <span class="editorial-quote--dromers__tail">
+              <cite>JW Kaldenbach<br />Photographer</cite>
+              <span class="editorial-quote--dromers__lines">
+                <span>Doers like Jeanette</span>
+                <span>make them possible.</span>
+              </span>
+            </span>
+          </>
+        ) : (
+          <>
+            <span>Kunstenaars zijn</span>
+            <span>dromers.</span>
+            <span class="editorial-quote--dromers__tail">
+              <cite>JW Kaldenbach<br />Photographer</cite>
+              <span class="editorial-quote--dromers__lines">
+                <span>Doeners als Jeanette</span>
+                <span>maken ze mogelijk.</span>
+              </span>
+            </span>
+          </>
+        )}
       </blockquote>
     </div>
   </section>
