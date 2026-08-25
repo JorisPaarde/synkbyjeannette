@@ -667,62 +667,114 @@ main {
 
 .stretch-stage {
   position: relative;
-  min-height: 170vh;
   color: var(--synk-tan);
   background: var(--synk-black);
+  overflow-x: hidden;
+}
+
+.stretch-stage__scroll {
+  height: 500vh;
 }
 
 .stretch-stage__sticky {
   position: sticky;
   top: var(--header-height);
-  display: grid;
+  display: flex;
   min-height: calc(100vh - var(--header-height));
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  flex-direction: column;
   align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  padding: 4vw 6vw;
   overflow: hidden;
   border-right: var(--page-border);
   border-left: var(--page-border);
 }
 
-.stretch-stage__side {
-  display: flex;
-  min-height: 100%;
-  flex-direction: column;
-  justify-content: center;
-  padding: 6vw;
-}
-
-.stretch-stage__side:first-child {
-  border-right: 2px solid var(--synk-tan);
-}
-
 .stretch-stage__eyebrow {
-  margin-bottom: 24px;
+  margin: 0;
   color: var(--synk-white);
   font-family: 'Futura Medium', Futura, sans-serif;
   font-size: clamp(1rem, 1.8vw, 1.45rem);
   font-weight: 900;
+  text-align: center;
   text-transform: uppercase;
 }
 
-.stretch-stage__word {
-  margin: 0;
-  font-family: 'Futura Medium', Futura, sans-serif;
-  font-size: clamp(4rem, 11vw, 10rem);
-  font-weight: 400;
-  line-height: .72;
-  text-transform: uppercase;
-  transform-origin: left center;
+.stretch-stage__eyebrow--mid {
+  margin-top: 0.6rem;
+}
+
+.stretch-stage__words {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.stretch-stage .letters-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.5rem;
+}
+
+.stretch-stage .letter {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.stretch-stage .letter-dynamic {
+  display: block;
+  flex-shrink: 0;
+  max-width: none;
+}
+
+.stretch-stage .letter svg {
+  display: block;
+  width: 100%;
+  flex-shrink: 0;
+  max-width: none;
+}
+
+.stretch-stage .stretch {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.stretch-stage .stretch .bar {
+  position: absolute;
+  top: -0.5px;
+  bottom: -0.5px;
+  background: #d4a96a;
 }
 
 .stretch-stage__credit {
-  align-self: flex-end;
-  margin-top: 38px;
+  margin: 0.4rem 0 0;
   color: var(--synk-white);
   font-family: 'Futura Medium', Futura, sans-serif;
   font-size: .95rem;
   font-weight: 900;
   font-style: italic;
+  text-align: center;
+}
+
+/* Match WP plugin: hide demo readout / scroll hint */
+.stretch-stage__info,
+.stretch-stage__guide {
+  display: none;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 .client-spectrum {
@@ -1049,14 +1101,12 @@ main {
   }
 
   .split-section,
-  .client-spectrum,
-  .stretch-stage__sticky {
+  .client-spectrum {
     grid-template-columns: 1fr;
   }
 
   .split-section > :first-child,
-  .client-spectrum__art,
-  .stretch-stage__side:first-child {
+  .client-spectrum__art {
     border-right: 0;
     border-bottom: var(--page-border);
   }
@@ -1164,21 +1214,14 @@ main {
     min-height: 360px;
   }
 
-  .stretch-stage {
-    min-height: 210vh;
-  }
-
   .stretch-stage__sticky {
     min-height: calc(100vh - var(--header-height));
-  }
-
-  .stretch-stage__side {
-    min-height: 50vh;
     padding: 34px 24px;
+    gap: 1rem;
   }
 
-  .stretch-stage__word {
-    font-size: 18vw;
+  .stretch-stage .letters-row {
+    gap: 0.35rem;
   }
 
   .client-spectrum__copy,
