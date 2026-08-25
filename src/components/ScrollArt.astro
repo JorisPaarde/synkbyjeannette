@@ -15,10 +15,10 @@ const clientCopy = isEnglish
   <div class="stretch-stage__art" data-stretch-art>
     <!--
       Letter SVGs + stem-stretch math from https://github.com/JorisPaarde/animatie-tests
-      Homepage layout matches live WP: normal flow, viewport triangle-wave (not 500vh sticky).
+      WP desktop composition: quote tucked LEFT of gold rows; BUSINESS/HUMOUR staggered (verspringen).
     -->
-    <div class="stretch-stage__stack">
-      <div class="stretch-stage__block stretch-stage__block--business" data-stretch-row="business">
+    <div class="stretch-stage__composition">
+      <div class="stretch-stage__row stretch-stage__row--business" data-stretch-row="business">
         <p class="stretch-stage__quote">
           <span>Jeanette combines an</span>
           <span class="stretch-stage__quote-emph">INSTINCT FOR</span>
@@ -136,11 +136,14 @@ const clientCopy = isEnglish
         <span class="sr-only">Business</span>
       </div>
 
-      <div class="stretch-stage__block stretch-stage__block--humour" data-stretch-row="humour">
-        <p class="stretch-stage__quote">
-          <span>With a</span>
-          <span class="stretch-stage__quote-emph">SENSE OF</span>
-        </p>
+      <div class="stretch-stage__row stretch-stage__row--humour" data-stretch-row="humour">
+        <div class="stretch-stage__text-cluster">
+          <p class="stretch-stage__quote">
+            <span>With a</span>
+            <span class="stretch-stage__quote-emph">SENSE OF</span>
+          </p>
+          <p class="stretch-stage__credit">Stefan Dzodan<br />Artist</p>
+        </div>
         <div class="letters-row" data-letters="humour" aria-hidden="true">
           <!-- ===== LETTER H ===== -->
           <div class="letter" id="letterH">
@@ -217,7 +220,6 @@ const clientCopy = isEnglish
         <span class="sr-only">Humour</span>
       </div>
 
-      <p class="stretch-stage__credit">Stefan Dzodan / Artist</p>
     </div>
 
     <!-- Present like the WP shortcode; hidden via CSS -->
@@ -317,8 +319,8 @@ const clientCopy = isEnglish
     let SL_BASE = 7.84 * PX;
 
     const applySizes = () => {
-      // Giant letters for the left panel (WP homepage), not the tiny standalone demo cap.
-      LETTER_W = Math.min(52, Math.max(18, art.clientWidth * 0.092));
+      // Letters share grey panel with tucked text column (WP desktop).
+      LETTER_W = Math.min(46, Math.max(14, art.clientWidth * 0.075));
       PX = LETTER_W / VB_W;
       SU_BASE = 6.16 * PX;
       SL_BASE = 7.84 * PX;
@@ -416,9 +418,11 @@ const clientCopy = isEnglish
       );
     };
 
-    // Rest pose
+    // Rest pose + static WP stagger (BUSINESS right / HUMOUR left)
     paintBusiness(1);
     paintHumour(1);
+    businessRow.style.transform = 'translate(clamp(10px, 2.8vw, 36px), -10px)';
+    humourRow.style.transform = 'translate(calc(-1 * clamp(24px, 5.5vw, 68px)), 16px)';
 
     if (reduceMotion) {
       (window as any).__synkStretchController = { stop: () => undefined } satisfies StretchController;
@@ -438,10 +442,12 @@ const clientCopy = isEnglish
       paintBusiness(fB);
       paintHumour(fH);
 
-      // Subtle relative drift (Elementor scroll-effects analogue, cheaper magnitude)
+      // Verspringen: keep static X offsets; opposite Y drift while stems stretch
       const drift = (businessP + humourP) / 2;
-      businessRow.style.transform = `translateY(${(0.5 - drift) * 28}px)`;
-      humourRow.style.transform = `translateY(${(drift - 0.5) * 18}px)`;
+      const bY = -10 + (0.5 - drift) * 34;
+      const hY = 16 + (drift - 0.5) * 26;
+      businessRow.style.transform = `translate(clamp(10px, 2.8vw, 36px), ${bY}px)`;
+      humourRow.style.transform = `translate(calc(-1 * clamp(24px, 5.5vw, 68px)), ${hY}px)`;
 
       if (val) val.textContent = Math.max(fB, fH).toFixed(1) + '×';
     };

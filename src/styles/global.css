@@ -678,38 +678,65 @@ main {
   display: flex;
   min-height: 100%;
   align-items: center;
-  justify-content: flex-end;
-  padding: clamp(2.4rem, 5vw, 4.5rem) clamp(1.4rem, 3.2vw, 2.8rem);
+  justify-content: center;
+  padding: clamp(2rem, 4.5vw, 4rem) clamp(1rem, 2.5vw, 2.2rem);
   overflow: visible;
   border-right: var(--page-border);
-  background: #f0f0f0;
+  background: var(--synk-grey);
 }
 
-.stretch-stage__stack {
-  display: flex;
-  width: min(100%, 34rem);
-  flex-direction: column;
-  align-items: flex-end;
-  gap: clamp(1.1rem, 2.4vw, 1.8rem);
-  text-align: right;
-}
-
-.stretch-stage__block {
+/* WP desktop: text tucked left of gold letter rows; rows staggered */
+.stretch-stage__composition {
   display: flex;
   width: 100%;
+  max-width: 40rem;
   flex-direction: column;
-  align-items: flex-end;
-  gap: 0.35rem;
+  align-items: stretch;
+  gap: clamp(0.35rem, 1.1vw, 0.9rem);
+}
+
+.stretch-stage__row {
+  display: flex;
+  width: max-content;
+  max-width: 100%;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.2rem;
   will-change: transform;
 }
 
-.stretch-stage__quote {
+.stretch-stage__row--business {
+  align-self: flex-end;
+  z-index: 1;
+}
+
+.stretch-stage__row--humour {
+  align-self: flex-end;
+  z-index: 0;
+}
+
+.stretch-stage__quote,
+.stretch-stage__text-cluster {
+  position: relative;
+  z-index: 2;
+  flex: 0 1 auto;
   margin: 0;
-  color: var(--synk-black);
+  margin-right: -0.15rem; /* tuck into gold stems */
+}
+
+.stretch-stage__text-cluster {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.35rem;
+}
+
+.stretch-stage__quote {
+  color: #000;
   font-family: 'Futura Medium', Futura, sans-serif;
-  font-size: clamp(0.95rem, 1.55vw, 1.2rem);
+  font-size: 25px;
   font-weight: 900;
-  line-height: 1.2;
+  line-height: 25px;
   text-align: right;
   text-transform: none;
 }
@@ -725,10 +752,11 @@ main {
 
 .stretch-stage .letters-row {
   display: flex;
-  max-width: 100%;
+  position: relative;
+  z-index: 1;
+  flex: 0 0 auto;
   align-items: flex-end;
-  justify-content: flex-end;
-  gap: clamp(0.22rem, 0.7vw, 0.45rem);
+  gap: clamp(0.18rem, 0.55vw, 0.4rem);
 }
 
 .stretch-stage .letter {
@@ -763,17 +791,34 @@ main {
 }
 
 .stretch-stage__credit {
-  margin: 0.2rem 0 0;
-  color: #8a8a8a;
+  margin: 0;
+  color: #6b7177;
   font-family: 'Futura Medium', Futura, sans-serif;
-  font-size: 0.86rem;
-  font-weight: 500;
+  font-size: 15px;
+  font-weight: 400;
   font-style: italic;
+  line-height: 15px;
   text-align: right;
 }
 
 .stretch-stage__copy {
   background: var(--synk-white);
+}
+
+.stretch-stage__copy .editorial-copy {
+  color: #000;
+  font-family: 'Futura Medium', Futura, sans-serif;
+  font-size: 27.2px;
+  font-weight: 900;
+  line-height: 40.8px;
+  text-align: left;
+}
+
+.stretch-stage__copy .editorial-copy p {
+  margin: 0;
+  color: inherit;
+  font: inherit;
+  line-height: inherit;
 }
 
 /* Match WP plugin: hide demo readout */
@@ -1067,13 +1112,11 @@ main {
     transform-origin: top right;
   }
 
-  .split-section,
-  .stretch-stage {
+  .split-section {
     grid-template-columns: 1fr;
   }
 
-  .split-section > :first-child,
-  .stretch-stage__art {
+  .split-section > :first-child {
     border-right: 0;
     border-bottom: var(--page-border);
   }
@@ -1086,8 +1129,7 @@ main {
 
   .intro-section > .intro-quote,
   .profile-section > .profile-copy,
-  .manifesto-section > .artist-quote,
-  .stretch-stage__copy {
+  .manifesto-section > .artist-quote {
     order: -1;
     border-bottom: var(--page-border);
   }
@@ -1185,22 +1227,32 @@ main {
   }
 
   .stretch-stage__art {
-    min-height: 420px;
-    padding: 34px 24px;
-    justify-content: center;
+    min-height: 360px;
+    padding: 22px 12px;
   }
 
-  .stretch-stage__stack {
-    width: 100%;
-    align-items: flex-end;
+  .stretch-stage__composition {
+    max-width: 100%;
+    gap: 0.45rem;
+  }
+
+  .stretch-stage__quote {
+    font-size: clamp(14px, 4.2vw, 20px);
+    line-height: 1;
+  }
+
+  .stretch-stage__credit {
+    font-size: 12px;
+    line-height: 12px;
+  }
+
+  .stretch-stage__copy .editorial-copy {
+    font-size: clamp(14px, 3.6vw, 18px);
+    line-height: 1.5;
   }
 
   .stretch-stage .letters-row {
-    gap: 0.28rem;
-  }
-
-  .stretch-stage__copy {
-    min-height: 280px;
+    gap: 0.16rem;
   }
 
   .problem-quote {
