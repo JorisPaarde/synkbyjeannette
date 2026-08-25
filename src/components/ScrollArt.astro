@@ -3,57 +3,460 @@ interface Props {
   lang?: 'nl' | 'en';
 }
 
-const { lang = 'nl' } = Astro.props;
-const isEnglish = lang === 'en';
+const { lang: _lang = 'nl' } = Astro.props;
 ---
 
-<section class="stretch-stage" data-stretch-stage>
-  <div class="stretch-stage__sticky">
-    <div class="stretch-stage__side">
+<section class="stretch-stage" data-stretch-stage aria-label="Business of Humour">
+  <div class="stretch-stage__scroll" data-stretch-scroll>
+    <div class="stretch-stage__sticky">
       <p class="stretch-stage__eyebrow">Jeanette combines an instinct for</p>
-      <p class="stretch-stage__word" data-stretch-word>{isEnglish ? 'Business' : 'Business'}</p>
-    </div>
-    <div class="stretch-stage__side">
-      <p class="stretch-stage__eyebrow">With a sense of</p>
-      <p class="stretch-stage__word" data-stretch-word>Humour</p>
+
+      <!--
+        Port of https://github.com/JorisPaarde/animatie-tests (BUSINESS OF HUMOUR — Stretch on Scroll).
+        W=10  SW=3  R=5(outer) r=2(inner, concentric)
+        Curves meet at x=5, no horizontal bars.
+        All strokes uniform 3 units.
+      -->
+      <div class="stretch-stage__words" data-stretch-root>
+        <!-- ==================== BUSINESS ==================== -->
+        <div class="letters-row" aria-hidden="true">
+          <!-- ===== LETTER B ===== -->
+          <div class="letter" id="letterB">
+            <svg viewBox="0 0 10 8">
+              <path d="M0,0 L5,0 Q10,0 10,5 L10,8 L7,8 L7,5 Q7,3 5,3 L3,3 L3,8 L0,8 Z" fill="#d4a96a"></path>
+            </svg>
+            <div class="stretch" id="su">
+              <div class="bar" style="left:0; width:30%"></div>
+              <div class="bar" style="right:0; width:30%"></div>
+            </div>
+            <svg viewBox="0 0 10 9">
+              <path d="
+                M0,0 L10,0 L10,3 Q9,4.5 10,6 L10,9 L0,9 Z
+                M3,0 L7,0 L7,1 Q7,3 5,3 L3,3 Z
+                M3,6 L5,6 Q7,6 7,8 L7,9 L3,9 Z
+              " fill="#d4a96a" fill-rule="evenodd"></path>
+            </svg>
+            <div class="stretch" id="sl">
+              <div class="bar" style="left:0; width:30%"></div>
+              <div class="bar" style="right:0; width:30%"></div>
+            </div>
+            <svg viewBox="0 0 10 8">
+              <path d="M0,0 L0,8 L5,8 Q10,8 10,3 L10,0 L7,0 L7,3 Q7,5 5,5 L3,5 L3,0 Z" fill="#d4a96a"></path>
+            </svg>
+          </div>
+
+          <!-- ===== LETTER U ===== -->
+          <div class="letter" id="letterU">
+            <div class="stretch" id="uStr">
+              <div class="bar" style="left:0; width:30%"></div>
+              <div class="bar" style="right:0; width:30%"></div>
+            </div>
+            <svg viewBox="0 0 10 5">
+              <path d="M0,0 Q0,5 5,5 Q10,5 10,0 L7,0 Q7,2 5,2 Q3,2 3,0 Z" fill="#d4a96a"></path>
+            </svg>
+          </div>
+
+          <!-- ===== LETTER S ===== -->
+          <div class="letter" id="letterS">
+            <svg viewBox="0 0 10 8">
+              <path d="M0,8 L0,5 Q0,0 5,0 Q10,0 10,5 L7,5 Q7,3 5,3 Q3,3 3,5 L3,8 Z" fill="#d4a96a"></path>
+            </svg>
+            <div class="stretch" id="sSu">
+              <div class="bar" style="left:0; width:30%"></div>
+            </div>
+            <svg viewBox="0 0 10 9">
+              <path d="M0,0 L0,6 L7,6 L7,9 L10,9 L10,3 L3,3 L3,0 Z" fill="#d4a96a"></path>
+            </svg>
+            <div class="stretch" id="sSl">
+              <div class="bar" style="right:0; width:30%"></div>
+            </div>
+            <svg viewBox="0 0 10 8">
+              <path d="M10,0 L10,3 Q10,8 5,8 Q0,8 0,3 L3,3 Q3,5 5,5 Q7,5 7,3 L7,0 Z" fill="#d4a96a"></path>
+            </svg>
+          </div>
+
+          <!-- ===== LETTER I ===== -->
+          <div class="letter" id="letterI">
+            <svg viewBox="0 0 3 8"><rect x="0" y="0" width="3" height="8" fill="#d4a96a"></rect></svg>
+            <div class="stretch" id="iSu"><div class="bar" style="left:0; width:100%"></div></div>
+            <svg viewBox="0 0 3 9"><rect x="0" y="0" width="3" height="9" fill="#d4a96a"></rect></svg>
+            <div class="stretch" id="iSl"><div class="bar" style="left:0; width:100%"></div></div>
+            <svg viewBox="0 0 3 8"><rect x="0" y="0" width="3" height="8" fill="#d4a96a"></rect></svg>
+          </div>
+
+          <!-- ===== LETTER N ===== -->
+          <svg class="letter-dynamic" id="letterN" viewBox="0 0 10 50">
+            <rect id="nL" x="0" y="0" width="3" height="50" fill="#d4a96a"></rect>
+            <rect id="nR" x="7" y="0" width="3" height="50" fill="#d4a96a"></rect>
+            <polygon id="nD" points="0,0 4,0 10,50 6,50" fill="#d4a96a"></polygon>
+          </svg>
+
+          <!-- ===== LETTER E ===== -->
+          <svg class="letter-dynamic" id="letterE" viewBox="0 0 10 50">
+            <rect id="eV" x="0" y="0" width="3" height="50" fill="#d4a96a"></rect>
+            <rect x="0" y="0" width="10" height="3" fill="#d4a96a"></rect>
+            <rect id="eM" x="0" y="23.5" width="7" height="3" fill="#d4a96a"></rect>
+            <rect id="eB" x="0" y="47" width="10" height="3" fill="#d4a96a"></rect>
+          </svg>
+
+          <!-- ===== LETTER S2 ===== -->
+          <div class="letter" id="letterS2">
+            <svg viewBox="0 0 10 8">
+              <path d="M0,8 L0,5 Q0,0 5,0 Q10,0 10,5 L7,5 Q7,3 5,3 Q3,3 3,5 L3,8 Z" fill="#d4a96a"></path>
+            </svg>
+            <div class="stretch" id="s2Su"><div class="bar" style="left:0; width:30%"></div></div>
+            <svg viewBox="0 0 10 9">
+              <path d="M0,0 L0,6 L7,6 L7,9 L10,9 L10,3 L3,3 L3,0 Z" fill="#d4a96a"></path>
+            </svg>
+            <div class="stretch" id="s2Sl"><div class="bar" style="right:0; width:30%"></div></div>
+            <svg viewBox="0 0 10 8">
+              <path d="M10,0 L10,3 Q10,8 5,8 Q0,8 0,3 L3,3 Q3,5 5,5 Q7,5 7,3 L7,0 Z" fill="#d4a96a"></path>
+            </svg>
+          </div>
+
+          <!-- ===== LETTER S3 ===== -->
+          <div class="letter" id="letterS3">
+            <svg viewBox="0 0 10 8">
+              <path d="M0,8 L0,5 Q0,0 5,0 Q10,0 10,5 L7,5 Q7,3 5,3 Q3,3 3,5 L3,8 Z" fill="#d4a96a"></path>
+            </svg>
+            <div class="stretch" id="s3Su"><div class="bar" style="left:0; width:30%"></div></div>
+            <svg viewBox="0 0 10 9">
+              <path d="M0,0 L0,6 L7,6 L7,9 L10,9 L10,3 L3,3 L3,0 Z" fill="#d4a96a"></path>
+            </svg>
+            <div class="stretch" id="s3Sl"><div class="bar" style="right:0; width:30%"></div></div>
+            <svg viewBox="0 0 10 8">
+              <path d="M10,0 L10,3 Q10,8 5,8 Q0,8 0,3 L3,3 Q3,5 5,5 Q7,5 7,3 L7,0 Z" fill="#d4a96a"></path>
+            </svg>
+          </div>
+        </div>
+        <span class="visually-hidden">Business</span>
+
+        <p class="stretch-stage__eyebrow stretch-stage__eyebrow--mid">With a sense of</p>
+
+        <!-- ==================== HUMOUR ==================== -->
+        <div class="letters-row" aria-hidden="true">
+          <!-- ===== LETTER H ===== -->
+          <div class="letter" id="letterH">
+            <div class="stretch" id="hStrU">
+              <div class="bar" style="left:0; width:30%"></div>
+              <div class="bar" style="right:0; width:30%"></div>
+            </div>
+            <svg viewBox="0 0 10 3">
+              <rect x="0" y="0" width="10" height="3" fill="#d4a96a"></rect>
+            </svg>
+            <div class="stretch" id="hStrL">
+              <div class="bar" style="left:0; width:30%"></div>
+              <div class="bar" style="right:0; width:30%"></div>
+            </div>
+          </div>
+
+          <!-- ===== LETTER U2 ===== -->
+          <div class="letter" id="letterU2">
+            <div class="stretch" id="u2Str">
+              <div class="bar" style="left:0; width:30%"></div>
+              <div class="bar" style="right:0; width:30%"></div>
+            </div>
+            <svg viewBox="0 0 10 5">
+              <path d="M0,0 Q0,5 5,5 Q10,5 10,0 L7,0 Q7,2 5,2 Q3,2 3,0 Z" fill="#d4a96a"></path>
+            </svg>
+          </div>
+
+          <!-- ===== LETTER M ===== -->
+          <div class="letter" id="letterM">
+            <svg viewBox="0 0 10 30">
+              <rect x="0" y="0" width="3" height="30" fill="#d4a96a"></rect>
+              <rect x="7" y="0" width="3" height="30" fill="#d4a96a"></rect>
+              <line x1="1.5" y1="0" x2="5" y2="24" stroke="#d4a96a" stroke-width="3"></line>
+              <line x1="8.5" y1="0" x2="5" y2="24" stroke="#d4a96a" stroke-width="3"></line>
+            </svg>
+            <div class="stretch" id="mStr">
+              <div class="bar" style="left:0; width:30%"></div>
+              <div class="bar" style="right:0; width:30%"></div>
+            </div>
+          </div>
+
+          <!-- ===== LETTER O ===== -->
+          <div class="letter" id="letterO">
+            <svg viewBox="0 0 10 5">
+              <path d="M0,5 Q0,0 5,0 Q10,0 10,5 L7,5 Q7,3 5,3 Q3,3 3,5 Z" fill="#d4a96a"></path>
+            </svg>
+            <div class="stretch" id="oStr">
+              <div class="bar" style="left:0; width:30%"></div>
+              <div class="bar" style="right:0; width:30%"></div>
+            </div>
+            <svg viewBox="0 0 10 5">
+              <path d="M0,0 Q0,5 5,5 Q10,5 10,0 L7,0 Q7,2 5,2 Q3,2 3,0 Z" fill="#d4a96a"></path>
+            </svg>
+          </div>
+
+          <!-- ===== LETTER U3 ===== -->
+          <div class="letter" id="letterU3">
+            <div class="stretch" id="u3Str">
+              <div class="bar" style="left:0; width:30%"></div>
+              <div class="bar" style="right:0; width:30%"></div>
+            </div>
+            <svg viewBox="0 0 10 5">
+              <path d="M0,0 Q0,5 5,5 Q10,5 10,0 L7,0 Q7,2 5,2 Q3,2 3,0 Z" fill="#d4a96a"></path>
+            </svg>
+          </div>
+
+          <!-- ===== LETTER R (dynamic SVG) ===== -->
+          <svg class="letter-dynamic" id="letterR" viewBox="0 0 10 50">
+            <rect id="rStem" x="0" y="0" width="3" height="50" fill="#d4a96a"></rect>
+            <path d="M3,0 L5,0 Q10,0 10,8 Q10,16 5,16 L3,16 L3,13 L5,13 Q7,13 7,8 Q7,3 5,3 L3,3 Z" fill="#d4a96a"></path>
+            <polygon id="rLeg" points="3,13 6,13 10,50 7,50" fill="#d4a96a"></polygon>
+          </svg>
+        </div>
+        <span class="visually-hidden">Humour</span>
+      </div>
+
       <p class="stretch-stage__credit">Stefan Dzodan<br />Artist</p>
+
+      <!-- Present in markup like the demo / WP shortcode; hidden via CSS -->
+      <div class="stretch-stage__info" aria-hidden="true">
+        <span class="stretch-stage__val" id="val">1.0×</span>
+        scroll to stretch
+      </div>
+      <div class="stretch-stage__guide" aria-hidden="true">↕ scroll</div>
     </div>
   </div>
 </section>
 
 <script>
-  import { gsap } from 'gsap';
-  import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
-  gsap.registerPlugin(ScrollTrigger);
+  type StretchController = { stop: () => void };
 
   const mountStretchArt = () => {
-    const existing = (window as any).__synkStretchContext;
-    existing?.revert?.();
+    const existing = (window as any).__synkStretchController as StretchController | undefined;
+    existing?.stop?.();
 
-    const stage = document.querySelector('[data-stretch-stage]');
-    if (!stage || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const stage = document.querySelector<HTMLElement>('[data-stretch-stage]');
+    const scrollArea = document.querySelector<HTMLElement>('[data-stretch-scroll]');
+    if (!stage || !scrollArea) return;
 
-    (window as any).__synkStretchContext = gsap.context(() => {
-      const words = gsap.utils.toArray<HTMLElement>('[data-stretch-word]');
-      words.forEach((word, index) => {
-        gsap.fromTo(
-          word,
-          { scaleY: .72, letterSpacing: '-.06em' },
-          {
-            scaleY: 1.55,
-            letterSpacing: index === 0 ? '.015em' : '-.015em',
-            ease: 'none',
-            scrollTrigger: {
-              trigger: stage,
-              start: 'top top',
-              end: 'bottom bottom',
-              scrub: .8,
-            },
-          },
-        );
-      });
-    }, stage);
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    // ===== BUSINESS refs =====
+    const su = document.getElementById('su');
+    const sl = document.getElementById('sl');
+    const letterB = document.getElementById('letterB');
+    const letterU = document.getElementById('letterU');
+    const uStr = document.getElementById('uStr');
+    const letterS = document.getElementById('letterS');
+    const sSu = document.getElementById('sSu');
+    const sSl = document.getElementById('sSl');
+    const letterI = document.getElementById('letterI');
+    const iSu = document.getElementById('iSu');
+    const iSl = document.getElementById('iSl');
+    const s2Su = document.getElementById('s2Su');
+    const s2Sl = document.getElementById('s2Sl');
+    const letterS2 = document.getElementById('letterS2');
+    const s3Su = document.getElementById('s3Su');
+    const s3Sl = document.getElementById('s3Sl');
+    const letterS3 = document.getElementById('letterS3');
+    const nSvg = document.getElementById('letterN');
+    const nL = document.getElementById('nL');
+    const nR = document.getElementById('nR');
+    const nD = document.getElementById('nD');
+    const eSvg = document.getElementById('letterE');
+    const eV = document.getElementById('eV');
+    const eM = document.getElementById('eM');
+    const eB = document.getElementById('eB');
+
+    // ===== HUMOUR refs =====
+    const letterH = document.getElementById('letterH');
+    const hStrU = document.getElementById('hStrU');
+    const hStrL = document.getElementById('hStrL');
+    const letterU2 = document.getElementById('letterU2');
+    const u2Str = document.getElementById('u2Str');
+    const letterM = document.getElementById('letterM');
+    const mStr = document.getElementById('mStr');
+    const letterO = document.getElementById('letterO');
+    const oStr = document.getElementById('oStr');
+    const letterU3 = document.getElementById('letterU3');
+    const u3Str = document.getElementById('u3Str');
+    const rSvg = document.getElementById('letterR');
+    const rStem = document.getElementById('rStem');
+    const rLeg = document.getElementById('rLeg');
+
+    const val = document.getElementById('val');
+
+    const refs = [
+      su, sl, letterB, letterU, uStr, letterS, sSu, sSl, letterI, iSu, iSl,
+      s2Su, s2Sl, letterS2, s3Su, s3Sl, letterS3, nSvg, nL, nR, nD, eSvg, eV, eM, eB,
+      letterH, hStrU, hStrL, letterU2, u2Str, letterM, mStr, letterO, oStr, letterU3, u3Str,
+      rSvg, rStem, rLeg,
+    ];
+    if (refs.some((el) => !el)) return;
+
+    const VB_W = 10;
+    const SW = 3;
+    const LETTER_W = Math.min(20, window.innerWidth * 0.047);
+    const PX = LETTER_W / VB_W;
+    const MAX_STRETCH = 5.2;
+
+    const SU_BASE = 6.16 * PX;
+    const SL_BASE = 7.84 * PX;
+    const B_FIXED = 8 + 9 + 8; // 25
+    const B_STRETCH = 6.16 + 7.84; // 14
+    const U_FIXED = 5;
+    const M_FIXED = 30;
+    const O_FIXED = 5 + 5; // 10
+    const R_FIXED = 16;
+
+    // ===== BUSINESS init =====
+    letterB!.style.width = LETTER_W + 'px';
+    su!.style.height = SU_BASE + 'px';
+    sl!.style.height = SL_BASE + 'px';
+
+    letterU!.style.width = LETTER_W + 'px';
+    uStr!.style.height = ((B_FIXED + B_STRETCH - U_FIXED) * PX) + 'px';
+
+    letterS!.style.width = LETTER_W + 'px';
+    sSu!.style.height = SU_BASE + 'px';
+    sSl!.style.height = SL_BASE + 'px';
+
+    letterI!.style.width = (SW * PX) + 'px';
+    iSu!.style.height = SU_BASE + 'px';
+    iSl!.style.height = SL_BASE + 'px';
+
+    letterS2!.style.width = LETTER_W + 'px';
+    s2Su!.style.height = SU_BASE + 'px';
+    s2Sl!.style.height = SL_BASE + 'px';
+
+    letterS3!.style.width = LETTER_W + 'px';
+    s3Su!.style.height = SU_BASE + 'px';
+    s3Sl!.style.height = SL_BASE + 'px';
+
+    nSvg!.style.width = LETTER_W + 'px';
+    nSvg!.style.height = ((B_FIXED + B_STRETCH) * PX) + 'px';
+
+    eSvg!.style.width = LETTER_W + 'px';
+    eSvg!.style.height = ((B_FIXED + B_STRETCH) * PX) + 'px';
+
+    // ===== HUMOUR init =====
+    letterH!.style.width = LETTER_W + 'px';
+    hStrU!.style.height = ((11 + 6.16) * PX) + 'px';
+    hStrL!.style.height = ((11 + 7.84) * PX) + 'px';
+
+    letterU2!.style.width = LETTER_W + 'px';
+    u2Str!.style.height = ((B_FIXED + B_STRETCH - U_FIXED) * PX) + 'px';
+
+    letterM!.style.width = LETTER_W + 'px';
+    mStr!.style.height = ((B_FIXED + B_STRETCH - M_FIXED) * PX) + 'px';
+
+    letterO!.style.width = LETTER_W + 'px';
+    oStr!.style.height = ((B_FIXED + B_STRETCH - O_FIXED) * PX) + 'px';
+
+    letterU3!.style.width = LETTER_W + 'px';
+    u3Str!.style.height = ((B_FIXED + B_STRETCH - U_FIXED) * PX) + 'px';
+
+    rSvg!.style.width = LETTER_W + 'px';
+    rSvg!.style.height = ((B_FIXED + B_STRETCH) * PX) + 'px';
+
+    const ease = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+
+    let currentP = 0;
+    const LERP_SPEED = 0.035;
+    let raf = 0;
+    let running = true;
+
+    const sectionProgress = () => {
+      const total = scrollArea.offsetHeight - window.innerHeight;
+      if (total <= 0) return 0;
+      const scrolled = -scrollArea.getBoundingClientRect().top;
+      return Math.max(0, Math.min(1, scrolled / total));
+    };
+
+    const update = () => {
+      const targetP = sectionProgress();
+      currentP += (targetP - currentP) * LERP_SPEED;
+      if (Math.abs(targetP - currentP) < 0.0005) currentP = targetP;
+
+      let f: number;
+      if (currentP <= 0.5) {
+        f = 1 + ease(currentP * 2) * (MAX_STRETCH - 1);
+      } else {
+        f = 1 + (1 - ease((currentP - 0.5) * 2)) * (MAX_STRETCH - 1);
+      }
+
+      // ===== BUSINESS animate =====
+      su!.style.height = (SU_BASE * f) + 'px';
+      sl!.style.height = (SL_BASE * f) + 'px';
+
+      uStr!.style.height = ((B_FIXED + B_STRETCH * f - U_FIXED) * PX) + 'px';
+
+      sSu!.style.height = (SU_BASE * f) + 'px';
+      sSl!.style.height = (SL_BASE * f) + 'px';
+
+      iSu!.style.height = (SU_BASE * f) + 'px';
+      iSl!.style.height = (SL_BASE * f) + 'px';
+
+      s2Su!.style.height = (SU_BASE * f) + 'px';
+      s2Sl!.style.height = (SL_BASE * f) + 'px';
+
+      s3Su!.style.height = (SU_BASE * f) + 'px';
+      s3Sl!.style.height = (SL_BASE * f) + 'px';
+
+      const nH = B_FIXED + B_STRETCH * f;
+      nSvg!.setAttribute('viewBox', `0 0 ${VB_W} ${nH}`);
+      nSvg!.style.height = (nH * PX) + 'px';
+      nL!.setAttribute('height', String(nH));
+      nR!.setAttribute('height', String(nH));
+      const diagW = SW / Math.cos(Math.atan2(VB_W - SW * 2, nH));
+      const dw = Math.min(SW + 1, Math.max(SW, diagW));
+      const half = dw / 2;
+      const cL = SW / 2;
+      const cR = VB_W - SW / 2;
+      nD!.setAttribute(
+        'points',
+        `${cL - half},0 ${cL + half},0 ${cR + half},${nH} ${cR - half},${nH}`,
+      );
+
+      const eH = nH;
+      eSvg!.setAttribute('viewBox', `0 0 ${VB_W} ${eH}`);
+      eSvg!.style.height = (eH * PX) + 'px';
+      eV!.setAttribute('height', String(eH));
+      eM!.setAttribute('y', String(8 + 6.16 * f + 3));
+      eB!.setAttribute('y', String(eH - SW));
+
+      // ===== HUMOUR animate =====
+      hStrU!.style.height = ((11 + 6.16 * f) * PX) + 'px';
+      hStrL!.style.height = ((11 + 7.84 * f) * PX) + 'px';
+
+      u2Str!.style.height = ((B_FIXED + B_STRETCH * f - U_FIXED) * PX) + 'px';
+
+      mStr!.style.height = ((B_FIXED + B_STRETCH * f - M_FIXED) * PX) + 'px';
+
+      oStr!.style.height = ((B_FIXED + B_STRETCH * f - O_FIXED) * PX) + 'px';
+
+      u3Str!.style.height = ((B_FIXED + B_STRETCH * f - U_FIXED) * PX) + 'px';
+
+      const rH = B_FIXED + B_STRETCH * f;
+      rSvg!.setAttribute('viewBox', `0 0 ${VB_W} ${rH}`);
+      rSvg!.style.height = (rH * PX) + 'px';
+      rStem!.setAttribute('height', String(rH));
+      const rLegStart = R_FIXED - SW;
+      rLeg!.setAttribute(
+        'points',
+        `3,${rLegStart} 6,${rLegStart} ${VB_W},${rH} ${VB_W - SW},${rH}`,
+      );
+
+      if (val) val.textContent = f.toFixed(1) + '×';
+    };
+
+    const loop = () => {
+      if (!running) return;
+      update();
+      raf = requestAnimationFrame(loop);
+    };
+    loop();
+
+    (window as any).__synkStretchController = {
+      stop: () => {
+        running = false;
+        cancelAnimationFrame(raf);
+      },
+    } satisfies StretchController;
   };
 
   mountStretchArt();
