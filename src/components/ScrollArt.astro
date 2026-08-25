@@ -14,16 +14,19 @@ const clientCopy = isEnglish
 <section class="stretch-stage bordered-section" data-stretch-stage aria-label="Business of Humour">
   <div class="stretch-stage__art" data-stretch-art>
     <!--
-      Letter SVGs + stem-stretch math from https://github.com/JorisPaarde/animatie-tests
-      Homepage layout matches live WP: normal flow, viewport triangle-wave (not 500vh sticky).
+      Geometry from live WP desktop (~1280): grey scene 610px.
+      BUSINESS letters x≈322 w≈202; HUMOUR x≈342 (+20px), transform:none on letter rows.
+      Quotes overlaid left with fixed translateY(+90 / -70). Stem-stretch only animates height.
     -->
-    <div class="stretch-stage__stack">
-      <div class="stretch-stage__block stretch-stage__block--business" data-stretch-row="business">
-        <p class="stretch-stage__quote">
-          <span>Jeanette combines an</span>
-          <span class="stretch-stage__quote-emph">INSTINCT FOR</span>
-        </p>
-        <div class="letters-row" data-letters="business" aria-hidden="true">
+    <div class="stretch-stage__scene">
+      <div class="stretch-stage__band stretch-stage__band--business">
+        <div class="stretch-stage__quote-block stretch-stage__quote-block--instinct">
+          <p class="stretch-stage__quote">
+            <span>Jeanette combines an</span>
+            <span class="stretch-stage__quote-emph">INSTINCT FOR</span>
+          </p>
+        </div>
+        <div class="letters-row letters-row--business" data-stretch-row="business" data-letters="business" aria-hidden="true">
           <!-- ===== LETTER B ===== -->
           <div class="letter" id="letterB">
             <svg viewBox="0 0 10 8">
@@ -136,12 +139,15 @@ const clientCopy = isEnglish
         <span class="sr-only">Business</span>
       </div>
 
-      <div class="stretch-stage__block stretch-stage__block--humour" data-stretch-row="humour">
-        <p class="stretch-stage__quote">
-          <span>With a</span>
-          <span class="stretch-stage__quote-emph">SENSE OF</span>
-        </p>
-        <div class="letters-row" data-letters="humour" aria-hidden="true">
+      <div class="stretch-stage__band stretch-stage__band--humour">
+        <div class="stretch-stage__quote-block stretch-stage__quote-block--sense">
+          <p class="stretch-stage__quote">
+            <span>With a</span>
+            <span class="stretch-stage__quote-emph">SENSE OF</span>
+          </p>
+          <p class="stretch-stage__credit">Stefan Dzodan<br />Artist</p>
+        </div>
+        <div class="letters-row letters-row--humour" data-stretch-row="humour" data-letters="humour" aria-hidden="true">
           <!-- ===== LETTER H ===== -->
           <div class="letter" id="letterH">
             <div class="stretch" id="hStrU">
@@ -216,11 +222,8 @@ const clientCopy = isEnglish
         </div>
         <span class="sr-only">Humour</span>
       </div>
-
-      <p class="stretch-stage__credit">Stefan Dzodan / Artist</p>
     </div>
 
-    <!-- Present like the WP shortcode; hidden via CSS -->
     <div class="stretch-stage__info" aria-hidden="true">
       <span class="stretch-stage__val" id="val">1.0×</span>
     </div>
@@ -234,6 +237,7 @@ const clientCopy = isEnglish
 </section>
 
 <script>
+
   type StretchController = { stop: () => void };
 
   const mountStretchArt = () => {
@@ -317,16 +321,24 @@ const clientCopy = isEnglish
     let SL_BASE = 7.84 * PX;
 
     const applySizes = () => {
-      // Giant letters for the left panel (WP homepage), not the tiny standalone demo cap.
-      LETTER_W = Math.min(52, Math.max(18, art.clientWidth * 0.092));
-      PX = LETTER_W / VB_W;
+      // WP desk @610: BUSINESS 202×164, HUMOUR w≈160, letter gap 8
+      // Width and height are decoupled so tall thin stems match WP (not square aspect).
+      const scene = art.querySelector('.stretch-stage__scene') || art;
+      const scale = Math.max(0.01, scene.clientWidth / 610);
+      const targetW = 202 * scale;
+      const targetH = 164 * scale;
+      const gap = 8 * scale;
+      // 7 full letters + narrow I (0.3) → 7.3 units; gap×7 between 8 glyphs
+      LETTER_W = Math.max(8, (targetW - 7 * gap) / 7.3);
+      const pxW = LETTER_W / VB_W;
+      PX = targetH / (B_FIXED + B_STRETCH); // rest height ≈164
       SU_BASE = 6.16 * PX;
       SL_BASE = 7.84 * PX;
 
       letterB!.style.width = LETTER_W + 'px';
       letterU!.style.width = LETTER_W + 'px';
       letterS!.style.width = LETTER_W + 'px';
-      letterI!.style.width = (SW * PX) + 'px';
+      letterI!.style.width = SW * pxW + 'px';
       letterS2!.style.width = LETTER_W + 'px';
       letterS3!.style.width = LETTER_W + 'px';
       nSvg!.style.width = LETTER_W + 'px';
@@ -337,6 +349,21 @@ const clientCopy = isEnglish
       letterO!.style.width = LETTER_W + 'px';
       letterU3!.style.width = LETTER_W + 'px';
       rSvg!.style.width = LETTER_W + 'px';
+      businessRow.style.gap = gap + 'px';
+      humourRow.style.gap = gap + 'px';
+
+      // Static SVG caps use height-driven PX (width already set via letter box)
+      const sizeStatic = (root: HTMLElement) => {
+        root.querySelectorAll('svg').forEach((el) => {
+          if (el.classList.contains('letter-dynamic')) return;
+          if (!el.closest('.letter')) return;
+          const svg = el as SVGSVGElement;
+          const vb = svg.viewBox.baseVal;
+          if (vb && vb.height) svg.style.height = vb.height * PX + 'px';
+        });
+      };
+      sizeStatic(businessRow);
+      sizeStatic(humourRow);
     };
 
     applySizes();
@@ -416,9 +443,11 @@ const clientCopy = isEnglish
       );
     };
 
-    // Rest pose
+    // Rest pose — letter rows: transform none (stagger is layout margin)
     paintBusiness(1);
     paintHumour(1);
+    businessRow.style.transform = 'none';
+    humourRow.style.transform = 'none';
 
     if (reduceMotion) {
       (window as any).__synkStretchController = { stop: () => undefined } satisfies StretchController;
@@ -438,10 +467,9 @@ const clientCopy = isEnglish
       paintBusiness(fB);
       paintHumour(fH);
 
-      // Subtle relative drift (Elementor scroll-effects analogue, cheaper magnitude)
-      const drift = (businessP + humourP) / 2;
-      businessRow.style.transform = `translateY(${(0.5 - drift) * 28}px)`;
-      humourRow.style.transform = `translateY(${(drift - 0.5) * 18}px)`;
+      // dx stays +20px via CSS margin; only stem heights change
+      businessRow.style.transform = 'none';
+      humourRow.style.transform = 'none';
 
       if (val) val.textContent = Math.max(fB, fH).toFixed(1) + '×';
     };

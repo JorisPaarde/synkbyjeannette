@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import LogoMarquee from './LogoMarquee.astro';
+import ProblemQuote from './ProblemQuote.astro';
 import ScrollArt from './ScrollArt.astro';
 import { withBase } from '../lib/paths';
 
@@ -170,12 +171,5 @@ const profileMaskId = `profile-mask-${lang}`;
     </div>
   </section>
 
-  <section class="problem-quote editorial-panel editorial-panel--grey">
-    <div class="problem-quote__content">
-      <p>Slow motion flying dancers in an exhibition for the former queen? <mark>NO PROBLEM</mark></p>
-      <p>Connecting with new clients? <mark>NO PROBLEM</mark></p>
-      <p>Dealing with difficult ones? <mark>NO PROBLEM</mark></p>
-      <cite>Rick Robin<br />Visual Architect</cite>
-    </div>
-  </section>
+  <ProblemQuote />
 </BaseLayout>
