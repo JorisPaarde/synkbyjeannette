@@ -318,7 +318,12 @@ const clientCopy = isEnglish
 
     const applySizes = () => {
       // Giant letters for the left panel (WP homepage), not the tiny standalone demo cap.
-      LETTER_W = Math.min(52, Math.max(18, art.clientWidth * 0.092));
+      // On mobile, letters share the grey row with quotes — keep them on the right half.
+      const mobile = window.matchMedia('(max-width: 767px)').matches;
+      LETTER_W = Math.min(
+        mobile ? 28 : 52,
+        Math.max(mobile ? 12 : 18, art.clientWidth * (mobile ? 0.05 : 0.092)),
+      );
       PX = LETTER_W / VB_W;
       SU_BASE = 6.16 * PX;
       SL_BASE = 7.84 * PX;

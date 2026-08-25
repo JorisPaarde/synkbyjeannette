@@ -682,7 +682,7 @@ main {
   padding: clamp(2.4rem, 5vw, 4.5rem) clamp(1.4rem, 3.2vw, 2.8rem);
   overflow: visible;
   border-right: var(--page-border);
-  background: #f0f0f0;
+  background: var(--synk-grey);
 }
 
 .stretch-stage__stack {
@@ -705,11 +705,11 @@ main {
 
 .stretch-stage__quote {
   margin: 0;
-  color: var(--synk-black);
+  color: #000;
   font-family: 'Futura Medium', Futura, sans-serif;
-  font-size: clamp(0.95rem, 1.55vw, 1.2rem);
+  font-size: 25px;
   font-weight: 900;
-  line-height: 1.2;
+  line-height: 25px;
   text-align: right;
   text-transform: none;
 }
@@ -764,16 +764,33 @@ main {
 
 .stretch-stage__credit {
   margin: 0.2rem 0 0;
-  color: #8a8a8a;
+  color: #6b7177;
   font-family: 'Futura Medium', Futura, sans-serif;
-  font-size: 0.86rem;
-  font-weight: 500;
+  font-size: 15px;
+  font-weight: 400;
   font-style: italic;
+  line-height: 15px;
   text-align: right;
 }
 
 .stretch-stage__copy {
   background: var(--synk-white);
+}
+
+.stretch-stage__copy .editorial-copy {
+  color: #000;
+  font-family: 'Futura Medium', Futura, sans-serif;
+  font-size: 27.2px;
+  font-weight: 900;
+  line-height: 40.8px;
+  text-align: left;
+}
+
+.stretch-stage__copy .editorial-copy p {
+  margin: 0;
+  color: inherit;
+  font: inherit;
+  line-height: inherit;
 }
 
 /* Match WP plugin: hide demo readout */
@@ -1186,21 +1203,60 @@ main {
 
   .stretch-stage__art {
     min-height: 420px;
-    padding: 34px 24px;
-    justify-content: center;
+    padding: 28px 18px;
+    justify-content: stretch;
+    align-items: center;
   }
 
   .stretch-stage__stack {
     width: 100%;
+    align-items: stretch;
+    gap: 1.1rem;
+  }
+
+  /* WP mobile: quotes/credit left, gold letters right — not stacked under quote */
+  .stretch-stage__block {
+    flex-direction: row;
     align-items: flex-end;
+    justify-content: space-between;
+    gap: 0.75rem;
+  }
+
+  .stretch-stage__quote {
+    flex: 1 1 auto;
+    min-width: 0;
+    font-size: 25px;
+    font-weight: 900;
+    line-height: 25px;
+    text-align: left;
   }
 
   .stretch-stage .letters-row {
-    gap: 0.28rem;
+    flex: 0 0 auto;
+    gap: 0.22rem;
+    max-width: 54%;
+  }
+
+  .stretch-stage__credit {
+    align-self: flex-start;
+    color: #6b7177;
+    font-size: 15px;
+    font-weight: 400;
+    font-style: italic;
+    line-height: 15px;
+    text-align: left;
   }
 
   .stretch-stage__copy {
-    min-height: 280px;
+    min-height: 0;
+    padding: var(--white-panel-space);
+  }
+
+  .stretch-stage__copy .editorial-copy {
+    width: 100%;
+    font-size: 15px;
+    font-weight: 900;
+    line-height: 22.5px;
   }
 
   .problem-quote {
