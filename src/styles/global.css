@@ -782,9 +782,13 @@ main {
   display: block;
 }
 
-/* INSTINCT FOR bottom → SENSE OF top = 10px; SENSE OF left = 52 (+40 inset) */
+/*
+  Each quote <p> is 50px (2 × 25px block spans). Pitch was 60px (margin-top 10)
+  so INSTINCT FOR → SENSE OF = 10 + 25 ("With a") = 35px. WP wants that emph
+  gap at 10px → pitch 35 → margin-top -15px. Sense left = 52 (+40 inset).
+*/
 .stretch-stage__quote--sense {
-  margin-top: 10px;
+  margin-top: -15px;
   padding-left: calc(var(--sense-inset) / var(--scene-w) * 100cqi);
 }
 
