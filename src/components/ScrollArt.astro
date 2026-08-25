@@ -14,31 +14,25 @@ const clientCopy = isEnglish
 <section class="stretch-stage bordered-section" data-stretch-stage aria-label="Business of Humour">
   <div class="stretch-stage__art" data-stretch-art>
     <!--
-      WP desk: Jeanette + INSTINCT FOR share RIGHT edge (~5–7px left of gold
-      BUSINESS). Jeanette is longer so starts further left — does not hit gold.
-      "With a SENSE OF" is one line, ~10px under INSTINCT, starts slightly left
-      of INSTINCT (not +40 inset); SENSE OF may tuck into gold. Credit +20px.
-      HUMOUR +20px left, vertical letter gap 4px. Plugin MAX_STRETCH 5.2
-      anti-correlated. No negative quote margins. No GSAP.
+      WP desk: 2-row pairing — Jeanette+INSTINCT ride with BUSINESS (bottom),
+      SENSE OF rides with HUMOUR (top). Jeanette + INSTINCT share RIGHT edge
+      (~7px left of gold); Jeanette longer, does not hit gold. "With a SENSE OF"
+      one line, ~10px under INSTINCT, starts at INSTINCT left (not +40);
+      may tuck into gold HUMOUR. Credit +20px. HUMOUR +20px left, letter gap
+      4px. Plugin MAX_STRETCH 5.2 anti-correlated. No negative margins. No GSAP.
     -->
     <div class="stretch-stage__scene">
-      <aside class="stretch-stage__quotes">
+      <aside class="stretch-stage__quotes stretch-stage__quotes--business">
+        <span class="sr-only">Business</span>
         <div class="stretch-stage__quote-stack">
           <p class="stretch-stage__quote stretch-stage__quote--jeanette">Jeanette combines an</p>
-          <div class="stretch-stage__quote-anchor">
-            <p class="stretch-stage__quote stretch-stage__quote--instinct">
-              <span class="stretch-stage__quote-emph">INSTINCT FOR</span>
-            </p>
-            <p class="stretch-stage__quote stretch-stage__quote--sense">
-              <span>With a <span class="stretch-stage__quote-emph">SENSE OF</span></span>
-            </p>
-          </div>
+          <p class="stretch-stage__quote stretch-stage__quote--instinct">
+            <span class="stretch-stage__quote-emph">INSTINCT FOR</span>
+          </p>
         </div>
-        <p class="stretch-stage__credit">Stefan Dzodan<br />Artist</p>
       </aside>
 
-      <div class="stretch-stage__rows">
-        <div class="letters-row letters-row--business" data-stretch-row="business" data-letters="business" aria-hidden="true">
+      <div class="letters-row letters-row--business" data-stretch-row="business" data-letters="business" aria-hidden="true">
           <!-- ===== LETTER B ===== -->
           <div class="letter" id="letterB">
             <svg viewBox="0 0 10 8">
@@ -147,10 +141,27 @@ const clientCopy = isEnglish
               <path d="M10,0 L10,3 Q10,8 5,8 Q0,8 0,3 L3,3 Q3,5 5,5 Q7,5 7,3 L7,0 Z" fill="#d4a96a"></path>
             </svg>
           </div>
-        </div>
-        <span class="sr-only">Business</span>
+      </div>
 
-        <div class="letters-row letters-row--humour" data-stretch-row="humour" data-letters="humour" aria-hidden="true">
+      <aside class="stretch-stage__quotes stretch-stage__quotes--humour">
+        <span class="sr-only">Humour</span>
+        <!--
+          Anchor width = INSTINCT FOR (hidden sizer) so "With a" starts at
+          INSTINCT left; width:0 sense overflows / may tuck into gold HUMOUR.
+          Stack is end-aligned in the Jeanette-wide grid column.
+        -->
+        <div class="stretch-stage__quote-stack stretch-stage__quote-stack--humour">
+          <div class="stretch-stage__quote-anchor">
+            <span class="stretch-stage__quote-sizer" aria-hidden="true">INSTINCT FOR</span>
+            <p class="stretch-stage__quote stretch-stage__quote--sense">
+              <span>With a <span class="stretch-stage__quote-emph">SENSE OF</span></span>
+            </p>
+            <p class="stretch-stage__credit">Stefan Dzodan<br />Artist</p>
+          </div>
+        </div>
+      </aside>
+
+      <div class="letters-row letters-row--humour" data-stretch-row="humour" data-letters="humour" aria-hidden="true">
           <!-- ===== LETTER H ===== -->
           <div class="letter" id="letterH">
             <div class="stretch" id="hStrU">
@@ -222,8 +233,6 @@ const clientCopy = isEnglish
             <path d="M3,0 L5,0 Q10,0 10,8 Q10,16 5,16 L3,16 L3,13 L5,13 Q7,13 7,8 Q7,3 5,3 L3,3 Z" fill="#d4a96a"></path>
             <polygon id="rLeg" points="3,13 6,13 10,50 7,50" fill="#d4a96a"></polygon>
           </svg>
-        </div>
-        <span class="sr-only">Humour</span>
       </div>
     </div>
 

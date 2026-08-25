@@ -738,37 +738,59 @@ main {
   background: var(--synk-grey);
 }
 
-/* WP desk: quote stack left, gold letters right, ~5–7px between shared
-   Jeanette/INSTINCT right edge and gold BUSINESS. Jeanette + INSTINCT are
-   right-aligned to each other (Jeanette longer → starts further left; does
-   not hit gold). "With a SENSE OF" starts slightly left of INSTINCT and may
-   tuck into gold. Black lines must not overlap each other. Vertical row gap
-   4px; HUMOUR +20px horizontal only. Scene hugs content (max-content).
+/* WP desk: 2-row pairing — quotes ride with letter rows.
+   Row 1: Jeanette+INSTINCT (bottom-aligned) | BUSINESS
+   Row 2: SENSE OF (top-aligned, may tuck) | HUMOUR
+   ~7px between Jeanette/INSTINCT right edge and gold BUSINESS.
+   Jeanette + INSTINCT right-aligned (Jeanette longer → starts further left).
+   "With a SENSE OF" starts at INSTINCT left (sizer); may tuck into gold.
+   Black lines must not overlap each other. Vertical row gap 4px;
+   HUMOUR +20px horizontal only. Scene hugs content (max-content).
    No container-type:inline-size — that size-contains and collapses max-content. */
 .stretch-stage__scene {
   --quote-gap: 7px;
   --row-gap: 4px; /* vertical only — decoupled from HUMOUR +20px offset */
   --humour-offset: 20px; /* horizontal only */
+  --instinct-sense-gap: 10px; /* INSTINCT bottom → SENSE OF top */
   display: grid;
   width: max-content;
   max-width: 100%;
-  align-items: center;
-  column-gap: var(--quote-gap); /* ~7px — Jeanette/INSTINCT right → gold left */
   grid-template-columns: max-content max-content;
+  grid-template-rows: auto auto;
+  column-gap: var(--quote-gap); /* ~7px — Jeanette/INSTINCT right → gold left */
+  /* Letter glyphs: 4px. Quote INSTINCT→SENSE uses margin on sense so total ~10px. */
+  row-gap: var(--row-gap);
   padding-left: 12px;
+  align-items: stretch;
 }
 
 .stretch-stage__quotes {
   position: relative;
   z-index: 1; /* black quotes paint over gold when they tuck in */
-  width: max-content; /* = Jeanette width (stack right edge → gold gutter) */
+  width: max-content;
   min-width: 0;
   overflow: visible;
   text-align: left;
   transform: none; /* static — never translateY */
 }
 
-/* Jeanette + INSTINCT share RIGHT edge; anchor width = INSTINCT FOR only. */
+/* INSTINCT (+ Jeanette above) sit at the bottom of the BUSINESS row. */
+.stretch-stage__quotes--business {
+  grid-column: 1;
+  grid-row: 1;
+  align-self: end;
+  justify-self: end;
+}
+
+/* SENSE OF sits at the top of the HUMOUR row (may tuck into gold). */
+.stretch-stage__quotes--humour {
+  grid-column: 1;
+  grid-row: 2;
+  align-self: start;
+  justify-self: end;
+}
+
+/* Jeanette + INSTINCT share RIGHT edge; stack width = Jeanette. */
 .stretch-stage__quote-stack {
   display: flex;
   flex-direction: column;
@@ -780,7 +802,23 @@ main {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  width: max-content; /* = INSTINCT FOR; sense overflows without widening */
+  width: max-content; /* = INSTINCT FOR via sizer; sense overflows without widening */
+}
+
+/* Hidden INSTINCT FOR strut — matches business instinct width for sense left edge. */
+.stretch-stage__quote-sizer {
+  display: block;
+  height: 0;
+  overflow: hidden;
+  visibility: hidden;
+  pointer-events: none;
+  font-family: 'Futura Medium', Futura, sans-serif;
+  font-size: 25px;
+  font-weight: 900;
+  line-height: 0;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  white-space: nowrap;
 }
 
 .stretch-stage__quote {
@@ -807,12 +845,12 @@ main {
 
 /*
   INSTINCT FOR bottom → "With a SENSE OF" top ≈ 10px (positive; never overlap).
-  One line; left edge near INSTINCT (no +40 inset). width:0 so sense does not
-  widen the INSTINCT anchor — SENSE OF may tuck into gold like WP.
-  No negative margins.
+  row-gap is 4px (letter gap); remaining 6px is sense margin so SENSE tucks
+  slightly into HUMOUR like WP. One line; left edge at INSTINCT (no +40).
+  width:0 so sense does not widen the INSTINCT anchor. No negative margins.
 */
 .stretch-stage__quote--sense {
-  margin-top: 10px;
+  margin-top: calc(var(--instinct-sense-gap) - var(--row-gap)); /* 10px − 4px row-gap */
   padding-left: 0;
   width: 0;
   min-width: 0;
@@ -835,13 +873,6 @@ main {
   text-transform: uppercase;
 }
 
-.stretch-stage__rows {
-  display: flex;
-  flex-direction: column;
-  /* 4px vertical gap — NOT the 20px horizontal offset */
-  gap: var(--row-gap);
-}
-
 .stretch-stage .letters-row {
   display: flex;
   flex: 0 0 auto;
@@ -851,8 +882,15 @@ main {
   transform: none; /* stagger is layout (+20px), not transform */
 }
 
+.stretch-stage .letters-row--business {
+  grid-column: 2;
+  grid-row: 1;
+}
+
 /* HUMOUR left = BUSINESS left + 20px (horizontal only) */
 .stretch-stage .letters-row--humour {
+  grid-column: 2;
+  grid-row: 2;
   margin-left: var(--humour-offset);
 }
 
