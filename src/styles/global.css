@@ -539,7 +539,6 @@ main {
 }
 
 .intro-quote cite,
-.problem-quote cite,
 .artist-quote cite {
   display: block;
   margin-top: 16px;
@@ -878,34 +877,98 @@ main {
 }
 
 .problem-quote {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  justify-content: space-between;
   min-height: 365px;
+  padding: 25px 63px 28px;
   border-right: var(--page-border);
   border-left: var(--page-border);
   background: var(--synk-grey);
 }
 
-.problem-quote__content {
-  width: min(100%, 56ch);
+.problem-quote__lines {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.problem-quote__line {
+  position: relative;
+  width: 100%;
+}
+
+.problem-quote__text {
+  margin: 0;
+  color: #000;
+  font-family: 'Futura Medium', Futura, sans-serif;
   font-size: clamp(1.35rem, 2.25vw, 1.95rem);
   font-weight: 900;
-  letter-spacing: -.025em;
+  letter-spacing: -0.025em;
   line-height: 1.45;
   text-wrap: pretty;
 }
 
-.problem-quote p {
-  margin: 0 0 .72em;
+.problem-quote__typed {
+  visibility: hidden;
 }
 
-.problem-quote p:last-of-type {
-  margin-bottom: 0;
+.problem-quote:not(.is-ready) .problem-quote__typed {
+  visibility: hidden;
 }
 
-.problem-quote mark {
+.problem-quote__follow {
+  position: absolute;
+  z-index: 1;
   display: inline-block;
-  padding: 0 10px;
-  background: var(--synk-tan);
-  transform: rotate(-4deg);
+  padding: 0.18em 0.38em;
+  border-radius: 0;
+  background: #dcb68b;
+  color: #111;
+  font-family: 'Futura Medium', Futura, sans-serif;
+  font-size: 25px;
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: 0;
+  white-space: nowrap;
+  box-shadow: none;
+  opacity: 0;
+  visibility: hidden;
+  transform: scale(0.9) rotate(-5deg) !important;
+  pointer-events: none;
+}
+
+.problem-quote__follow.is-follow-visible {
+  visibility: visible;
+  animation: noProblemFlash 700ms ease-out forwards;
+}
+
+@keyframes noProblemFlash {
+  0% {
+    opacity: 0;
+    filter: blur(4px);
+  }
+  35% {
+    opacity: 1;
+    filter: blur(0);
+  }
+  100% {
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+
+.problem-quote__credit {
+  display: block;
+  margin-top: 8px;
+  color: #6b7177;
+  font-family: 'Futura Medium', Futura, sans-serif;
+  font-size: 15px;
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1.2;
 }
 
 /* Internal pages */
@@ -1241,6 +1304,11 @@ main {
 
   .problem-quote {
     min-height: 390px;
+    padding: 22px 22px 24px;
+  }
+
+  .problem-quote__follow {
+    font-size: clamp(16px, 4.2vw, 25px);
   }
 
   .contact-strip,

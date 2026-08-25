@@ -1,0 +1,229 @@
+---
+/**
+ * WP "NO PROBLEM" typed section (Elementor .elementor-element-0372cb8).
+ * Hand-written setInterval typing — no GSAP, no typed.js.
+ */
+const lines = [
+  'Slow motion flying dancers in an exhibition for the former queen?',
+  'Connecting with new clients?',
+  'Dealing with difficult ones?',
+] as const;
+
+const START_DELAYS_MS = [10, 2700, 4000] as const;
+---
+
+<section
+  class="problem-quote"
+  data-problem-quote
+  aria-label="No problem"
+>
+  <div class="problem-quote__lines">
+    {
+      lines.map((text, index) => (
+        <div
+          class="problem-quote__line"
+          data-problem-line
+          data-line-index={index}
+          data-line-text={text}
+          data-start-delay={START_DELAYS_MS[index]}
+        >
+          <p class="problem-quote__text">
+            <span class="problem-quote__typed" data-typed></span>
+          </p>
+          <span class="problem-quote__follow" data-follow aria-hidden="true">NO PROBLEM</span>
+        </div>
+      ))
+    }
+  </div>
+  <cite class="problem-quote__credit">Rick Robin<br />Visual Architect</cite>
+</section>
+
+<script>
+  type ProblemQuoteController = { stop: () => void };
+
+  const CHAR_MS = 45;
+  const BOX_DELAY_MS = 250;
+  const INIT_DELAY_MS = 700;
+  const IO_THRESHOLD = 0.2;
+
+  const mountProblemQuote = () => {
+    const existing = (window as any).__synkProblemQuote as ProblemQuoteController | undefined;
+    existing?.stop?.();
+
+    const root = document.querySelector<HTMLElement>('[data-problem-quote]');
+    if (!root) return;
+
+    const lineEls = [...root.querySelectorAll<HTMLElement>('[data-problem-line]')];
+    if (!lineEls.length) return;
+
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const typedSpans = lineEls.map((line) => line.querySelector<HTMLElement>('[data-typed]')!);
+    const follows = lineEls.map((line) => line.querySelector<HTMLElement>('[data-follow]')!);
+
+    let stopped = false;
+    let sequenceStarted = false;
+    let io: IntersectionObserver | null = null;
+    const intervals: number[] = [];
+    const timeouts: number[] = [];
+
+    const trackTimeout = (fn: () => void, ms: number) => {
+      const id = window.setTimeout(() => {
+        if (!stopped) fn();
+      }, ms);
+      timeouts.push(id);
+      return id;
+    };
+
+    const positionFollow = (line: HTMLElement, typed: HTMLElement, follow: HTMLElement) => {
+      if (!typed.textContent) return;
+      const range = document.createRange();
+      range.selectNodeContents(typed);
+      const rects = range.getClientRects();
+      if (!rects.length) return;
+      const lastLine = rects[rects.length - 1];
+      const parent = line.getBoundingClientRect();
+      const followWidth = follow.offsetWidth;
+      follow.style.left = `${lastLine.right - parent.left - followWidth * 0.85}px`;
+      follow.style.top = `${lastLine.bottom - parent.top - 20}px`;
+    };
+
+    const lockMinHeights = () => {
+      lineEls.forEach((line, i) => {
+        const typed = typedSpans[i];
+        const prev = typed.textContent;
+        const prevVis = typed.style.visibility;
+        typed.textContent = line.dataset.lineText || '';
+        typed.style.visibility = 'hidden';
+        line.style.minHeight = `${line.offsetHeight}px`;
+        typed.textContent = prev;
+        typed.style.visibility = prevVis;
+      });
+    };
+
+    const showFinal = () => {
+      root.classList.add('is-ready');
+      lineEls.forEach((line, i) => {
+        const text = line.dataset.lineText || '';
+        typedSpans[i].textContent = text;
+        typedSpans[i].style.visibility = 'visible';
+        positionFollow(line, typedSpans[i], follows[i]);
+        follows[i].classList.add('is-follow-visible');
+      });
+    };
+
+    const revealBox = (line: HTMLElement, typed: HTMLElement, follow: HTMLElement) => {
+      trackTimeout(() => {
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            if (stopped) return;
+            positionFollow(line, typed, follow);
+            follow.classList.add('is-follow-visible');
+          });
+        });
+      }, BOX_DELAY_MS);
+    };
+
+    const typeLine = (line: HTMLElement, typed: HTMLElement, follow: HTMLElement, text: string) => {
+      typed.style.visibility = 'visible';
+      let i = 0;
+      const id = window.setInterval(() => {
+        if (stopped) {
+          window.clearInterval(id);
+          return;
+        }
+        i += 1;
+        typed.textContent = text.slice(0, i);
+        if (i >= text.length) {
+          window.clearInterval(id);
+          revealBox(line, typed, follow);
+        }
+      }, CHAR_MS);
+      intervals.push(id);
+    };
+
+    const startSequence = () => {
+      if (sequenceStarted || stopped) return;
+      sequenceStarted = true;
+      io?.disconnect();
+      io = null;
+
+      lineEls.forEach((line, i) => {
+        const delay = Number(line.dataset.startDelay || 0);
+        const text = line.dataset.lineText || '';
+        trackTimeout(() => {
+          typeLine(line, typedSpans[i], follows[i], text);
+        }, delay);
+      });
+    };
+
+    const onResize = () => {
+      lineEls.forEach((line, i) => {
+        if (!follows[i].classList.contains('is-follow-visible')) return;
+        positionFollow(line, typedSpans[i], follows[i]);
+      });
+    };
+
+    const stop = () => {
+      stopped = true;
+      io?.disconnect();
+      io = null;
+      intervals.forEach((id) => window.clearInterval(id));
+      timeouts.forEach((id) => window.clearTimeout(id));
+      window.removeEventListener('resize', onResize);
+    };
+
+    (window as any).__synkProblemQuote = { stop } satisfies ProblemQuoteController;
+
+    window.addEventListener('resize', onResize);
+
+    const boot = async () => {
+      if (stopped) return;
+      try {
+        if (document.fonts?.ready) await document.fonts.ready;
+      } catch {
+        /* ignore */
+      }
+      await new Promise<void>((resolve) => {
+        window.setTimeout(resolve, INIT_DELAY_MS);
+      });
+      if (stopped) return;
+
+      lockMinHeights();
+      root.classList.add('is-ready');
+
+      if (reduceMotion) {
+        showFinal();
+        return;
+      }
+
+      // Keep typed chars hidden until each line starts typing
+      typedSpans.forEach((span) => {
+        span.style.visibility = 'hidden';
+      });
+
+      io = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            if (!entry.isIntersecting) continue;
+            io?.unobserve(entry.target);
+            startSequence();
+            break;
+          }
+        },
+        { threshold: IO_THRESHOLD },
+      );
+
+      lineEls.forEach((line) => io!.observe(line));
+    };
+
+    const startBoot = () => {
+      void boot();
+    };
+
+    if (document.readyState === 'complete') startBoot();
+    else window.addEventListener('load', startBoot, { once: true });
+  };
+
+  mountProblemQuote();
+  document.addEventListener('astro:page-load', mountProblemQuote);
+</script>
