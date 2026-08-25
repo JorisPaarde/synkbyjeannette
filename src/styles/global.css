@@ -678,38 +678,66 @@ main {
   display: flex;
   min-height: 100%;
   align-items: center;
-  justify-content: flex-end;
-  padding: clamp(2.4rem, 5vw, 4.5rem) clamp(1.4rem, 3.2vw, 2.8rem);
+  justify-content: center;
+  padding: clamp(1.5rem, 3vw, 2.5rem) clamp(0.6rem, 1.5vw, 1.2rem);
   overflow: visible;
   border-right: var(--page-border);
-  background: #f0f0f0;
+  background: var(--synk-grey);
 }
 
-.stretch-stage__stack {
+/* WP desk grey scene ≈ 610px: text left, gold letters right */
+.stretch-stage__scene {
+  --scene-w: 610;
+  --biz-pad: 12;
+  --biz-quote-w: 305;
+  --hum-pad: 52;
+  --hum-quote-w: 285;
+  --quote-gap: 5;
   display: flex;
-  width: min(100%, 34rem);
+  width: min(100%, 610px);
   flex-direction: column;
-  align-items: flex-end;
-  gap: clamp(1.1rem, 2.4vw, 1.8rem);
+  gap: 4px; /* tops gap ≈ letterH + 4 ≈ 168 at rest when letterH≈164 */
+}
+
+.stretch-stage__band {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.stretch-stage__band--business {
+  padding-left: calc(var(--biz-pad) / var(--scene-w) * 100%);
+}
+
+.stretch-stage__band--humour {
+  padding-left: calc(var(--hum-pad) / var(--scene-w) * 100%);
+}
+
+.stretch-stage__quote-block {
+  flex: 0 0 auto;
   text-align: right;
 }
 
-.stretch-stage__block {
-  display: flex;
-  width: 100%;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 0.35rem;
-  will-change: transform;
+.stretch-stage__quote-block--instinct {
+  width: calc(var(--biz-quote-w) / var(--scene-w) * 100%);
+  margin-right: calc(var(--quote-gap) / var(--scene-w) * 100%);
+  transform: translateY(90px); /* Elementor e-transform; fixed, not scroll-linked */
+}
+
+.stretch-stage__quote-block--sense {
+  width: calc(var(--hum-quote-w) / var(--scene-w) * 100%);
+  margin-right: calc(var(--quote-gap) / var(--scene-w) * 100%);
+  transform: translateY(-70px); /* fixed opposite shift */
 }
 
 .stretch-stage__quote {
   margin: 0;
-  color: var(--synk-black);
+  color: #000;
   font-family: 'Futura Medium', Futura, sans-serif;
-  font-size: clamp(0.95rem, 1.55vw, 1.2rem);
+  font-size: 25px;
   font-weight: 900;
-  line-height: 1.2;
+  line-height: 25px;
   text-align: right;
   text-transform: none;
 }
@@ -725,10 +753,15 @@ main {
 
 .stretch-stage .letters-row {
   display: flex;
-  max-width: 100%;
+  flex: 0 0 auto;
   align-items: flex-end;
-  justify-content: flex-end;
-  gap: clamp(0.22rem, 0.7vw, 0.45rem);
+  gap: clamp(2px, 0.4vw, 5px);
+  transform: none; /* stagger is layout (+20px), not transform */
+}
+
+/* HUMOUR left = BUSINESS left + 20px via pad/quote widths (52+285+5 vs 12+305+5) */
+.stretch-stage .letters-row--humour {
+  margin-left: 0;
 }
 
 .stretch-stage .letter {
@@ -763,12 +796,13 @@ main {
 }
 
 .stretch-stage__credit {
-  margin: 0.2rem 0 0;
-  color: #8a8a8a;
+  margin: 0.35rem 0 0;
+  color: #6b7177;
   font-family: 'Futura Medium', Futura, sans-serif;
-  font-size: 0.86rem;
-  font-weight: 500;
+  font-size: 15px;
+  font-weight: 400;
   font-style: italic;
+  line-height: 15px;
   text-align: right;
 }
 
@@ -776,7 +810,22 @@ main {
   background: var(--synk-white);
 }
 
-/* Match WP plugin: hide demo readout */
+.stretch-stage__copy .editorial-copy {
+  color: #000;
+  font-family: 'Futura Medium', Futura, sans-serif;
+  font-size: 27.2px;
+  font-weight: 900;
+  line-height: 40.8px;
+  text-align: left;
+}
+
+.stretch-stage__copy .editorial-copy p {
+  margin: 0;
+  color: inherit;
+  font: inherit;
+  line-height: inherit;
+}
+
 .stretch-stage__info {
   display: none;
 }
@@ -1067,13 +1116,11 @@ main {
     transform-origin: top right;
   }
 
-  .split-section,
-  .stretch-stage {
+  .split-section {
     grid-template-columns: 1fr;
   }
 
-  .split-section > :first-child,
-  .stretch-stage__art {
+  .split-section > :first-child {
     border-right: 0;
     border-bottom: var(--page-border);
   }
@@ -1086,8 +1133,7 @@ main {
 
   .intro-section > .intro-quote,
   .profile-section > .profile-copy,
-  .manifesto-section > .artist-quote,
-  .stretch-stage__copy {
+  .manifesto-section > .artist-quote {
     order: -1;
     border-bottom: var(--page-border);
   }
@@ -1185,22 +1231,31 @@ main {
   }
 
   .stretch-stage__art {
-    min-height: 420px;
-    padding: 34px 24px;
-    justify-content: center;
+    min-height: 320px;
+    padding: 16px 8px;
   }
 
-  .stretch-stage__stack {
-    width: 100%;
-    align-items: flex-end;
+  .stretch-stage__quote {
+    font-size: clamp(11px, 3.4vw, 18px);
+    line-height: 1;
   }
 
-  .stretch-stage .letters-row {
-    gap: 0.28rem;
+  .stretch-stage__credit {
+    font-size: 11px;
+    line-height: 11px;
   }
 
-  .stretch-stage__copy {
-    min-height: 280px;
+  .stretch-stage__quote-block--instinct {
+    transform: translateY(clamp(36px, 12vw, 90px));
+  }
+
+  .stretch-stage__quote-block--sense {
+    transform: translateY(calc(-1 * clamp(28px, 9vw, 70px)));
+  }
+
+  .stretch-stage__copy .editorial-copy {
+    font-size: clamp(13px, 3.4vw, 18px);
+    line-height: 1.5;
   }
 
   .problem-quote {
