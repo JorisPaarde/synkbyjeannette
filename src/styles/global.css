@@ -738,31 +738,33 @@ main {
   background: var(--synk-grey);
 }
 
-/* WP desk grey scene ≈ 610px: static quote stack left, gold letters right.
-   Vertical row gap = 4px (humour.top − business.bottom). Horizontal HUMOUR
-   offset = +20px on letters only — do NOT reuse that 20 as vertical gap.
-   No quote translateY. Note: do NOT use cqi on this container's own
-   grid/padding — cqi on a query container resolves to the viewport.
-   Use % here; cqi only on descendants. */
+/* WP desk: quote stack left, gold letters right, ~5px between quote glyph
+   right edges and gold row left (INSTINCT↔BUSINESS, SENSE OF↔HUMOUR). Quotes
+   may tuck into / slightly overlap gold glyphs — black lines must not overlap
+   each other. Vertical row gap 4px; HUMOUR +20px horizontal only.
+   Scene hugs content (max-content) so a wide 305px quote column cannot open a
+   gutter. Quote column width = INSTINCT FOR; longer lines overflow into gold.
+   No container-type:inline-size — that size-contains and collapses max-content. */
 .stretch-stage__scene {
-  --scene-w: 610;
-  --quote-w: 305;
-  --quote-gap: 5;
-  --row-gap: 4; /* vertical only — decoupled from HUMOUR +20px offset */
-  --humour-offset: 20; /* horizontal only */
-  --sense-inset: 40; /* SENSE OF left = INSTINCT left + 40 */
-  container-type: inline-size;
-  container-name: stretch-scene;
+  --quote-gap: 5px;
+  --row-gap: 4px; /* vertical only — decoupled from HUMOUR +20px offset */
+  --humour-offset: 20px; /* horizontal only */
+  --sense-inset: 40px; /* SENSE OF left = INSTINCT left + 40 */
   display: grid;
-  width: min(100%, 610px);
+  width: max-content;
+  max-width: 100%;
   align-items: center;
-  column-gap: calc(var(--quote-gap) / var(--scene-w) * 100%);
-  grid-template-columns: calc(var(--quote-w) / var(--scene-w) * 100%) max-content;
-  padding-left: calc(12 / var(--scene-w) * 100%); /* INSTINCT block left = 12 */
+  column-gap: var(--quote-gap); /* ~5px — quote right → gold left */
+  grid-template-columns: max-content max-content;
+  padding-left: 12px; /* INSTINCT block left = 12 */
 }
 
 .stretch-stage__quotes {
+  position: relative;
+  z-index: 1; /* black quotes paint over gold when they tuck in */
+  width: max-content; /* = INSTINCT FOR width; jeanette/sense overflow */
   min-width: 0;
+  overflow: visible;
   text-align: left;
   transform: none; /* static — never translateY */
 }
@@ -778,18 +780,51 @@ main {
   text-transform: none;
 }
 
-.stretch-stage__quote span {
+/* Instinct block sizes the quote column to INSTINCT FOR only. */
+.stretch-stage__quote--instinct {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: max-content;
+}
+
+/* Jeanette is wider — overflow into gold; do not expand the column. */
+.stretch-stage__quote--instinct > span:first-child {
   display: block;
+  width: 0;
+  min-width: 0;
+  overflow: visible;
+  white-space: nowrap;
+}
+
+.stretch-stage__quote--instinct > span:last-child {
+  display: block;
+  width: max-content;
+  white-space: nowrap;
 }
 
 /*
-  Each quote <p> is 50px (2 × 25px block spans). Pitch was 60px (margin-top 10)
-  so INSTINCT FOR → SENSE OF = 10 + 25 ("With a") = 35px. WP wants that emph
-  gap at 10px → pitch 35 → margin-top -15px. Sense left = 52 (+40 inset).
+  INSTINCT FOR bottom → "With a SENSE OF" top ≈ 10px (positive; never overlap).
+  One line; +40px inset. width:0 so sense does not widen the quote column
+  past INSTINCT FOR (SENSE OF may tuck into HUMOUR like WP).
 */
 .stretch-stage__quote--sense {
-  margin-top: -15px;
-  padding-left: calc(var(--sense-inset) / var(--scene-w) * 100cqi);
+  margin-top: 10px;
+  padding-left: var(--sense-inset);
+  width: 0;
+  min-width: 0;
+  overflow: visible;
+  box-sizing: content-box;
+}
+
+.stretch-stage__quote--sense > span {
+  display: block;
+  width: max-content;
+  white-space: nowrap;
+}
+
+.stretch-stage__quote--sense .stretch-stage__quote-emph {
+  display: inline;
 }
 
 .stretch-stage__quote-emph {
@@ -801,7 +836,7 @@ main {
   display: flex;
   flex-direction: column;
   /* 4px vertical gap — NOT the 20px horizontal offset */
-  gap: calc(var(--row-gap) / var(--scene-w) * 100cqi);
+  gap: var(--row-gap);
 }
 
 .stretch-stage .letters-row {
@@ -815,7 +850,7 @@ main {
 
 /* HUMOUR left = BUSINESS left + 20px (horizontal only) */
 .stretch-stage .letters-row--humour {
-  margin-left: calc(var(--humour-offset) / var(--scene-w) * 100cqi);
+  margin-left: var(--humour-offset);
 }
 
 .stretch-stage .letter {
