@@ -680,7 +680,7 @@ main {
   align-items: center;
   justify-content: flex-end;
   padding: clamp(2.4rem, 5vw, 4.5rem) clamp(1.4rem, 3.2vw, 2.8rem);
-  overflow: hidden;
+  overflow: visible;
   border-right: var(--page-border);
   background: #f0f0f0;
 }
