@@ -738,35 +738,49 @@ main {
   background: var(--synk-grey);
 }
 
-/* WP desk: quote stack left, gold letters right, ~5px between quote glyph
-   right edges and gold row left (INSTINCT↔BUSINESS, SENSE OF↔HUMOUR). Quotes
-   may tuck into / slightly overlap gold glyphs — black lines must not overlap
-   each other. Vertical row gap 4px; HUMOUR +20px horizontal only.
-   Scene hugs content (max-content) so a wide 305px quote column cannot open a
-   gutter. Quote column width = INSTINCT FOR; longer lines overflow into gold.
+/* WP desk: quote stack left, gold letters right, ~5–7px between shared
+   Jeanette/INSTINCT right edge and gold BUSINESS. Jeanette + INSTINCT are
+   right-aligned to each other (Jeanette longer → starts further left; does
+   not hit gold). "With a SENSE OF" starts slightly left of INSTINCT and may
+   tuck into gold. Black lines must not overlap each other. Vertical row gap
+   4px; HUMOUR +20px horizontal only. Scene hugs content (max-content).
    No container-type:inline-size — that size-contains and collapses max-content. */
 .stretch-stage__scene {
-  --quote-gap: 5px;
+  --quote-gap: 7px;
   --row-gap: 4px; /* vertical only — decoupled from HUMOUR +20px offset */
   --humour-offset: 20px; /* horizontal only */
-  --sense-inset: 40px; /* SENSE OF left = INSTINCT left + 40 */
   display: grid;
   width: max-content;
   max-width: 100%;
   align-items: center;
-  column-gap: var(--quote-gap); /* ~5px — quote right → gold left */
+  column-gap: var(--quote-gap); /* ~7px — Jeanette/INSTINCT right → gold left */
   grid-template-columns: max-content max-content;
-  padding-left: 12px; /* INSTINCT block left = 12 */
+  padding-left: 12px;
 }
 
 .stretch-stage__quotes {
   position: relative;
   z-index: 1; /* black quotes paint over gold when they tuck in */
-  width: max-content; /* = INSTINCT FOR width; jeanette/sense overflow */
+  width: max-content; /* = Jeanette width (stack right edge → gold gutter) */
   min-width: 0;
   overflow: visible;
   text-align: left;
   transform: none; /* static — never translateY */
+}
+
+/* Jeanette + INSTINCT share RIGHT edge; anchor width = INSTINCT FOR only. */
+.stretch-stage__quote-stack {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  width: max-content;
+}
+
+.stretch-stage__quote-anchor {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: max-content; /* = INSTINCT FOR; sense overflows without widening */
 }
 
 .stretch-stage__quote {
@@ -778,39 +792,28 @@ main {
   line-height: 25px;
   text-align: left;
   text-transform: none;
+  white-space: nowrap;
 }
 
-/* Instinct block sizes the quote column to INSTINCT FOR only. */
+.stretch-stage__quote--jeanette {
+  display: block;
+  width: max-content;
+}
+
 .stretch-stage__quote--instinct {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  width: max-content;
-}
-
-/* Jeanette is wider — overflow into gold; do not expand the column. */
-.stretch-stage__quote--instinct > span:first-child {
-  display: block;
-  width: 0;
-  min-width: 0;
-  overflow: visible;
-  white-space: nowrap;
-}
-
-.stretch-stage__quote--instinct > span:last-child {
   display: block;
   width: max-content;
-  white-space: nowrap;
 }
 
 /*
   INSTINCT FOR bottom → "With a SENSE OF" top ≈ 10px (positive; never overlap).
-  One line; +40px inset. width:0 so sense does not widen the quote column
-  past INSTINCT FOR (SENSE OF may tuck into HUMOUR like WP).
+  One line; left edge near INSTINCT (no +40 inset). width:0 so sense does not
+  widen the INSTINCT anchor — SENSE OF may tuck into gold like WP.
+  No negative margins.
 */
 .stretch-stage__quote--sense {
   margin-top: 10px;
-  padding-left: var(--sense-inset);
+  padding-left: 0;
   width: 0;
   min-width: 0;
   overflow: visible;
