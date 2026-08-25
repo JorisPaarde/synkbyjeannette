@@ -3,23 +3,27 @@ interface Props {
   lang?: 'nl' | 'en';
 }
 
-const { lang: _lang = 'nl' } = Astro.props;
+const { lang = 'nl' } = Astro.props;
+const isEnglish = lang === 'en';
+
+const clientCopy = isEnglish
+  ? 'Synk werkt voor grote bedrijven, SMEs and NGOs. Or directly for CEOs, artists, directors and even scientists. Very diverse, but all perfectionists.'
+  : 'Synk werkt voor grote bedrijven, mkb’ers & ngo’s. Of rechtstreeks voor ceo’s, kunstenaars, regisseurs & zelfs wetenschappers. Heel gevarieerd, maar allemaal perfectionisten.';
 ---
 
-<section class="stretch-stage" data-stretch-stage aria-label="Business of Humour">
-  <div class="stretch-stage__scroll" data-stretch-scroll>
-    <div class="stretch-stage__sticky">
-      <p class="stretch-stage__eyebrow">Jeanette combines an instinct for</p>
-
-      <!--
-        Port of https://github.com/JorisPaarde/animatie-tests (BUSINESS OF HUMOUR — Stretch on Scroll).
-        W=10  SW=3  R=5(outer) r=2(inner, concentric)
-        Curves meet at x=5, no horizontal bars.
-        All strokes uniform 3 units.
-      -->
-      <div class="stretch-stage__words" data-stretch-root>
-        <!-- ==================== BUSINESS ==================== -->
-        <div class="letters-row" aria-hidden="true">
+<section class="stretch-stage bordered-section" data-stretch-stage aria-label="Business of Humour">
+  <div class="stretch-stage__art" data-stretch-art>
+    <!--
+      Letter SVGs + stem-stretch math from https://github.com/JorisPaarde/animatie-tests
+      Homepage layout matches live WP: normal flow, viewport triangle-wave (not 500vh sticky).
+    -->
+    <div class="stretch-stage__stack">
+      <div class="stretch-stage__block stretch-stage__block--business" data-stretch-row="business">
+        <p class="stretch-stage__quote">
+          <span>Jeanette combines an</span>
+          <span class="stretch-stage__quote-emph">INSTINCT FOR</span>
+        </p>
+        <div class="letters-row" data-letters="business" aria-hidden="true">
           <!-- ===== LETTER B ===== -->
           <div class="letter" id="letterB">
             <svg viewBox="0 0 10 8">
@@ -85,18 +89,18 @@ const { lang: _lang = 'nl' } = Astro.props;
           </div>
 
           <!-- ===== LETTER N ===== -->
-          <svg class="letter-dynamic" id="letterN" viewBox="0 0 10 50">
-            <rect id="nL" x="0" y="0" width="3" height="50" fill="#d4a96a"></rect>
-            <rect id="nR" x="7" y="0" width="3" height="50" fill="#d4a96a"></rect>
-            <polygon id="nD" points="0,0 4,0 10,50 6,50" fill="#d4a96a"></polygon>
+          <svg class="letter-dynamic" id="letterN" viewBox="0 0 10 39">
+            <rect id="nL" x="0" y="0" width="3" height="39" fill="#d4a96a"></rect>
+            <rect id="nR" x="7" y="0" width="3" height="39" fill="#d4a96a"></rect>
+            <polygon id="nD" points="0,0 4,0 10,39 6,39" fill="#d4a96a"></polygon>
           </svg>
 
           <!-- ===== LETTER E ===== -->
-          <svg class="letter-dynamic" id="letterE" viewBox="0 0 10 50">
-            <rect id="eV" x="0" y="0" width="3" height="50" fill="#d4a96a"></rect>
+          <svg class="letter-dynamic" id="letterE" viewBox="0 0 10 39">
+            <rect id="eV" x="0" y="0" width="3" height="39" fill="#d4a96a"></rect>
             <rect x="0" y="0" width="10" height="3" fill="#d4a96a"></rect>
-            <rect id="eM" x="0" y="23.5" width="7" height="3" fill="#d4a96a"></rect>
-            <rect id="eB" x="0" y="47" width="10" height="3" fill="#d4a96a"></rect>
+            <rect id="eM" x="0" y="17.16" width="7" height="3" fill="#d4a96a"></rect>
+            <rect id="eB" x="0" y="36" width="10" height="3" fill="#d4a96a"></rect>
           </svg>
 
           <!-- ===== LETTER S2 ===== -->
@@ -129,12 +133,15 @@ const { lang: _lang = 'nl' } = Astro.props;
             </svg>
           </div>
         </div>
-        <span class="visually-hidden">Business</span>
+        <span class="sr-only">Business</span>
+      </div>
 
-        <p class="stretch-stage__eyebrow stretch-stage__eyebrow--mid">With a sense of</p>
-
-        <!-- ==================== HUMOUR ==================== -->
-        <div class="letters-row" aria-hidden="true">
+      <div class="stretch-stage__block stretch-stage__block--humour" data-stretch-row="humour">
+        <p class="stretch-stage__quote">
+          <span>With a</span>
+          <span class="stretch-stage__quote-emph">SENSE OF</span>
+        </p>
+        <div class="letters-row" data-letters="humour" aria-hidden="true">
           <!-- ===== LETTER H ===== -->
           <div class="letter" id="letterH">
             <div class="stretch" id="hStrU">
@@ -201,23 +208,27 @@ const { lang: _lang = 'nl' } = Astro.props;
           </div>
 
           <!-- ===== LETTER R (dynamic SVG) ===== -->
-          <svg class="letter-dynamic" id="letterR" viewBox="0 0 10 50">
-            <rect id="rStem" x="0" y="0" width="3" height="50" fill="#d4a96a"></rect>
+          <svg class="letter-dynamic" id="letterR" viewBox="0 0 10 39">
+            <rect id="rStem" x="0" y="0" width="3" height="39" fill="#d4a96a"></rect>
             <path d="M3,0 L5,0 Q10,0 10,8 Q10,16 5,16 L3,16 L3,13 L5,13 Q7,13 7,8 Q7,3 5,3 L3,3 Z" fill="#d4a96a"></path>
-            <polygon id="rLeg" points="3,13 6,13 10,50 7,50" fill="#d4a96a"></polygon>
+            <polygon id="rLeg" points="3,13 6,13 10,39 7,39" fill="#d4a96a"></polygon>
           </svg>
         </div>
-        <span class="visually-hidden">Humour</span>
+        <span class="sr-only">Humour</span>
       </div>
 
-      <p class="stretch-stage__credit">Stefan Dzodan<br />Artist</p>
+      <p class="stretch-stage__credit">Stefan Dzodan / Artist</p>
+    </div>
 
-      <!-- Present in markup like the demo / WP shortcode; hidden via CSS -->
-      <div class="stretch-stage__info" aria-hidden="true">
-        <span class="stretch-stage__val" id="val">1.0×</span>
-        scroll to stretch
-      </div>
-      <div class="stretch-stage__guide" aria-hidden="true">↕ scroll</div>
+    <!-- Present like the WP shortcode; hidden via CSS -->
+    <div class="stretch-stage__info" aria-hidden="true">
+      <span class="stretch-stage__val" id="val">1.0×</span>
+    </div>
+  </div>
+
+  <div class="stretch-stage__copy editorial-panel editorial-panel--white">
+    <div class="editorial-copy" data-reveal>
+      <p>{clientCopy}</p>
     </div>
   </div>
 </section>
@@ -230,10 +241,12 @@ const { lang: _lang = 'nl' } = Astro.props;
     existing?.stop?.();
 
     const stage = document.querySelector<HTMLElement>('[data-stretch-stage]');
-    const scrollArea = document.querySelector<HTMLElement>('[data-stretch-scroll]');
-    if (!stage || !scrollArea) return;
+    const art = document.querySelector<HTMLElement>('[data-stretch-art]');
+    const businessRow = document.querySelector<HTMLElement>('[data-stretch-row="business"]');
+    const humourRow = document.querySelector<HTMLElement>('[data-stretch-row="humour"]');
+    if (!stage || !art || !businessRow || !humourRow) return;
 
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     // ===== BUSINESS refs =====
     const su = document.getElementById('su');
@@ -290,12 +303,7 @@ const { lang: _lang = 'nl' } = Astro.props;
 
     const VB_W = 10;
     const SW = 3;
-    const LETTER_W = Math.min(20, window.innerWidth * 0.047);
-    const PX = LETTER_W / VB_W;
     const MAX_STRETCH = 5.2;
-
-    const SU_BASE = 6.16 * PX;
-    const SL_BASE = 7.84 * PX;
     const B_FIXED = 8 + 9 + 8; // 25
     const B_STRETCH = 6.16 + 7.84; // 14
     const U_FIXED = 5;
@@ -303,97 +311,66 @@ const { lang: _lang = 'nl' } = Astro.props;
     const O_FIXED = 5 + 5; // 10
     const R_FIXED = 16;
 
-    // ===== BUSINESS init =====
-    letterB!.style.width = LETTER_W + 'px';
-    su!.style.height = SU_BASE + 'px';
-    sl!.style.height = SL_BASE + 'px';
+    let LETTER_W = 20;
+    let PX = 2;
+    let SU_BASE = 6.16 * PX;
+    let SL_BASE = 7.84 * PX;
 
-    letterU!.style.width = LETTER_W + 'px';
-    uStr!.style.height = ((B_FIXED + B_STRETCH - U_FIXED) * PX) + 'px';
+    const applySizes = () => {
+      // Giant letters for the left panel (WP homepage), not the tiny standalone demo cap.
+      LETTER_W = Math.min(52, Math.max(18, art.clientWidth * 0.092));
+      PX = LETTER_W / VB_W;
+      SU_BASE = 6.16 * PX;
+      SL_BASE = 7.84 * PX;
 
-    letterS!.style.width = LETTER_W + 'px';
-    sSu!.style.height = SU_BASE + 'px';
-    sSl!.style.height = SL_BASE + 'px';
+      letterB!.style.width = LETTER_W + 'px';
+      letterU!.style.width = LETTER_W + 'px';
+      letterS!.style.width = LETTER_W + 'px';
+      letterI!.style.width = (SW * PX) + 'px';
+      letterS2!.style.width = LETTER_W + 'px';
+      letterS3!.style.width = LETTER_W + 'px';
+      nSvg!.style.width = LETTER_W + 'px';
+      eSvg!.style.width = LETTER_W + 'px';
+      letterH!.style.width = LETTER_W + 'px';
+      letterU2!.style.width = LETTER_W + 'px';
+      letterM!.style.width = LETTER_W + 'px';
+      letterO!.style.width = LETTER_W + 'px';
+      letterU3!.style.width = LETTER_W + 'px';
+      rSvg!.style.width = LETTER_W + 'px';
+    };
 
-    letterI!.style.width = (SW * PX) + 'px';
-    iSu!.style.height = SU_BASE + 'px';
-    iSl!.style.height = SL_BASE + 'px';
-
-    letterS2!.style.width = LETTER_W + 'px';
-    s2Su!.style.height = SU_BASE + 'px';
-    s2Sl!.style.height = SL_BASE + 'px';
-
-    letterS3!.style.width = LETTER_W + 'px';
-    s3Su!.style.height = SU_BASE + 'px';
-    s3Sl!.style.height = SL_BASE + 'px';
-
-    nSvg!.style.width = LETTER_W + 'px';
-    nSvg!.style.height = ((B_FIXED + B_STRETCH) * PX) + 'px';
-
-    eSvg!.style.width = LETTER_W + 'px';
-    eSvg!.style.height = ((B_FIXED + B_STRETCH) * PX) + 'px';
-
-    // ===== HUMOUR init =====
-    letterH!.style.width = LETTER_W + 'px';
-    hStrU!.style.height = ((11 + 6.16) * PX) + 'px';
-    hStrL!.style.height = ((11 + 7.84) * PX) + 'px';
-
-    letterU2!.style.width = LETTER_W + 'px';
-    u2Str!.style.height = ((B_FIXED + B_STRETCH - U_FIXED) * PX) + 'px';
-
-    letterM!.style.width = LETTER_W + 'px';
-    mStr!.style.height = ((B_FIXED + B_STRETCH - M_FIXED) * PX) + 'px';
-
-    letterO!.style.width = LETTER_W + 'px';
-    oStr!.style.height = ((B_FIXED + B_STRETCH - O_FIXED) * PX) + 'px';
-
-    letterU3!.style.width = LETTER_W + 'px';
-    u3Str!.style.height = ((B_FIXED + B_STRETCH - U_FIXED) * PX) + 'px';
-
-    rSvg!.style.width = LETTER_W + 'px';
-    rSvg!.style.height = ((B_FIXED + B_STRETCH) * PX) + 'px';
+    applySizes();
 
     const ease = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
 
-    let currentP = 0;
-    const LERP_SPEED = 0.035;
+    /** Viewport triangle-wave: 1 when row centre ≈ viewport centre, 0 when far. */
+    const triangle = (el: HTMLElement) => {
+      const rect = el.getBoundingClientRect();
+      const center = rect.top + rect.height / 2;
+      const viewCenter = window.innerHeight / 2;
+      const dist = Math.abs(center - viewCenter);
+      const range = window.innerHeight * 0.58;
+      return Math.max(0, Math.min(1, 1 - dist / range));
+    };
+
+    const stretchFromTriangle = (t: number) => 1 + ease(t) * (MAX_STRETCH - 1);
+
+    let businessP = 0;
+    let humourP = 0;
+    const LERP_SPEED = 0.08;
     let raf = 0;
     let running = true;
 
-    const sectionProgress = () => {
-      const total = scrollArea.offsetHeight - window.innerHeight;
-      if (total <= 0) return 0;
-      const scrolled = -scrollArea.getBoundingClientRect().top;
-      return Math.max(0, Math.min(1, scrolled / total));
-    };
-
-    const update = () => {
-      const targetP = sectionProgress();
-      currentP += (targetP - currentP) * LERP_SPEED;
-      if (Math.abs(targetP - currentP) < 0.0005) currentP = targetP;
-
-      let f: number;
-      if (currentP <= 0.5) {
-        f = 1 + ease(currentP * 2) * (MAX_STRETCH - 1);
-      } else {
-        f = 1 + (1 - ease((currentP - 0.5) * 2)) * (MAX_STRETCH - 1);
-      }
-
-      // ===== BUSINESS animate =====
+    const paintBusiness = (f: number) => {
       su!.style.height = (SU_BASE * f) + 'px';
       sl!.style.height = (SL_BASE * f) + 'px';
-
       uStr!.style.height = ((B_FIXED + B_STRETCH * f - U_FIXED) * PX) + 'px';
-
       sSu!.style.height = (SU_BASE * f) + 'px';
       sSl!.style.height = (SL_BASE * f) + 'px';
-
       iSu!.style.height = (SU_BASE * f) + 'px';
       iSl!.style.height = (SL_BASE * f) + 'px';
-
       s2Su!.style.height = (SU_BASE * f) + 'px';
       s2Sl!.style.height = (SL_BASE * f) + 'px';
-
       s3Su!.style.height = (SU_BASE * f) + 'px';
       s3Sl!.style.height = (SL_BASE * f) + 'px';
 
@@ -418,17 +395,14 @@ const { lang: _lang = 'nl' } = Astro.props;
       eV!.setAttribute('height', String(eH));
       eM!.setAttribute('y', String(8 + 6.16 * f + 3));
       eB!.setAttribute('y', String(eH - SW));
+    };
 
-      // ===== HUMOUR animate =====
+    const paintHumour = (f: number) => {
       hStrU!.style.height = ((11 + 6.16 * f) * PX) + 'px';
       hStrL!.style.height = ((11 + 7.84 * f) * PX) + 'px';
-
       u2Str!.style.height = ((B_FIXED + B_STRETCH * f - U_FIXED) * PX) + 'px';
-
       mStr!.style.height = ((B_FIXED + B_STRETCH * f - M_FIXED) * PX) + 'px';
-
       oStr!.style.height = ((B_FIXED + B_STRETCH * f - O_FIXED) * PX) + 'px';
-
       u3Str!.style.height = ((B_FIXED + B_STRETCH * f - U_FIXED) * PX) + 'px';
 
       const rH = B_FIXED + B_STRETCH * f;
@@ -440,8 +414,36 @@ const { lang: _lang = 'nl' } = Astro.props;
         'points',
         `3,${rLegStart} 6,${rLegStart} ${VB_W},${rH} ${VB_W - SW},${rH}`,
       );
+    };
 
-      if (val) val.textContent = f.toFixed(1) + '×';
+    // Rest pose
+    paintBusiness(1);
+    paintHumour(1);
+
+    if (reduceMotion) {
+      (window as any).__synkStretchController = { stop: () => undefined } satisfies StretchController;
+      return;
+    }
+
+    const update = () => {
+      const targetB = triangle(businessRow);
+      const targetH = triangle(humourRow);
+      businessP += (targetB - businessP) * LERP_SPEED;
+      humourP += (targetH - humourP) * LERP_SPEED;
+      if (Math.abs(targetB - businessP) < 0.0005) businessP = targetB;
+      if (Math.abs(targetH - humourP) < 0.0005) humourP = targetH;
+
+      const fB = stretchFromTriangle(businessP);
+      const fH = stretchFromTriangle(humourP);
+      paintBusiness(fB);
+      paintHumour(fH);
+
+      // Subtle relative drift (Elementor scroll-effects analogue, cheaper magnitude)
+      const drift = (businessP + humourP) / 2;
+      businessRow.style.transform = `translateY(${(0.5 - drift) * 28}px)`;
+      humourRow.style.transform = `translateY(${(drift - 0.5) * 18}px)`;
+
+      if (val) val.textContent = Math.max(fB, fH).toFixed(1) + '×';
     };
 
     const loop = () => {
@@ -451,10 +453,18 @@ const { lang: _lang = 'nl' } = Astro.props;
     };
     loop();
 
+    const onResize = () => {
+      applySizes();
+      paintBusiness(stretchFromTriangle(businessP));
+      paintHumour(stretchFromTriangle(humourP));
+    };
+    window.addEventListener('resize', onResize);
+
     (window as any).__synkStretchController = {
       stop: () => {
         running = false;
         cancelAnimationFrame(raf);
+        window.removeEventListener('resize', onResize);
       },
     } satisfies StretchController;
   };
