@@ -14,21 +14,26 @@ const clientCopy = isEnglish
 <section class="stretch-stage bordered-section" data-stretch-stage aria-label="Business of Humour">
   <div class="stretch-stage__art" data-stretch-art>
     <!--
-      WP desk: INSTINCT @12, SENSE OF @52 (+40 inset, one line), ~10px under
-      INSTINCT FOR, credit +20px. Quote column = INSTINCT FOR width; ~5px to
-      BUSINESS (Jeanette / SENSE OF may tuck into gold). HUMOUR +20px left,
-      vertical letter gap 4px. Plugin MAX_STRETCH 5.2 anti-correlated. No
-      negative quote margins. No GSAP.
+      WP desk: Jeanette + INSTINCT FOR share RIGHT edge (~5–7px left of gold
+      BUSINESS). Jeanette is longer so starts further left — does not hit gold.
+      "With a SENSE OF" is one line, ~10px under INSTINCT, starts slightly left
+      of INSTINCT (not +40 inset); SENSE OF may tuck into gold. Credit +20px.
+      HUMOUR +20px left, vertical letter gap 4px. Plugin MAX_STRETCH 5.2
+      anti-correlated. No negative quote margins. No GSAP.
     -->
     <div class="stretch-stage__scene">
       <aside class="stretch-stage__quotes">
-        <p class="stretch-stage__quote stretch-stage__quote--instinct">
-          <span>Jeanette combines an</span>
-          <span class="stretch-stage__quote-emph">INSTINCT FOR</span>
-        </p>
-        <p class="stretch-stage__quote stretch-stage__quote--sense">
-          <span>With a <span class="stretch-stage__quote-emph">SENSE OF</span></span>
-        </p>
+        <div class="stretch-stage__quote-stack">
+          <p class="stretch-stage__quote stretch-stage__quote--jeanette">Jeanette combines an</p>
+          <div class="stretch-stage__quote-anchor">
+            <p class="stretch-stage__quote stretch-stage__quote--instinct">
+              <span class="stretch-stage__quote-emph">INSTINCT FOR</span>
+            </p>
+            <p class="stretch-stage__quote stretch-stage__quote--sense">
+              <span>With a <span class="stretch-stage__quote-emph">SENSE OF</span></span>
+            </p>
+          </div>
+        </div>
         <p class="stretch-stage__credit">Stefan Dzodan<br />Artist</p>
       </aside>
 
