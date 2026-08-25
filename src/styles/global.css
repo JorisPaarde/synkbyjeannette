@@ -679,13 +679,15 @@ main {
   min-height: 100%;
   align-items: center;
   justify-content: center;
-  padding: clamp(1.5rem, 3vw, 2.5rem) clamp(0.6rem, 1.5vw, 1.2rem);
+  padding: clamp(1.5rem, 3vw, 2.5rem) 0;
   overflow: visible;
   border-right: var(--page-border);
   background: var(--synk-grey);
 }
 
-/* WP desk grey scene ≈ 610px: text left, gold letters right */
+/* WP desk grey scene ≈ 610px: text left, gold letters right.
+   Use cqi so pad/quote/gap resolve against the scene width, not the
+   padded content box (%, fr would shrink and break the +20px stagger). */
 .stretch-stage__scene {
   --scene-w: 610;
   --biz-pad: 12;
@@ -693,41 +695,42 @@ main {
   --hum-pad: 52;
   --hum-quote-w: 285;
   --quote-gap: 5;
+  container-type: inline-size;
+  container-name: stretch-scene;
   display: flex;
   width: min(100%, 610px);
   flex-direction: column;
-  gap: 4px; /* tops gap ≈ letterH + 4 ≈ 168 at rest when letterH≈164 */
+  gap: calc(4 / var(--scene-w) * 100cqi); /* tops gap ≈ letterH + 4 ≈ 168 at rest */
 }
 
 .stretch-stage__band {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
+  display: grid;
+  align-items: start;
   width: 100%;
+  column-gap: calc(var(--quote-gap) / var(--scene-w) * 100cqi);
 }
 
 .stretch-stage__band--business {
-  padding-left: calc(var(--biz-pad) / var(--scene-w) * 100%);
+  /* 12 + 305 + 5 = 322 → BUSINESS left edge */
+  padding-left: calc(var(--biz-pad) / var(--scene-w) * 100cqi);
+  grid-template-columns: calc(var(--biz-quote-w) / var(--scene-w) * 100cqi) max-content;
 }
 
 .stretch-stage__band--humour {
-  padding-left: calc(var(--hum-pad) / var(--scene-w) * 100%);
+  /* 52 + 285 + 5 = 342 → HUMOUR left = BUSINESS + 20 */
+  padding-left: calc(var(--hum-pad) / var(--scene-w) * 100cqi);
+  grid-template-columns: calc(var(--hum-quote-w) / var(--scene-w) * 100cqi) max-content;
 }
 
 .stretch-stage__quote-block {
-  flex: 0 0 auto;
   text-align: right;
 }
 
 .stretch-stage__quote-block--instinct {
-  width: calc(var(--biz-quote-w) / var(--scene-w) * 100%);
-  margin-right: calc(var(--quote-gap) / var(--scene-w) * 100%);
   transform: translateY(90px); /* Elementor e-transform; fixed, not scroll-linked */
 }
 
 .stretch-stage__quote-block--sense {
-  width: calc(var(--hum-quote-w) / var(--scene-w) * 100%);
-  margin-right: calc(var(--quote-gap) / var(--scene-w) * 100%);
   transform: translateY(-70px); /* fixed opposite shift */
 }
 
@@ -1230,32 +1233,10 @@ main {
     min-height: 0;
   }
 
+  /* Same WP-desk composition at all breakpoints — scale via scene width only */
   .stretch-stage__art {
     min-height: 320px;
-    padding: 16px 8px;
-  }
-
-  .stretch-stage__quote {
-    font-size: clamp(11px, 3.4vw, 18px);
-    line-height: 1;
-  }
-
-  .stretch-stage__credit {
-    font-size: 11px;
-    line-height: 11px;
-  }
-
-  .stretch-stage__quote-block--instinct {
-    transform: translateY(clamp(36px, 12vw, 90px));
-  }
-
-  .stretch-stage__quote-block--sense {
-    transform: translateY(calc(-1 * clamp(28px, 9vw, 70px)));
-  }
-
-  .stretch-stage__copy .editorial-copy {
-    font-size: clamp(13px, 3.4vw, 18px);
-    line-height: 1.5;
+    padding: clamp(1.5rem, 3vw, 2.5rem) 0;
   }
 
   .problem-quote {

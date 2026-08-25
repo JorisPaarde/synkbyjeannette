@@ -321,19 +321,24 @@ const clientCopy = isEnglish
     let SL_BASE = 7.84 * PX;
 
     const applySizes = () => {
-      // WP desk: BUSINESS letter row target width ≈ 202/610 of grey scene
+      // WP desk @610: BUSINESS 202×164, HUMOUR w≈160, letter gap 8
+      // Width and height are decoupled so tall thin stems match WP (not square aspect).
       const scene = art.querySelector('.stretch-stage__scene') || art;
-      const targetW = Math.min(202, scene.clientWidth * (202 / 610));
-      const gap = Math.max(2, targetW * 0.02);
-      LETTER_W = Math.max(12, (targetW - 7 * gap) / 8);
-      PX = LETTER_W / VB_W;
+      const scale = Math.max(0.01, scene.clientWidth / 610);
+      const targetW = 202 * scale;
+      const targetH = 164 * scale;
+      const gap = 8 * scale;
+      // 7 full letters + narrow I (0.3) → 7.3 units; gap×7 between 8 glyphs
+      LETTER_W = Math.max(8, (targetW - 7 * gap) / 7.3);
+      const pxW = LETTER_W / VB_W;
+      PX = targetH / (B_FIXED + B_STRETCH); // rest height ≈164
       SU_BASE = 6.16 * PX;
       SL_BASE = 7.84 * PX;
 
       letterB!.style.width = LETTER_W + 'px';
       letterU!.style.width = LETTER_W + 'px';
       letterS!.style.width = LETTER_W + 'px';
-      letterI!.style.width = (SW * PX) + 'px';
+      letterI!.style.width = SW * pxW + 'px';
       letterS2!.style.width = LETTER_W + 'px';
       letterS3!.style.width = LETTER_W + 'px';
       nSvg!.style.width = LETTER_W + 'px';
@@ -346,6 +351,19 @@ const clientCopy = isEnglish
       rSvg!.style.width = LETTER_W + 'px';
       businessRow.style.gap = gap + 'px';
       humourRow.style.gap = gap + 'px';
+
+      // Static SVG caps use height-driven PX (width already set via letter box)
+      const sizeStatic = (root: HTMLElement) => {
+        root.querySelectorAll('svg').forEach((el) => {
+          if (el.classList.contains('letter-dynamic')) return;
+          if (!el.closest('.letter')) return;
+          const svg = el as SVGSVGElement;
+          const vb = svg.viewBox.baseVal;
+          if (vb && vb.height) svg.style.height = vb.height * PX + 'px';
+        });
+      };
+      sizeStatic(businessRow);
+      sizeStatic(humourRow);
     };
 
     applySizes();
