@@ -14,9 +14,9 @@ const clientCopy = isEnglish
 <section class="stretch-stage bordered-section" data-stretch-stage aria-label="Business of Humour">
   <div class="stretch-stage__art" data-stretch-art>
     <!--
-      WP desk: one static right-aligned quote stack on the left; gold BUSINESS /
-      HUMOUR on the right (HUMOUR +20px). Stem stretch only (~164–189px per word).
-      No quote translateY.
+      WP desk composition: static right-aligned quotes left; gold BUSINESS /
+      HUMOUR right (HUMOUR +20px). Stem stretch = plugin MAX_STRETCH 5.2
+      (rest ~78px @ LETTER_W=20, peak ~196px). No quote translateY. No GSAP.
     -->
     <div class="stretch-stage__scene">
       <aside class="stretch-stage__quotes">
@@ -96,18 +96,18 @@ const clientCopy = isEnglish
           </div>
 
           <!-- ===== LETTER N ===== -->
-          <svg class="letter-dynamic" id="letterN" viewBox="0 0 10 39">
-            <rect id="nL" x="0" y="0" width="3" height="39" fill="#d4a96a"></rect>
-            <rect id="nR" x="7" y="0" width="3" height="39" fill="#d4a96a"></rect>
-            <polygon id="nD" points="0,0 4,0 10,39 6,39" fill="#d4a96a"></polygon>
+          <svg class="letter-dynamic" id="letterN" viewBox="0 0 10 50">
+            <rect id="nL" x="0" y="0" width="3" height="50" fill="#d4a96a"></rect>
+            <rect id="nR" x="7" y="0" width="3" height="50" fill="#d4a96a"></rect>
+            <polygon id="nD" points="0,0 4,0 10,50 6,50" fill="#d4a96a"></polygon>
           </svg>
 
           <!-- ===== LETTER E ===== -->
-          <svg class="letter-dynamic" id="letterE" viewBox="0 0 10 39">
-            <rect id="eV" x="0" y="0" width="3" height="39" fill="#d4a96a"></rect>
+          <svg class="letter-dynamic" id="letterE" viewBox="0 0 10 50">
+            <rect id="eV" x="0" y="0" width="3" height="50" fill="#d4a96a"></rect>
             <rect x="0" y="0" width="10" height="3" fill="#d4a96a"></rect>
-            <rect id="eM" x="0" y="17.16" width="7" height="3" fill="#d4a96a"></rect>
-            <rect id="eB" x="0" y="36" width="10" height="3" fill="#d4a96a"></rect>
+            <rect id="eM" x="0" y="23.5" width="7" height="3" fill="#d4a96a"></rect>
+            <rect id="eB" x="0" y="47" width="10" height="3" fill="#d4a96a"></rect>
           </svg>
 
           <!-- ===== LETTER S2 ===== -->
@@ -209,10 +209,10 @@ const clientCopy = isEnglish
           </div>
 
           <!-- ===== LETTER R (dynamic SVG) ===== -->
-          <svg class="letter-dynamic" id="letterR" viewBox="0 0 10 39">
-            <rect id="rStem" x="0" y="0" width="3" height="39" fill="#d4a96a"></rect>
+          <svg class="letter-dynamic" id="letterR" viewBox="0 0 10 50">
+            <rect id="rStem" x="0" y="0" width="3" height="50" fill="#d4a96a"></rect>
             <path d="M3,0 L5,0 Q10,0 10,8 Q10,16 5,16 L3,16 L3,13 L5,13 Q7,13 7,8 Q7,3 5,3 L3,3 Z" fill="#d4a96a"></path>
-            <polygon id="rLeg" points="3,13 6,13 10,39 7,39" fill="#d4a96a"></polygon>
+            <polygon id="rLeg" points="3,13 6,13 10,50 7,50" fill="#d4a96a"></polygon>
           </svg>
         </div>
         <span class="sr-only">Humour</span>
@@ -290,8 +290,6 @@ const clientCopy = isEnglish
     const rStem = document.getElementById('rStem');
     const rLeg = document.getElementById('rLeg');
 
-    const val = document.getElementById('val');
-
     const refs = [
       su, sl, letterB, letterU, uStr, letterS, sSu, sSl, letterI, iSu, iSl,
       s2Su, s2Sl, letterS2, s3Su, s3Sl, letterS3, nSvg, nL, nR, nD, eSvg, eV, eM, eB,
@@ -300,54 +298,35 @@ const clientCopy = isEnglish
     ];
     if (refs.some((el) => !el)) return;
 
+    // Plugin / animatie-tests letter math (wp-business-humour-stretch letters.js)
     const VB_W = 10;
     const SW = 3;
-    // WP desk: rest ≈164px, peak ≈189px → max factor ≈1.42 (was 5.2 → ~398px hairline overflow)
-    const REST_H = 164;
-    const PEAK_H = 189;
+    const MAX_STRETCH = 5.2;
     const B_FIXED = 8 + 9 + 8; // 25
     const B_STRETCH = 6.16 + 7.84; // 14
     const U_FIXED = 5;
+    const H_FIXED = 3;
     const M_FIXED = 30;
     const O_FIXED = 5 + 5; // 10
     const R_FIXED = 16;
-    const UNITS_REST = B_FIXED + B_STRETCH; // 39
-    const MAX_STRETCH = (PEAK_H / REST_H) * (UNITS_REST / B_STRETCH) - B_FIXED / B_STRETCH;
-    // (189/164)*39/14 - 25/14 ≈ 1.4246
+    const LERP_SPEED = 0.08;
+    const H_HALF = (B_FIXED - H_FIXED) / 2; // 11 — plugin H stem balance
 
     let LETTER_W = 20;
     let PX = 2;
     let SU_BASE = 6.16 * PX;
     let SL_BASE = 7.84 * PX;
-    let maxStretch = MAX_STRETCH;
 
     const applySizes = () => {
-      // WP desk @610: BUSINESS 202×164, HUMOUR w≈160, letter gap 8
-      const scene = art.querySelector('.stretch-stage__scene') || art;
-      const rows = art.querySelector('.stretch-stage__rows') as HTMLElement | null;
-      const scale = Math.max(0.01, scene.clientWidth / 610);
-      const targetW = 202 * scale;
-      const targetH = REST_H * scale;
-      const gap = 8 * scale;
-      // 7 full letters + narrow I (0.3) → 7.3 units; gap×7 between 8 glyphs
-      LETTER_W = Math.max(8, (targetW - 7 * gap) / 7.3);
-      const pxW = LETTER_W / VB_W;
-      PX = targetH / UNITS_REST; // rest height ≈164×scale
+      LETTER_W = Math.min(20, window.innerWidth * 0.047);
+      PX = LETTER_W / VB_W;
       SU_BASE = 6.16 * PX;
       SL_BASE = 7.84 * PX;
-
-      // Clamp peak so both rows + inter-row gap always fit inside the grey art panel
-      const rowGap = rows ? parseFloat(getComputedStyle(rows).gap) || 16 * scale : 16 * scale;
-      const artPad = parseFloat(getComputedStyle(art).paddingTop) + parseFloat(getComputedStyle(art).paddingBottom);
-      const available = Math.max(targetH * 2, art.clientHeight - artPad);
-      const maxPerWord = Math.min(PEAK_H * scale, Math.max(targetH, (available - rowGap) / 2));
-      const unitsPeak = maxPerWord / PX;
-      maxStretch = Math.max(1, Math.min(MAX_STRETCH, (unitsPeak - B_FIXED) / B_STRETCH));
 
       letterB!.style.width = LETTER_W + 'px';
       letterU!.style.width = LETTER_W + 'px';
       letterS!.style.width = LETTER_W + 'px';
-      letterI!.style.width = SW * pxW + 'px';
+      letterI!.style.width = SW * PX + 'px';
       letterS2!.style.width = LETTER_W + 'px';
       letterS3!.style.width = LETTER_W + 'px';
       nSvg!.style.width = LETTER_W + 'px';
@@ -358,60 +337,47 @@ const clientCopy = isEnglish
       letterO!.style.width = LETTER_W + 'px';
       letterU3!.style.width = LETTER_W + 'px';
       rSvg!.style.width = LETTER_W + 'px';
-      businessRow.style.gap = gap + 'px';
-      humourRow.style.gap = gap + 'px';
 
-      const sizeStatic = (root: HTMLElement) => {
-        root.querySelectorAll('svg').forEach((el) => {
-          if (el.classList.contains('letter-dynamic')) return;
-          if (!el.closest('.letter')) return;
-          const svg = el as SVGSVGElement;
-          const vb = svg.viewBox.baseVal;
-          if (vb && vb.height) svg.style.height = vb.height * PX + 'px';
-        });
-      };
-      sizeStatic(businessRow);
-      sizeStatic(humourRow);
+      // Stable .bhs-root height = peak so getBoundingClientRect progress
+      // is not feedback-limited as stems grow (align-items: flex-end).
+      const peakH = (B_FIXED + B_STRETCH * MAX_STRETCH) * PX;
+      businessRow.style.minHeight = peakH + 'px';
+      humourRow.style.minHeight = peakH + 'px';
     };
 
     applySizes();
 
-    const ease = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
-
-    /** Viewport triangle-wave: 1 when row centre ≈ viewport centre, 0 when far. */
-    const triangle = (el: HTMLElement) => {
+    /** Plugin .bhs-root progress: enter→peak→exit triangle, 0..1 */
+    const rowProgress = (el: HTMLElement) => {
       const rect = el.getBoundingClientRect();
-      const center = rect.top + rect.height / 2;
-      const viewCenter = window.innerHeight / 2;
-      const dist = Math.abs(center - viewCenter);
-      const range = window.innerHeight * 0.58;
-      return Math.max(0, Math.min(1, 1 - dist / range));
+      const vh = window.innerHeight;
+      let p = (vh - rect.top) / (vh + rect.height);
+      p = Math.max(0, Math.min(1, p));
+      return p <= 0.5 ? p * 2 : (1 - p) * 2;
     };
-
-    const stretchFromTriangle = (t: number) => 1 + ease(t) * (maxStretch - 1);
 
     let businessP = 0;
     let humourP = 0;
-    const LERP_SPEED = 0.08;
     let raf = 0;
     let running = true;
 
+    // Paint formulas = plugin update() 1:1
     const paintBusiness = (f: number) => {
-      su!.style.height = (SU_BASE * f) + 'px';
-      sl!.style.height = (SL_BASE * f) + 'px';
-      uStr!.style.height = ((B_FIXED + B_STRETCH * f - U_FIXED) * PX) + 'px';
-      sSu!.style.height = (SU_BASE * f) + 'px';
-      sSl!.style.height = (SL_BASE * f) + 'px';
-      iSu!.style.height = (SU_BASE * f) + 'px';
-      iSl!.style.height = (SL_BASE * f) + 'px';
-      s2Su!.style.height = (SU_BASE * f) + 'px';
-      s2Sl!.style.height = (SL_BASE * f) + 'px';
-      s3Su!.style.height = (SU_BASE * f) + 'px';
-      s3Sl!.style.height = (SL_BASE * f) + 'px';
+      su!.style.height = SU_BASE * f + 'px';
+      sl!.style.height = SL_BASE * f + 'px';
+      uStr!.style.height = (B_FIXED + B_STRETCH * f - U_FIXED) * PX + 'px';
+      sSu!.style.height = SU_BASE * f + 'px';
+      sSl!.style.height = SL_BASE * f + 'px';
+      iSu!.style.height = SU_BASE * f + 'px';
+      iSl!.style.height = SL_BASE * f + 'px';
+      s2Su!.style.height = SU_BASE * f + 'px';
+      s2Sl!.style.height = SL_BASE * f + 'px';
+      s3Su!.style.height = SU_BASE * f + 'px';
+      s3Sl!.style.height = SL_BASE * f + 'px';
 
       const nH = B_FIXED + B_STRETCH * f;
       nSvg!.setAttribute('viewBox', `0 0 ${VB_W} ${nH}`);
-      nSvg!.style.height = (nH * PX) + 'px';
+      nSvg!.style.height = nH * PX + 'px';
       nL!.setAttribute('height', String(nH));
       nR!.setAttribute('height', String(nH));
       const diagW = SW / Math.cos(Math.atan2(VB_W - SW * 2, nH));
@@ -426,23 +392,23 @@ const clientCopy = isEnglish
 
       const eH = nH;
       eSvg!.setAttribute('viewBox', `0 0 ${VB_W} ${eH}`);
-      eSvg!.style.height = (eH * PX) + 'px';
+      eSvg!.style.height = eH * PX + 'px';
       eV!.setAttribute('height', String(eH));
       eM!.setAttribute('y', String(8 + 6.16 * f + 3));
       eB!.setAttribute('y', String(eH - SW));
     };
 
     const paintHumour = (f: number) => {
-      hStrU!.style.height = ((11 + 6.16 * f) * PX) + 'px';
-      hStrL!.style.height = ((11 + 7.84 * f) * PX) + 'px';
-      u2Str!.style.height = ((B_FIXED + B_STRETCH * f - U_FIXED) * PX) + 'px';
-      mStr!.style.height = ((B_FIXED + B_STRETCH * f - M_FIXED) * PX) + 'px';
-      oStr!.style.height = ((B_FIXED + B_STRETCH * f - O_FIXED) * PX) + 'px';
-      u3Str!.style.height = ((B_FIXED + B_STRETCH * f - U_FIXED) * PX) + 'px';
+      hStrU!.style.height = (H_HALF + 6.16 * f) * PX + 'px';
+      hStrL!.style.height = (H_HALF + 7.84 * f) * PX + 'px';
+      u2Str!.style.height = (B_FIXED + B_STRETCH * f - U_FIXED) * PX + 'px';
+      mStr!.style.height = (B_FIXED + B_STRETCH * f - M_FIXED) * PX + 'px';
+      oStr!.style.height = (B_FIXED + B_STRETCH * f - O_FIXED) * PX + 'px';
+      u3Str!.style.height = (B_FIXED + B_STRETCH * f - U_FIXED) * PX + 'px';
 
       const rH = B_FIXED + B_STRETCH * f;
       rSvg!.setAttribute('viewBox', `0 0 ${VB_W} ${rH}`);
-      rSvg!.style.height = (rH * PX) + 'px';
+      rSvg!.style.height = rH * PX + 'px';
       rStem!.setAttribute('height', String(rH));
       const rLegStart = R_FIXED - SW;
       rLeg!.setAttribute(
@@ -450,6 +416,8 @@ const clientCopy = isEnglish
         `3,${rLegStart} 6,${rLegStart} ${VB_W},${rH} ${VB_W - SW},${rH}`,
       );
     };
+
+    const stretchFactor = (currentP: number) => 1 + currentP * (MAX_STRETCH - 1);
 
     // Rest pose — letter rows: transform none (stagger is layout margin)
     paintBusiness(1);
@@ -463,22 +431,18 @@ const clientCopy = isEnglish
     }
 
     const update = () => {
-      const targetB = triangle(businessRow);
-      const targetH = triangle(humourRow);
+      const targetB = rowProgress(businessRow);
+      const targetH = rowProgress(humourRow);
       businessP += (targetB - businessP) * LERP_SPEED;
       humourP += (targetH - humourP) * LERP_SPEED;
       if (Math.abs(targetB - businessP) < 0.0005) businessP = targetB;
       if (Math.abs(targetH - humourP) < 0.0005) humourP = targetH;
 
-      const fB = stretchFromTriangle(businessP);
-      const fH = stretchFromTriangle(humourP);
-      paintBusiness(fB);
-      paintHumour(fH);
+      paintBusiness(stretchFactor(businessP));
+      paintHumour(stretchFactor(humourP));
 
       businessRow.style.transform = 'none';
       humourRow.style.transform = 'none';
-
-      if (val) val.textContent = Math.max(fB, fH).toFixed(1) + '×';
     };
 
     const loop = () => {
@@ -490,8 +454,8 @@ const clientCopy = isEnglish
 
     const onResize = () => {
       applySizes();
-      paintBusiness(stretchFromTriangle(businessP));
-      paintHumour(stretchFromTriangle(humourP));
+      paintBusiness(stretchFactor(businessP));
+      paintHumour(stretchFactor(humourP));
     };
     window.addEventListener('resize', onResize);
 

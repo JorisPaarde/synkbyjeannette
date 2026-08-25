@@ -721,7 +721,7 @@ main {
 .stretch-stage {
   position: relative;
   display: grid;
-  min-height: 520px;
+  min-height: 560px; /* tall enough for plugin 5.2× peak (~196px × 2 rows + gap) */
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   overflow: hidden;
 }
@@ -729,11 +729,11 @@ main {
 .stretch-stage__art {
   position: relative;
   display: flex;
-  min-height: 100%;
+  min-height: 560px;
   align-items: center;
   justify-content: center;
   padding: clamp(1.5rem, 3vw, 2.5rem) 0;
-  overflow: hidden; /* gold stems must stay inside grey panel / never hit ticker */
+  overflow: hidden; /* panel is tall enough for 5.2× — never clamp MAX_STRETCH */
   border-right: var(--page-border);
   background: var(--synk-grey);
 }
@@ -1342,9 +1342,10 @@ main {
     font-size: clamp(12px, 2.4vw, 15px);
   }
 
-  /* Same WP-desk composition at all breakpoints — scale via scene width only */
+  /* Same WP-desk composition at all breakpoints — scale via scene width only.
+     Panel must stay tall enough for plugin 5.2× (never clamp MAX_STRETCH). */
   .stretch-stage__art {
-    min-height: 320px;
+    min-height: 420px;
     padding: clamp(1.5rem, 3vw, 2.5rem) 0;
   }
 
