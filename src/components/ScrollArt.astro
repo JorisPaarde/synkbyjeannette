@@ -14,18 +14,22 @@ const clientCopy = isEnglish
 <section class="stretch-stage bordered-section" data-stretch-stage aria-label="Business of Humour">
   <div class="stretch-stage__art" data-stretch-art>
     <!--
-      Geometry from live WP desktop (~1280): grey scene 610px.
-      BUSINESS letters x≈322 w≈202; HUMOUR x≈342 (+20px), transform:none on letter rows.
-      Quotes overlaid left with fixed translateY(+90 / -70). Stem-stretch only animates height.
+      WP desk: one static right-aligned quote stack on the left; gold BUSINESS /
+      HUMOUR on the right (HUMOUR +20px). Stem stretch only (~164–189px per word).
+      No quote translateY.
     -->
     <div class="stretch-stage__scene">
-      <div class="stretch-stage__band stretch-stage__band--business">
-        <div class="stretch-stage__quote-block stretch-stage__quote-block--instinct">
-          <p class="stretch-stage__quote">
-            <span>Jeanette combines an</span>
-            <span class="stretch-stage__quote-emph">INSTINCT FOR</span>
-          </p>
-        </div>
+      <aside class="stretch-stage__quotes">
+        <p class="stretch-stage__quote">
+          <span>Jeanette combines an</span>
+          <span class="stretch-stage__quote-emph">INSTINCT FOR</span>
+          <span>With a</span>
+          <span class="stretch-stage__quote-emph">SENSE OF</span>
+        </p>
+        <p class="stretch-stage__credit">Stefan Dzodan<br />Artist</p>
+      </aside>
+
+      <div class="stretch-stage__rows">
         <div class="letters-row letters-row--business" data-stretch-row="business" data-letters="business" aria-hidden="true">
           <!-- ===== LETTER B ===== -->
           <div class="letter" id="letterB">
@@ -137,16 +141,7 @@ const clientCopy = isEnglish
           </div>
         </div>
         <span class="sr-only">Business</span>
-      </div>
 
-      <div class="stretch-stage__band stretch-stage__band--humour">
-        <div class="stretch-stage__quote-block stretch-stage__quote-block--sense">
-          <p class="stretch-stage__quote">
-            <span>With a</span>
-            <span class="stretch-stage__quote-emph">SENSE OF</span>
-          </p>
-          <p class="stretch-stage__credit">Stefan Dzodan<br />Artist</p>
-        </div>
         <div class="letters-row letters-row--humour" data-stretch-row="humour" data-letters="humour" aria-hidden="true">
           <!-- ===== LETTER H ===== -->
           <div class="letter" id="letterH">
@@ -307,33 +302,47 @@ const clientCopy = isEnglish
 
     const VB_W = 10;
     const SW = 3;
-    const MAX_STRETCH = 5.2;
+    // WP desk: rest ≈164px, peak ≈189px → max factor ≈1.42 (was 5.2 → ~398px hairline overflow)
+    const REST_H = 164;
+    const PEAK_H = 189;
     const B_FIXED = 8 + 9 + 8; // 25
     const B_STRETCH = 6.16 + 7.84; // 14
     const U_FIXED = 5;
     const M_FIXED = 30;
     const O_FIXED = 5 + 5; // 10
     const R_FIXED = 16;
+    const UNITS_REST = B_FIXED + B_STRETCH; // 39
+    const MAX_STRETCH = (PEAK_H / REST_H) * (UNITS_REST / B_STRETCH) - B_FIXED / B_STRETCH;
+    // (189/164)*39/14 - 25/14 ≈ 1.4246
 
     let LETTER_W = 20;
     let PX = 2;
     let SU_BASE = 6.16 * PX;
     let SL_BASE = 7.84 * PX;
+    let maxStretch = MAX_STRETCH;
 
     const applySizes = () => {
       // WP desk @610: BUSINESS 202×164, HUMOUR w≈160, letter gap 8
-      // Width and height are decoupled so tall thin stems match WP (not square aspect).
       const scene = art.querySelector('.stretch-stage__scene') || art;
+      const rows = art.querySelector('.stretch-stage__rows') as HTMLElement | null;
       const scale = Math.max(0.01, scene.clientWidth / 610);
       const targetW = 202 * scale;
-      const targetH = 164 * scale;
+      const targetH = REST_H * scale;
       const gap = 8 * scale;
       // 7 full letters + narrow I (0.3) → 7.3 units; gap×7 between 8 glyphs
       LETTER_W = Math.max(8, (targetW - 7 * gap) / 7.3);
       const pxW = LETTER_W / VB_W;
-      PX = targetH / (B_FIXED + B_STRETCH); // rest height ≈164
+      PX = targetH / UNITS_REST; // rest height ≈164×scale
       SU_BASE = 6.16 * PX;
       SL_BASE = 7.84 * PX;
+
+      // Clamp peak so both rows + inter-row gap always fit inside the grey art panel
+      const rowGap = rows ? parseFloat(getComputedStyle(rows).gap) || 16 * scale : 16 * scale;
+      const artPad = parseFloat(getComputedStyle(art).paddingTop) + parseFloat(getComputedStyle(art).paddingBottom);
+      const available = Math.max(targetH * 2, art.clientHeight - artPad);
+      const maxPerWord = Math.min(PEAK_H * scale, Math.max(targetH, (available - rowGap) / 2));
+      const unitsPeak = maxPerWord / PX;
+      maxStretch = Math.max(1, Math.min(MAX_STRETCH, (unitsPeak - B_FIXED) / B_STRETCH));
 
       letterB!.style.width = LETTER_W + 'px';
       letterU!.style.width = LETTER_W + 'px';
@@ -352,7 +361,6 @@ const clientCopy = isEnglish
       businessRow.style.gap = gap + 'px';
       humourRow.style.gap = gap + 'px';
 
-      // Static SVG caps use height-driven PX (width already set via letter box)
       const sizeStatic = (root: HTMLElement) => {
         root.querySelectorAll('svg').forEach((el) => {
           if (el.classList.contains('letter-dynamic')) return;
@@ -380,7 +388,7 @@ const clientCopy = isEnglish
       return Math.max(0, Math.min(1, 1 - dist / range));
     };
 
-    const stretchFromTriangle = (t: number) => 1 + ease(t) * (MAX_STRETCH - 1);
+    const stretchFromTriangle = (t: number) => 1 + ease(t) * (maxStretch - 1);
 
     let businessP = 0;
     let humourP = 0;
@@ -467,7 +475,6 @@ const clientCopy = isEnglish
       paintBusiness(fB);
       paintHumour(fH);
 
-      // dx stays +20px via CSS margin; only stem heights change
       businessRow.style.transform = 'none';
       humourRow.style.transform = 'none';
 

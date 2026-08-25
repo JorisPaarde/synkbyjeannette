@@ -443,6 +443,58 @@ main {
   text-wrap: balance;
 }
 
+/* WP desk “Kunstenaars zijn dromers” — right-aligned, credit tucked left of last two lines */
+.editorial-quote--dromers {
+  display: flex;
+  width: auto;
+  max-width: 100%;
+  flex-direction: column;
+  align-items: flex-end;
+  font-size: 57.6px;
+  font-weight: 900;
+  letter-spacing: -0.045em;
+  line-height: 1;
+  text-align: right;
+  text-wrap: unset;
+}
+
+.editorial-quote--dromers > span {
+  display: block;
+}
+
+.editorial-quote--dromers__tail {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+  gap: 0.55em;
+  margin-top: 0;
+}
+
+.editorial-quote--dromers__lines {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.editorial-quote--dromers__lines > span {
+  display: block;
+}
+
+.artist-quote .editorial-quote--dromers cite {
+  display: block;
+  flex: 0 0 auto;
+  margin: 0.15em 0 0;
+  color: #6b7177;
+  font-family: 'Futura Medium', Futura, sans-serif;
+  font-size: 15px;
+  font-weight: 400;
+  font-style: italic;
+  letter-spacing: 0;
+  line-height: 1.15;
+  text-align: right;
+  white-space: nowrap;
+}
+
 [data-reveal] {
   opacity: 0;
   transform: translateY(40px);
@@ -679,58 +731,30 @@ main {
   align-items: center;
   justify-content: center;
   padding: clamp(1.5rem, 3vw, 2.5rem) 0;
-  overflow: visible;
+  overflow: hidden; /* gold stems must stay inside grey panel / never hit ticker */
   border-right: var(--page-border);
   background: var(--synk-grey);
 }
 
-/* WP desk grey scene ≈ 610px: text left, gold letters right.
-   Use cqi so pad/quote/gap resolve against the scene width, not the
-   padded content box (%, fr would shrink and break the +20px stagger). */
+/* WP desk grey scene ≈ 610px: one static quote stack left, gold letters right.
+   HUMOUR is +20px via row margin. No quote translateY. */
 .stretch-stage__scene {
   --scene-w: 610;
-  --biz-pad: 12;
-  --biz-quote-w: 305;
-  --hum-pad: 52;
-  --hum-quote-w: 285;
+  --quote-w: 305;
   --quote-gap: 5;
   container-type: inline-size;
   container-name: stretch-scene;
-  display: flex;
-  width: min(100%, 610px);
-  flex-direction: column;
-  gap: calc(4 / var(--scene-w) * 100cqi); /* tops gap ≈ letterH + 4 ≈ 168 at rest */
-}
-
-.stretch-stage__band {
   display: grid;
-  align-items: start;
-  width: 100%;
+  width: min(100%, 610px);
+  align-items: center;
   column-gap: calc(var(--quote-gap) / var(--scene-w) * 100cqi);
+  grid-template-columns: calc(var(--quote-w) / var(--scene-w) * 100cqi) max-content;
+  padding-left: calc(12 / var(--scene-w) * 100cqi);
 }
 
-.stretch-stage__band--business {
-  /* 12 + 305 + 5 = 322 → BUSINESS left edge */
-  padding-left: calc(var(--biz-pad) / var(--scene-w) * 100cqi);
-  grid-template-columns: calc(var(--biz-quote-w) / var(--scene-w) * 100cqi) max-content;
-}
-
-.stretch-stage__band--humour {
-  /* 52 + 285 + 5 = 342 → HUMOUR left = BUSINESS + 20 */
-  padding-left: calc(var(--hum-pad) / var(--scene-w) * 100cqi);
-  grid-template-columns: calc(var(--hum-quote-w) / var(--scene-w) * 100cqi) max-content;
-}
-
-.stretch-stage__quote-block {
+.stretch-stage__quotes {
   text-align: right;
-}
-
-.stretch-stage__quote-block--instinct {
-  transform: translateY(90px); /* Elementor e-transform; fixed, not scroll-linked */
-}
-
-.stretch-stage__quote-block--sense {
-  transform: translateY(-70px); /* fixed opposite shift */
+  transform: none; /* static — never translateY */
 }
 
 .stretch-stage__quote {
@@ -753,6 +777,12 @@ main {
   text-transform: uppercase;
 }
 
+.stretch-stage__rows {
+  display: flex;
+  flex-direction: column;
+  gap: calc(20 / var(--scene-w) * 100cqi); /* clear vertical gap between BUSINESS / HUMOUR */
+}
+
 .stretch-stage .letters-row {
   display: flex;
   flex: 0 0 auto;
@@ -761,9 +791,9 @@ main {
   transform: none; /* stagger is layout (+20px), not transform */
 }
 
-/* HUMOUR left = BUSINESS left + 20px via pad/quote widths (52+285+5 vs 12+305+5) */
+/* HUMOUR left = BUSINESS left + 20px */
 .stretch-stage .letters-row--humour {
-  margin-left: 0;
+  margin-left: calc(20 / var(--scene-w) * 100cqi);
 }
 
 .stretch-stage .letter {
@@ -1294,6 +1324,14 @@ main {
 
   .stretch-stage {
     min-height: 0;
+  }
+
+  .editorial-quote--dromers {
+    font-size: clamp(1.65rem, 5.2vw, 57.6px);
+  }
+
+  .artist-quote .editorial-quote--dromers cite {
+    font-size: clamp(12px, 2.4vw, 15px);
   }
 
   /* Same WP-desk composition at all breakpoints — scale via scene width only */
