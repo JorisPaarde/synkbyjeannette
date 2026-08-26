@@ -22,7 +22,7 @@ const clientCopy = isEnglish
       left. HUMOUR +20px left, letter gap 4px. Plugin MAX_STRETCH 5.2
       anti-correlated. No negative margins. No GSAP.
     -->
-    <div class="stretch-stage__scene">
+    <div class="stretch-stage__scene" data-stretch-scene>
       <aside class="stretch-stage__quotes">
         <div class="stretch-stage__quote-stack">
           <p class="stretch-stage__quote stretch-stage__quote--jeanette">Jeanette combines an</p>
@@ -250,9 +250,10 @@ const clientCopy = isEnglish
 
     const stage = document.querySelector<HTMLElement>('[data-stretch-stage]');
     const art = document.querySelector<HTMLElement>('[data-stretch-art]');
+    const scene = document.querySelector<HTMLElement>('[data-stretch-scene]');
     const businessRow = document.querySelector<HTMLElement>('[data-stretch-row="business"]');
     const humourRow = document.querySelector<HTMLElement>('[data-stretch-row="humour"]');
-    if (!stage || !art || !businessRow || !humourRow) return;
+    if (!stage || !art || !scene || !businessRow || !humourRow) return;
 
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -326,8 +327,10 @@ const clientCopy = isEnglish
     let SU_BASE = 6.16 * PX;
     let SL_BASE = 7.84 * PX;
 
+    /** Desktop letter width (WP). Narrow viewports fit via --scene-scale so
+     *  quote + gold shrink together instead of overflowing the grey panel. */
     const applySizes = () => {
-      LETTER_W = Math.min(20, window.innerWidth * 0.047);
+      LETTER_W = 20;
       PX = LETTER_W / VB_W;
       SU_BASE = 6.16 * PX;
       SL_BASE = 7.84 * PX;
@@ -354,7 +357,23 @@ const clientCopy = isEnglish
       humourRow.style.minHeight = '';
     };
 
+    /** Scale quote+gold scene uniformly to fit the grey art panel width.
+     *  Desktop (≥ scene width) → scale 1. No translateY — quotes stay static. */
+    const fitSceneToArt = () => {
+      scene.style.setProperty('--scene-scale', '1');
+      // Measure unscaled layout width (transform does not affect scrollWidth).
+      const natural = scene.scrollWidth;
+      const available = art.clientWidth;
+      if (natural <= 0 || available <= 0) return;
+      const inset = 8; /* keep gold off the panel edge */
+      if (natural > available - inset) {
+        const scale = Math.max(0.55, (available - inset) / natural);
+        scene.style.setProperty('--scene-scale', String(scale));
+      }
+    };
+
     applySizes();
+    fitSceneToArt();
 
     const valEl = document.getElementById('val');
 
@@ -447,6 +466,13 @@ const clientCopy = isEnglish
     // Initial pose from shared P (anti-correlated); transform none (stagger is layout margin)
     paintBoth(currentP);
 
+    // Refit after webfonts settle — Futura width drives scene scrollWidth.
+    if (document.fonts?.ready) {
+      document.fonts.ready.then(() => {
+        fitSceneToArt();
+      });
+    }
+
     if (reduceMotion) {
       // Prefer a readable mid pose under reduced motion: both at rest height
       paintBusiness(1);
@@ -472,6 +498,7 @@ const clientCopy = isEnglish
 
     const onResize = () => {
       applySizes();
+      fitSceneToArt();
       paintBoth(currentP);
     };
     window.addEventListener('resize', onResize);
