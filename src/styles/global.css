@@ -12,6 +12,13 @@
   font-weight: 900;
 }
 
+/* WP Elementor custom font: family "Led Dot" → LED-Dot-Matrix.ttf */
+@font-face {
+  font-family: 'Led Dot';
+  src: url('/assets/fonts/led-dot-matrix.ttf') format('truetype');
+  font-display: swap;
+}
+
 :root {
   --synk-tan: #dcb68b;
   --synk-grey: #efeff0;
@@ -955,6 +962,7 @@ main {
   display: none;
 }
 
+/* WP: .elementor-element-97976e6 bg #DCB68B + .synk-ticker "Led Dot" white */
 .service-ticker {
   display: flex;
   height: 58px;
@@ -962,7 +970,7 @@ main {
   overflow: hidden;
   border-right: var(--page-border);
   border-left: var(--page-border);
-  background: var(--synk-black);
+  background: var(--synk-tan);
 }
 
 .service-ticker__track {
@@ -974,12 +982,14 @@ main {
 
 .service-ticker__group {
   flex: 0 0 auto;
-  margin-right: 28px;
+  margin-right: 24px;
   color: var(--synk-white);
-  font-family: 'Futura Medium', Futura, sans-serif;
+  font-family: 'Led Dot', monospace;
   font-size: 28.8px;
+  font-weight: 400;
   line-height: 1;
   white-space: nowrap;
+  text-transform: uppercase;
 }
 
 @keyframes service-ticker {
