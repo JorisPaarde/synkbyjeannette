@@ -744,22 +744,22 @@ main {
    further left). "With a SENSE OF" starts at INSTINCT left; may tuck into gold.
    Black lines must not overlap each other. Vertical letter row gap 4px;
    HUMOUR +20px horizontal only. Scene hugs content (max-content).
-   --scene-scale fits the grey panel on narrow viewports (JS); desktop stays 1.
+   No transform:scale / --scene-scale — that left an unscaled overflow box
+   flex-centering could shift (1.3.13 regression). transform: none.
    No container-type:inline-size — that size-contains and collapses max-content. */
 .stretch-stage__scene {
   --quote-gap: 7px;
   --row-gap: 4px; /* vertical only — decoupled from HUMOUR +20px offset */
   --humour-offset: 20px; /* horizontal only */
-  --scene-scale: 1;
   display: grid;
   width: max-content;
-  max-width: none; /* natural width; JS scale fits the art panel */
+  max-width: none; /* natural composition width; phone shrinks quote font instead */
   align-items: center; /* quotes vertically static vs anti-correlated rows */
   column-gap: var(--quote-gap); /* ~7px desk — Jeanette/INSTINCT right → gold left */
   grid-template-columns: max-content max-content;
   padding-left: 12px;
-  transform: scale(var(--scene-scale)); /* uniform fit — not translateY */
-  transform-origin: center center;
+  transform: none; /* never scale(scene) — layout size must match visual size */
+  transform-origin: left center;
 }
 
 .stretch-stage__quotes {
@@ -1404,18 +1404,25 @@ main {
     font-size: clamp(12px, 2.4vw, 15px);
   }
 
-  /* Phone: same composition as desk, but clearer quote↔gold gutter so
-     Jeanette / INSTINCT / SENSE stay readable. JS --scene-scale fits the
-     grey panel so gold does not clip off-screen. Quotes stay static (no
-     translateY). Panel tall enough for plugin 5.2× (never clamp MAX_STRETCH).
+  /* Phone: same quote↔gold composition as desk, left-aligned in the grey
+     panel (not flex-centered — centering an overflow scene shifts gold V+H).
+     Fit width by shrinking quote type slightly (LETTER_W stays 20); no
+     transform:scale on the scene. Panel tall enough for plugin 5.2×.
      Parent sections stack (copy above art). */
-  .stretch-stage__scene {
-    --quote-gap: 22px; /* phone: INSTINCT/Jeanette clear of gold stems */
-  }
-
   .stretch-stage__art {
+    justify-content: flex-start;
     min-height: 420px;
     padding: clamp(1.5rem, 3vw, 2.5rem) 0;
+  }
+
+  .stretch-stage__scene {
+    --quote-gap: 8px; /* phone: clear gutter without overlapping stems */
+    padding-left: 8px;
+  }
+
+  .stretch-stage__quote {
+    font-size: 17px;
+    line-height: 17px;
   }
 
   .stretch-stage__copy {
