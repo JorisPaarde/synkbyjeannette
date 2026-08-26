@@ -1380,6 +1380,42 @@ main {
   .services-results__grid {
     grid-template-columns: 1fr;
   }
+
+  /*
+    iPad-min / narrow tablet (768–900): two-col art column is ~380–450px but
+    the desk quote+gold scene is ~427px (25px nowrap quote + LETTER_W 20).
+    Keep two-col (WP tablet does too) but left-align and shrink quote type
+    like phone so layout size matches visual — never transform:scale(scene).
+    ≤767 already stacks and applies the same quote sizing.
+  */
+  .stretch-stage__art {
+    justify-content: flex-start;
+  }
+
+  .stretch-stage__scene {
+    --quote-gap: 8px;
+    padding-left: 8px;
+  }
+
+  .stretch-stage__quote {
+    font-size: 17px;
+    line-height: 17px;
+  }
+}
+
+/*
+  Elementor tablet (768–1024): WP drops “Kunstenaars zijn dromers” from
+  3.6rem → 30px so nowrap right-aligned lines fit the ~50% grey column.
+  Without this, Doeners/maken clip on the left through ~960px.
+*/
+@media (max-width: 1024px) and (min-width: 768px) {
+  .editorial-quote--dromers {
+    font-size: 30px;
+  }
+
+  .artist-quote .editorial-quote--dromers cite {
+    font-size: 12px;
+  }
 }
 
 @media (max-width: 767px) {
