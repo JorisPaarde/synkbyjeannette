@@ -18,19 +18,21 @@ const clientCopy = isEnglish
       stem stretch). Quote column includes "With a SENSE OF" width so OF sits
       ~7–8px left of gold B (no tuck). Jeanette + INSTINCT share RIGHT edge
       within the stack; sense starts at INSTINCT left. Credit +20px under
-      sense. Letter rows translateY(-10px); quotes transform none.
-      HUMOUR +20px left, letter gap 4px. Plugin MAX_STRETCH 5.2
+      sense. Horizontal = 1.3.15 (HUMOUR +20px, letter gap, gutter). Vertical:
+      BUSINESS bottom pinned to INSTINCT FOR bottom (grows up); HUMOUR top
+      pinned to SENSE OF top (grows down). No translateY(-10px). Enter pose
+      (currentP=0): BUSINESS 5.2× / HUMOUR 1×. Plugin MAX_STRETCH 5.2
       anti-correlated. No negative margins. No GSAP.
     -->
-    <div class="stretch-stage__scene">
-      <aside class="stretch-stage__quotes">
+    <div class="stretch-stage__scene" data-stretch-scene>
+      <aside class="stretch-stage__quotes" data-stretch-quotes>
         <div class="stretch-stage__quote-stack">
           <p class="stretch-stage__quote stretch-stage__quote--jeanette">Jeanette combines an</p>
           <div class="stretch-stage__quote-anchor">
-            <p class="stretch-stage__quote stretch-stage__quote--instinct">
+            <p class="stretch-stage__quote stretch-stage__quote--instinct" data-quote-instinct>
               <span class="stretch-stage__quote-emph">INSTINCT FOR</span>
             </p>
-            <p class="stretch-stage__quote stretch-stage__quote--sense">
+            <p class="stretch-stage__quote stretch-stage__quote--sense" data-quote-sense>
               <span>With a <span class="stretch-stage__quote-emph">SENSE OF</span></span>
             </p>
             <p class="stretch-stage__credit">Stefan Dzodan<br />Artist</p>
@@ -38,7 +40,7 @@ const clientCopy = isEnglish
         </div>
       </aside>
 
-      <div class="stretch-stage__rows">
+      <div class="stretch-stage__rows" data-stretch-rows>
         <span class="sr-only">Business</span>
         <div class="letters-row letters-row--business" data-stretch-row="business" data-letters="business" aria-hidden="true">
           <!-- ===== LETTER B ===== -->
@@ -250,9 +252,13 @@ const clientCopy = isEnglish
 
     const stage = document.querySelector<HTMLElement>('[data-stretch-stage]');
     const art = document.querySelector<HTMLElement>('[data-stretch-art]');
+    const scene = document.querySelector<HTMLElement>('[data-stretch-scene]');
+    const rows = document.querySelector<HTMLElement>('[data-stretch-rows]');
+    const instinctQuote = document.querySelector<HTMLElement>('[data-quote-instinct]');
+    const senseQuote = document.querySelector<HTMLElement>('[data-quote-sense]');
     const businessRow = document.querySelector<HTMLElement>('[data-stretch-row="business"]');
     const humourRow = document.querySelector<HTMLElement>('[data-stretch-row="humour"]');
-    if (!stage || !art || !businessRow || !humourRow) return;
+    if (!stage || !art || !scene || !rows || !instinctQuote || !senseQuote || !businessRow || !humourRow) return;
 
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -431,11 +437,40 @@ const clientCopy = isEnglish
     };
 
     /** Anti-correlated factors from shared currentP:
-     *  currentP=1 → BUSINESS 5.2× / HUMOUR 1×; currentP=0 → opposite. */
+     *  currentP=0 (enter/exit) → BUSINESS 5.2× / HUMOUR 1×;
+     *  currentP=1 (mid) → BUSINESS 1× / HUMOUR 5.2×. */
     const factorsFromP = (p: number) => ({
-      fBusiness: 1 + p * (MAX_STRETCH - 1),
-      fHumour: 1 + (1 - p) * (MAX_STRETCH - 1),
+      fBusiness: 1 + (1 - p) * (MAX_STRETCH - 1),
+      fHumour: 1 + p * (MAX_STRETCH - 1),
     });
+
+    /**
+     * Vertical anchors only (horizontal left/gutter/HUMOUR+20px unchanged):
+     * BUSINESS bottom → INSTINCT FOR bottom (grows up via align-items:end + bottom pin).
+     * HUMOUR top → SENSE OF top (grows down via align-items:start + top pin).
+     * Also restores letter-column width (absolute rows don't contribute to max-content).
+     */
+    const syncAnchors = () => {
+      const rowsRect = rows.getBoundingClientRect();
+      const instinctRect = instinctQuote.getBoundingClientRect();
+      const senseRect = senseQuote.getBoundingClientRect();
+
+      // Pin BUSINESS bottom to INSTINCT FOR bottom — height changes grow upward
+      businessRow.style.top = 'auto';
+      businessRow.style.bottom = `${Math.max(0, rowsRect.bottom - instinctRect.bottom)}px`;
+
+      // Pin HUMOUR top to SENSE OF top — height changes grow downward
+      humourRow.style.bottom = 'auto';
+      humourRow.style.top = `${Math.max(0, senseRect.top - rowsRect.top)}px`;
+
+      // Preserve 1.3.15 horizontal footprint: max(BUSINESS, HUMOUR + 20px margin)
+      const humourOffset = 20;
+      const colW = Math.ceil(Math.max(
+        businessRow.getBoundingClientRect().width,
+        humourRow.getBoundingClientRect().width + humourOffset,
+      ));
+      if (colW > 0) rows.style.width = `${colW}px`;
+    };
 
     const paintBoth = (p: number) => {
       const { fBusiness, fHumour } = factorsFromP(p);
@@ -444,6 +479,7 @@ const clientCopy = isEnglish
       if (valEl) valEl.textContent = `${fBusiness.toFixed(1)}×`;
       businessRow.style.transform = 'none';
       humourRow.style.transform = 'none';
+      syncAnchors();
     };
 
     // Initial pose from shared P (anti-correlated); transform none (stagger is layout margin)
@@ -454,6 +490,7 @@ const clientCopy = isEnglish
       paintBusiness(1);
       paintHumour(1);
       if (valEl) valEl.textContent = '1.0×';
+      syncAnchors();
       (window as any).__synkStretchController = { stop: () => undefined } satisfies StretchController;
       return;
     }
