@@ -743,21 +743,22 @@ main {
    gold BUSINESS. Jeanette + INSTINCT share a right edge; "With a SENSE OF"
    starts at INSTINCT left and contributes real layout width (no width:0
    tuck over the gold B). Black lines must not overlap each other.
-   Vertical letter row gap 4px; HUMOUR +20px horizontal only. Letter rows
-   sit ~10px higher via translateY on .stretch-stage__rows only.
-   Scene hugs content (max-content). No transform:scale / --scene-scale —
-   that left an unscaled overflow box flex-centering could shift (1.3.13
-   regression). Quotes transform: none. No container-type:inline-size. */
+   Vertical: letter rows independently absolutely pinned to quote lines
+   (BUSINESS bottom → INSTINCT bottom, grows up; HUMOUR top → SENSE top,
+   grows down) — replaces translateY(-10px). Horizontal unchanged from
+   1.3.15: HUMOUR +20px, quote↔gold gutter, padding-left, phone left-align.
+   No transform:scale / --scene-scale. Quotes transform: none. */
 .stretch-stage__scene {
   --quote-gap: 7px;
-  --row-gap: 4px; /* vertical only — decoupled from HUMOUR +20px offset */
-  --humour-offset: 20px; /* horizontal only */
+  --humour-offset: 20px; /* horizontal only — same as 1.3.15 */
+  position: relative;
   display: grid;
   width: max-content;
   max-width: none; /* natural composition width; phone shrinks quote font instead */
-  align-items: center; /* quotes vertically static vs anti-correlated rows */
+  min-height: 480px; /* vertical headroom only: BUSINESS up / HUMOUR down */
+  align-items: stretch; /* letter column = full scene height for absolute Y pins */
   column-gap: var(--quote-gap); /* ~7px desk — OF / quote column → gold left */
-  grid-template-columns: max-content max-content;
+  grid-template-columns: max-content max-content; /* natural letter-col width */
   padding-left: 12px;
   transform: none; /* never scale(scene) — layout size must match visual size */
   transform-origin: left center;
@@ -766,6 +767,7 @@ main {
 .stretch-stage__quotes {
   position: relative;
   z-index: 1;
+  align-self: center; /* vertical only — quotes centered; pins track via JS */
   width: max-content; /* includes SENSE OF so gold starts past OF */
   min-width: 0;
   overflow: visible;
@@ -850,25 +852,38 @@ main {
   text-transform: uppercase;
 }
 
+/* Positioning context for independent vertical letter-row anchors (not a
+   flex column — shared column height previously drifted both words as stems
+   painted). No translateY(-10px). Horizontal footprint matches 1.3.15
+   (width set from letter rows in JS; HUMOUR still margin-left +20px). */
 .stretch-stage__rows {
-  display: flex;
-  flex-direction: column;
-  /* 4px vertical gap — NOT the 20px horizontal offset */
-  gap: var(--row-gap);
-  transform: translateY(-10px); /* both BUSINESS + HUMOUR; quotes stay put */
+  position: relative;
+  width: max-content;
+  min-height: 100%;
+  transform: none;
+  pointer-events: none;
 }
 
 .stretch-stage .letters-row {
+  position: absolute;
+  left: 0;
   display: flex;
   flex: 0 0 auto;
-  align-items: flex-end;
   gap: clamp(2px, 0.4vw, 5px);
   min-height: 0; /* height follows stem stretch (rest ~78px, peak ~196px) */
   transform: none; /* stagger is layout (+20px), not transform */
+  pointer-events: auto;
 }
 
-/* HUMOUR left = BUSINESS left + 20px (horizontal only) */
+/* BUSINESS: bottom pinned to INSTINCT FOR bottom; stems grow ONLY upward */
+.stretch-stage .letters-row--business {
+  align-items: flex-end;
+}
+
+/* HUMOUR left = BUSINESS left + 20px (horizontal only — same as 1.3.15).
+   Top pinned to SENSE OF top; stems grow ONLY downward. */
 .stretch-stage .letters-row--humour {
+  align-items: flex-start;
   margin-left: var(--humour-offset);
 }
 
