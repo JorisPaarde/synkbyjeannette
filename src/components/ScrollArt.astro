@@ -244,7 +244,10 @@ const clientCopy = isEnglish
 
 <script>
 
-  type StretchController = { stop: () => void };
+  type StretchController = {
+    stop: () => void;
+    paintAt?: (p: number) => void;
+  };
 
   const mountStretchArt = () => {
     const existing = (window as any).__synkStretchController as StretchController | undefined;
@@ -491,7 +494,10 @@ const clientCopy = isEnglish
       paintHumour(1);
       if (valEl) valEl.textContent = '1.0×';
       syncAnchors();
-      (window as any).__synkStretchController = { stop: () => undefined } satisfies StretchController;
+      (window as any).__synkStretchController = {
+        stop: () => undefined,
+        paintAt: () => undefined,
+      } satisfies StretchController;
       return;
     }
 
@@ -520,6 +526,11 @@ const clientCopy = isEnglish
         running = false;
         cancelAnimationFrame(raf);
         window.removeEventListener('resize', onResize);
+      },
+      /** Force a progress pose (0=enter BUSINESS long / HUMOUR small; 1=mid opposite). */
+      paintAt: (p: number) => {
+        currentP = Math.max(0, Math.min(1, p));
+        paintBoth(currentP);
       },
     } satisfies StretchController;
   };
