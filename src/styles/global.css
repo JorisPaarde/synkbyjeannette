@@ -244,10 +244,43 @@ main {
   display: none;
 }
 
-/* Footer */
+/* Footer — WP sticky stack (.synk-footer-reveal), not keyframe enter */
 .site-footer {
   border-right: var(--page-border);
   border-left: var(--page-border);
+}
+
+.synk-footer-reveal {
+  position: relative;
+  overflow: visible !important;
+  isolation: isolate;
+}
+
+.synk-footer-reveal .synk-footer-reveal-item {
+  position: sticky;
+  bottom: 0;
+  transform: none !important;
+  transition: none !important;
+  will-change: auto;
+}
+
+.synk-footer-reveal .synk-footer-reveal-item:nth-of-type(1) {
+  z-index: 1;
+}
+
+.synk-footer-reveal .synk-footer-reveal-item:nth-of-type(2) {
+  z-index: 2;
+}
+
+.synk-footer-reveal .synk-footer-reveal-item:nth-of-type(3) {
+  z-index: 3;
+}
+
+@media (max-width: 767px) {
+  .synk-footer-reveal .synk-footer-reveal-item {
+    position: relative;
+    bottom: auto;
+  }
 }
 
 .contact-strip {
@@ -504,15 +537,62 @@ main {
   white-space: nowrap;
 }
 
-[data-reveal] {
-  opacity: 0;
-  transform: translateY(40px);
-  transition: opacity 620ms ease, transform 820ms cubic-bezier(.2, .8, .2, 1);
+/* WP Elementor entrance: animate.css slideIn*, 1.25s ease, no fade */
+[data-reveal]:not(.is-visible) {
+  visibility: hidden;
 }
 
 [data-reveal].is-visible {
-  opacity: 1;
-  transform: translateY(0);
+  visibility: visible;
+  animation-duration: 1.25s;
+  animation-timing-function: ease;
+  animation-delay: 0s;
+  animation-fill-mode: both;
+}
+
+[data-reveal='slideInUp'].is-visible {
+  animation-name: slideInUp;
+}
+
+[data-reveal='slideInDown'].is-visible {
+  animation-name: slideInDown;
+}
+
+[data-reveal='slideInRight'].is-visible {
+  animation-name: slideInRight;
+}
+
+@keyframes slideInUp {
+  from {
+    transform: translate3d(0, 100%, 0);
+    visibility: visible;
+  }
+
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes slideInDown {
+  from {
+    transform: translate3d(0, -100%, 0);
+    visibility: visible;
+  }
+
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translate3d(100%, 0, 0);
+    visibility: visible;
+  }
+
+  to {
+    transform: translate3d(0, 0, 0);
+  }
 }
 
 /* Home */
@@ -1535,7 +1615,8 @@ main {
   }
 
   [data-reveal] {
-    opacity: 1;
+    visibility: visible;
+    animation: none !important;
     transform: none;
   }
 }

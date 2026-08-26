@@ -31,8 +31,8 @@ const profileMaskId = `profile-mask-${lang}`;
 >
   <section class="hero">
     <div class="hero__content">
-      <img class="hero__logo" src={withBase('/assets/images/synk-logo.png')} alt="SYNK" fetchpriority="high" />
-      <h1 class="hero__byline">by Jeanette</h1>
+      <img class="hero__logo" src={withBase('/assets/images/synk-logo.png')} alt="SYNK" fetchpriority="high" data-reveal="slideInDown" />
+      <h1 class="hero__byline" data-reveal="slideInRight">by Jeanette</h1>
       <p class="hero__statement">
         {isEnglish ? (
           <>At a high level, it ultimately comes down to<br />one thing: <em>peace of mind.</em> because peace of mind creates space<br />to stay sharp and focus<br />running your business.</>
@@ -66,14 +66,14 @@ const profileMaskId = `profile-mask-${lang}`;
 
   <section class="split-section bordered-section intro-section">
     <div class="intro-copy editorial-panel editorial-panel--white">
-      <div class="editorial-copy" data-reveal>
+      <div class="editorial-copy">
         <p>Als remote PA, Project Manager en Producer ben ik meer dan een assistent op afstand.</p>
         <p>Ik ontzorg, denk mee en kijk vooruit.</p>
         <p>Complexe projecten pak ik vast als een pitbull. No worries, ik bijt niet.</p>
       </div>
     </div>
     <div class="intro-quote editorial-panel editorial-panel--grey editorial-panel--quote">
-      <blockquote class="editorial-quote editorial-quote--statement" data-reveal>
+      <blockquote class="editorial-quote editorial-quote--statement">
         {isEnglish ? (
           <>
             <span>FOR A “WOULD YOU” QUESTION</span>
@@ -97,7 +97,7 @@ const profileMaskId = `profile-mask-${lang}`;
   <LogoMarquee />
 
   <section class="split-section bordered-section profile-section">
-    <div class="profile-art" aria-label="Portret van Jeanette met de woorden regie zonder ruis en overzicht zonder overhead">
+    <div class="profile-art" aria-label="Portret van Jeanette met de woorden regie zonder ruis en overzicht zonder overhead" data-reveal="slideInUp">
       <img src={withBase('/assets/images/jeanette-portrait.png')} alt="Jeanette la Rivière" loading="lazy" />
       <div class="profile-art__words" aria-hidden="true">
         <svg class="profile-art__mask" viewBox="0 0 430 300" preserveAspectRatio="none" focusable="false">
@@ -113,8 +113,8 @@ const profileMaskId = `profile-mask-${lang}`;
         </svg>
       </div>
     </div>
-    <div class="profile-copy editorial-panel editorial-panel--white">
-      <div class="editorial-copy" data-reveal>
+    <div class="profile-copy editorial-panel editorial-panel--white" data-reveal="slideInUp">
+      <div class="editorial-copy">
         {isEnglish ? (
           <>
             <p>I’m Jeanette la Rivière.</p>
@@ -133,35 +133,37 @@ const profileMaskId = `profile-mask-${lang}`;
   </section>
 
   <section class="split-section bordered-section experience-section">
-    <div class="experience-copy editorial-panel editorial-panel--white">
-      <div class="editorial-copy editorial-copy--wide" data-reveal>
+    <div class="experience-copy editorial-panel editorial-panel--white" data-reveal="slideInUp">
+      <div class="editorial-copy editorial-copy--wide">
         <p>Over 25 jaar is alles wel zo’n beetje voorbijgekomen.</p>
         <p>Van 24 uur live radiocommercials opnemen op straat in Londen tot het produceren van een Achmea-campagne met 24 echte dolfijnen.</p>
         <p>Of het produceren van beursstands voor vijf landen in Europa.</p>
       </div>
     </div>
-    <div class="experience-photo" role="img" aria-label="Achmea-campagne met dolfijnen"></div>
+    <div class="experience-photo" role="img" aria-label="Achmea-campagne met dolfijnen" data-reveal="slideInUp"></div>
   </section>
 
   <ScrollArt lang={lang} />
 
-  <div class="service-ticker" aria-label={serviceLine}>
-    <div class="service-ticker__track">
-      <span class="service-ticker__group">{serviceLine}</span>
-      <span class="service-ticker__group" aria-hidden="true">{serviceLine}</span>
+  <div data-reveal="slideInUp">
+    <div class="service-ticker" aria-label={serviceLine}>
+      <div class="service-ticker__track">
+        <span class="service-ticker__group">{serviceLine}</span>
+        <span class="service-ticker__group" aria-hidden="true">{serviceLine}</span>
+      </div>
     </div>
   </div>
 
   <section class="split-section bordered-section manifesto-section">
-    <div class="manifesto editorial-panel editorial-panel--white">
-      <div class="editorial-copy editorial-copy--wide" data-reveal>
+    <div class="manifesto editorial-panel editorial-panel--white" data-reveal="slideInUp">
+      <div class="editorial-copy editorial-copy--wide">
         <p>Ik breng rust, overzicht en strategische precisie in je bedrijf of organisatie.</p>
         <p>Want slimmer denken is geen slogan – het is een manier van werken die je tijd, energie en mentale ruimte teruggeeft.</p>
         <p>Think smart. Move with clarity. Live more.</p>
         <p>{isEnglish ? 'That is Synk by Jeanette.' : 'Dat is Synk by Jeanette.'}</p>
       </div>
     </div>
-    <div class="artist-quote editorial-panel editorial-panel--grey editorial-panel--quote">
+    <div class="artist-quote editorial-panel editorial-panel--grey editorial-panel--quote" data-reveal="slideInUp">
       <blockquote class="editorial-quote editorial-quote--dromers">
         {isEnglish ? (
           <>

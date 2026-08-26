@@ -7,8 +7,8 @@ const { lang = 'nl' } = Astro.props;
 const isEnglish = lang === 'en';
 ---
 
-<footer class="site-footer">
-  <section class="contact-strip" aria-label={isEnglish ? 'Contact' : 'Contact'}>
+<footer class="site-footer synk-footer-reveal">
+  <section class="contact-strip synk-footer-reveal-item" aria-label={isEnglish ? 'Contact' : 'Contact'}>
     <p>
       {isEnglish ? 'Curious how? Email me at' : 'Nieuwsgierig hoe? Mail me op'}
       <a href="mailto:jeanette@synkbyjeanette.com">jeanette@synkbyjeanette.com</a>
@@ -23,7 +23,7 @@ const isEnglish = lang === 'en';
     </p>
   </section>
 
-  <section class="social-strip">
+  <section class="social-strip synk-footer-reveal-item">
     <a
       class="linkedin-mark"
       href="https://www.linkedin.com/in/jeanetteriviere/"
@@ -32,7 +32,7 @@ const isEnglish = lang === 'en';
     >in</a>
   </section>
 
-  <section class="credits-strip">
+  <section class="credits-strip synk-footer-reveal-item">
     <h2>{isEnglish ? 'With many thanks to:' : 'Met heel veel dank aan:'}</h2>
     <ul>
       <li><span class="person-icon" aria-hidden="true"></span>Ward Cuiper - {isEnglish ? 'Strategy' : 'Strategie'}</li>
