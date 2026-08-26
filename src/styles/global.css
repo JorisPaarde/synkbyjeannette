@@ -739,14 +739,15 @@ main {
 }
 
 /* WP desk: static quote stack LEFT of gold letter rows (quotes never ride
-   stem stretch / row height). ~7px between Jeanette/INSTINCT right edge and
-   gold BUSINESS. Jeanette + INSTINCT right-aligned (Jeanette longer → starts
-   further left). "With a SENSE OF" starts at INSTINCT left; may tuck into gold.
-   Black lines must not overlap each other. Vertical letter row gap 4px;
-   HUMOUR +20px horizontal only. Scene hugs content (max-content).
-   No transform:scale / --scene-scale — that left an unscaled overflow box
-   flex-centering could shift (1.3.13 regression). transform: none.
-   No container-type:inline-size — that size-contains and collapses max-content. */
+   stem stretch / row height). ~7–8px between OF (quote column right) and
+   gold BUSINESS. Jeanette + INSTINCT share a right edge; "With a SENSE OF"
+   starts at INSTINCT left and contributes real layout width (no width:0
+   tuck over the gold B). Black lines must not overlap each other.
+   Vertical letter row gap 4px; HUMOUR +20px horizontal only. Letter rows
+   sit ~10px higher via translateY on .stretch-stage__rows only.
+   Scene hugs content (max-content). No transform:scale / --scene-scale —
+   that left an unscaled overflow box flex-centering could shift (1.3.13
+   regression). Quotes transform: none. No container-type:inline-size. */
 .stretch-stage__scene {
   --quote-gap: 7px;
   --row-gap: 4px; /* vertical only — decoupled from HUMOUR +20px offset */
@@ -755,7 +756,7 @@ main {
   width: max-content;
   max-width: none; /* natural composition width; phone shrinks quote font instead */
   align-items: center; /* quotes vertically static vs anti-correlated rows */
-  column-gap: var(--quote-gap); /* ~7px desk — Jeanette/INSTINCT right → gold left */
+  column-gap: var(--quote-gap); /* ~7px desk — OF / quote column → gold left */
   grid-template-columns: max-content max-content;
   padding-left: 12px;
   transform: none; /* never scale(scene) — layout size must match visual size */
@@ -764,27 +765,30 @@ main {
 
 .stretch-stage__quotes {
   position: relative;
-  z-index: 1; /* black quotes paint over gold when they tuck in */
-  width: max-content; /* = Jeanette width (stack right edge → gold gutter) */
+  z-index: 1;
+  width: max-content; /* includes SENSE OF so gold starts past OF */
   min-width: 0;
   overflow: visible;
   text-align: left;
   transform: none; /* static — never translateY */
 }
 
-/* Jeanette + INSTINCT share RIGHT edge; anchor width = INSTINCT FOR only. */
+/*
+  3-col grid: [Jeanette overhang | INSTINCT width | SENSE OF overhang].
+  Jeanette spans 1–2 (end-aligned → shares right edge with INSTINCT).
+  Sense spans 2–3 (starts at INSTINCT left; OF widens col3 for the gutter).
+  Anchor is display:contents so its children join this grid.
+*/
 .stretch-stage__quote-stack {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
+  display: grid;
+  grid-template-columns: max-content max-content max-content;
   width: max-content;
+  justify-items: stretch;
+  align-items: start;
 }
 
 .stretch-stage__quote-anchor {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  width: max-content; /* = INSTINCT FOR; sense overflows without widening */
+  display: contents;
 }
 
 .stretch-stage__quote {
@@ -801,24 +805,31 @@ main {
 
 .stretch-stage__quote--jeanette {
   display: block;
+  grid-column: 1 / 3;
+  grid-row: 1;
+  justify-self: end;
   width: max-content;
 }
 
 .stretch-stage__quote--instinct {
   display: block;
+  grid-column: 2;
+  grid-row: 2;
   width: max-content;
 }
 
 /*
   INSTINCT FOR bottom → "With a SENSE OF" top ≈ 10px (positive; never overlap).
-  One line; left edge at INSTINCT (no +40 inset). width:0 so sense does not
-  widen the INSTINCT anchor — SENSE OF may tuck into gold like WP.
+  One line; left edge at INSTINCT (col 2). Spans into col 3 so OF owns real
+  layout width and keeps a ~7–8px gutter before gold B. No width:0 tuck.
   No negative margins.
 */
 .stretch-stage__quote--sense {
+  grid-column: 2 / 4;
+  grid-row: 3;
   margin-top: 10px;
   padding-left: 0;
-  width: 0;
+  width: max-content;
   min-width: 0;
   overflow: visible;
   box-sizing: content-box;
@@ -844,6 +855,7 @@ main {
   flex-direction: column;
   /* 4px vertical gap — NOT the 20px horizontal offset */
   gap: var(--row-gap);
+  transform: translateY(-10px); /* both BUSINESS + HUMOUR; quotes stay put */
 }
 
 .stretch-stage .letters-row {
@@ -892,6 +904,8 @@ main {
 }
 
 .stretch-stage__credit {
+  grid-column: 2;
+  grid-row: 4;
   margin: 20px 0 0; /* SENSE OF bottom → credit top = 20px */
   color: #6b7177;
   font-family: 'Futura Medium', Futura, sans-serif;
