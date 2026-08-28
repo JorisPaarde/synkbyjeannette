@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import LogoMarquee from './LogoMarquee.astro';
+import ProblemQuote from './ProblemQuote.astro';
 import ScrollArt from './ScrollArt.astro';
 import { withBase } from '../lib/paths';
 
@@ -196,18 +197,6 @@ const tagline = isEnglish ? 'Direction, Results & Peace of Mind' : 'regie, resul
     <div class="experience-photo" role="img" aria-label={isEnglish ? 'Achmea campaign with dolphins' : 'Achmea-campagne met dolfijnen'} data-reveal="slideInUp"></div>
   </section>
 
-  <section class="split-section bordered-section rick-section">
-    <div class="rick-quote editorial-panel editorial-panel--grey editorial-panel--quote" data-reveal="slideInUp">
-      <blockquote class="editorial-quote editorial-quote--prose">
-        <p>‘Slow motion flying dancers in an exhibition for the former queen?’ No prob.</p>
-        <p>Crazy deadlines with difficult clients? No prob.</p>
-        <p>Connecting with new clients? No prob.</p>
-        <cite>Rick Robin<br />Visual Architect</cite>
-      </blockquote>
-    </div>
-    <div class="rick-quote editorial-panel editorial-panel--white" data-reveal="slideInUp" aria-hidden="true"></div>
-  </section>
-
   <ScrollArt lang={lang} />
 
   <div data-reveal="slideInUp">
@@ -280,4 +269,6 @@ const tagline = isEnglish ? 'Direction, Results & Peace of Mind' : 'regie, resul
       </blockquote>
     </div>
   </section>
+
+  <ProblemQuote />
 </BaseLayout>
