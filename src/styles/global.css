@@ -1507,11 +1507,12 @@ main {
     min-height: 0;
     align-items: center;
     justify-content: center;
-    padding: 28px 20px 32px;
+    /* Match live ~350px logo band: 390 − 20px sides = 350 */
+    padding: 24px 20px 28px;
   }
 
   .hero__content {
-    width: min(100%, 19.5rem);
+    width: 100%;
     text-align: center;
     justify-content: center;
   }
@@ -1542,8 +1543,13 @@ main {
   }
 
   .hero__role {
-    margin-top: 14px;
+    margin-top: 12px;
     font-size: 1rem;
+  }
+
+  /* Long job-title keep may exceed the phone panel — allow wrap there only */
+  .hero-mobile-statement .hero__keep--long {
+    white-space: normal;
   }
 
   .hero-mobile-statement {
