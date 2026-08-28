@@ -1,6 +1,12 @@
 ---
 import { withBase } from '../lib/paths';
 
+interface Props {
+  lang?: 'nl' | 'en';
+}
+
+const { lang = 'nl' } = Astro.props;
+
 const logos = [
   ['interpolis.png', 'Interpolis'],
   ['ea-sports.png', 'EA Sports'],
@@ -14,9 +20,13 @@ const logos = [
   ['t-mobile.png', 'T-Mobile'],
   ['achmea.png', 'Achmea'],
 ];
+
+const ariaLabel = lang === 'en'
+  ? 'Brands Jeanette has worked with'
+  : 'Merken waarvoor Jeanette werkte';
 ---
 
-<div class="logo-marquee" aria-label="Merken waarvoor Jeanette werkte">
+<div class="logo-marquee" aria-label={ariaLabel}>
   <div class="logo-marquee__track">
     {[0, 1].map((groupIndex) => (
       <div class="logo-marquee__group" aria-hidden={groupIndex === 1 ? 'true' : undefined}>

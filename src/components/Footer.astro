@@ -8,19 +8,28 @@ const isEnglish = lang === 'en';
 ---
 
 <footer class="site-footer synk-footer-reveal">
-  <section class="contact-strip synk-footer-reveal-item" aria-label={isEnglish ? 'Contact' : 'Contact'}>
-    <p>
-      {isEnglish ? 'Curious how? Email me at' : 'Nieuwsgierig hoe? Mail me op'}
-      <a href="mailto:jeanette@synkbyjeanette.com">jeanette@synkbyjeanette.com</a>
-    </p>
-    <p>
-      {isEnglish ? 'of bel' : 'of'}
-      <a href="tel:+31646611718">{isEnglish ? 'bel' : 'bel'}</a>
-      /
-      <a href="https://wa.me/31646611718">app</a>
-      <a href="tel:+31646611718">+31 6 4661 1718</a>
-      {isEnglish ? 'for an espresso macciato' : 'voor een espresso macchiato.'}
-    </p>
+  <section class="contact-strip synk-footer-reveal-item" aria-label="Contact">
+    {isEnglish ? (
+      <>
+        <p>
+          Curious how I can bring you peace of mind by efficiently producing your project(s)?
+          Email me at <a href="mailto:jeanette@synkbyjeanette.com">jeanette@synkbyjeanette.com</a>
+        </p>
+        <p>
+          or call / WhatsApp <a href="tel:+31646611718">+31 6 4661 1718</a> for a no-obligation coffee.
+        </p>
+      </>
+    ) : (
+      <>
+        <p>
+          Nieuwsgierig hoe ik jou rust kan geven door project(en) efficiënt te produceren?
+          Mail me op <a href="mailto:jeanette@synkbyjeanette.com">jeanette@synkbyjeanette.com</a>
+        </p>
+        <p>
+          of bel / app naar <a href="tel:+31646611718">+31 6 4661 1718</a> voor een vrijblijvende bak koffie.
+        </p>
+      </>
+    )}
   </section>
 
   <section class="social-strip synk-footer-reveal-item">
@@ -36,7 +45,7 @@ const isEnglish = lang === 'en';
     <h2>{isEnglish ? 'With many thanks to:' : 'Met heel veel dank aan:'}</h2>
     <ul>
       <li><span class="person-icon" aria-hidden="true"></span>Ward Cuiper - {isEnglish ? 'Strategy' : 'Strategie'}</li>
-      <li><span class="person-icon" aria-hidden="true"></span>Stefan Leendertse - Conceptontwikkeling / Design &amp; Copy</li>
+      <li><span class="person-icon" aria-hidden="true"></span>Stefan Leendertse - {isEnglish ? 'Concept development / Design & Copy' : 'Conceptontwikkeling / Design & Copy'}</li>
       <li><span class="person-icon" aria-hidden="true"></span>JP Nieuwerkerk - Copy</li>
       <li>
         <span class="person-icon" aria-hidden="true"></span>
