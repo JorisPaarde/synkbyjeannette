@@ -639,7 +639,7 @@ main {
   font-size: clamp(1.15rem, 1.2vw + 0.55rem, 1.45rem);
   font-weight: 900;
   line-height: 1.48;
-  text-align: left;
+  text-align: right;
   text-wrap: pretty;
   hyphens: none;
 }
@@ -1396,12 +1396,13 @@ main {
     font-size: clamp(1.75rem, 3.2vw, 2.4rem);
   }
 
-  /* Real measure: avoid the old ~378px % trap; left-aligned in a right-anchored column */
+  /* Real measure: avoid the old ~378px % trap; right-aligned in a right-anchored column */
   .hero__statement {
     width: 100%;
     max-width: 44ch;
     font-size: 1.1rem;
     line-height: 1.5;
+    text-align: right;
   }
 
   .hero__role {
@@ -1505,16 +1506,16 @@ main {
 
   .hero {
     min-height: 0;
-    align-items: center;
-    justify-content: center;
-    /* Match live ~350px logo band: 390 − 20px sides = 350 */
-    padding: 24px 20px 28px;
+    align-items: flex-start;
+    justify-content: flex-end;
+    /* Match live ~350px logo band: 390 − 20px sides = 350; top 0 = flush under 52px nav */
+    padding: 0 20px 28px;
   }
 
   .hero__content {
     width: 100%;
-    text-align: center;
-    justify-content: center;
+    text-align: right;
+    justify-content: flex-start;
   }
 
   .hero__logo {
@@ -1529,7 +1530,7 @@ main {
     max-width: none;
     margin-right: 0;
     margin-left: 0;
-    text-align: center;
+    text-align: right;
   }
 
   .hero__byline {
@@ -1556,7 +1557,7 @@ main {
     display: flex;
     min-height: 220px;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-end;
     padding: var(--white-panel-space);
     border-right: var(--page-border);
     border-left: var(--page-border);
@@ -1564,11 +1565,14 @@ main {
     font-size: var(--white-panel-font-size);
     font-weight: 900;
     line-height: var(--white-panel-line-height);
+    text-align: right;
   }
 
-  .hero-mobile-statement p {
+  .hero-mobile-statement p,
+  .hero-mobile-statement__copy {
     width: min(34ch, 100%);
-    margin: 0 auto;
+    margin: 0 0 0 auto;
+    text-align: right;
     text-wrap: pretty;
   }
 
