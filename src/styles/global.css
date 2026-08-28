@@ -612,19 +612,19 @@ main {
 
 .hero__content {
   display: flex;
-  width: min(789px, 65vw);
+  width: min(860px, 70vw);
   flex-direction: column;
   text-align: right;
 }
 
 .hero__logo {
-  width: 87.7%;
+  width: 97%;
   margin-left: auto;
-  margin-right: 20px;
+  margin-right: 8px;
 }
 
 .hero__byline {
-  margin: 4px 20px 31px 0;
+  margin: 4px 8px 31px 0;
   color: var(--synk-white);
   font-family: 'Balgin Black', 'Futura Medium', Futura, sans-serif;
   font-size: clamp(2rem, 3.5vw, 3rem);
@@ -633,12 +633,13 @@ main {
 }
 
 .hero__statement {
-  width: 77%;
+  width: 88%;
   margin: 0 0 36px auto;
   font-family: 'Futura Medium', Futura, sans-serif;
   font-size: clamp(1.25rem, 2vw, 1.65rem);
   font-weight: 900;
   line-height: 1.5;
+  text-wrap: pretty;
 }
 
 .hero__statement em {
@@ -648,7 +649,7 @@ main {
 }
 
 .hero__role {
-  width: 77%;
+  width: 88%;
   margin: 0 0 0 auto;
   color: var(--synk-tan);
   font-family: 'Balgin Black', 'Futura Medium', Futura, sans-serif;
@@ -1374,7 +1375,7 @@ main {
   }
 
   .hero__content {
-    width: 64vw;
+    width: 70vw;
   }
 
   .services-results__grid {
@@ -1523,6 +1524,7 @@ main {
 
   .hero-mobile-statement p {
     margin: 0;
+    text-wrap: pretty;
   }
 
   .hero-mobile-statement span {
