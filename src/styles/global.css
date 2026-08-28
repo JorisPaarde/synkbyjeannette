@@ -680,7 +680,10 @@ main {
 }
 
 .intro-quote cite,
-.artist-quote cite {
+.artist-quote cite,
+.testimonial-quote cite,
+.sander-quote cite,
+.rick-quote cite {
   display: block;
   margin-top: 16px;
   color: #5d6876;
@@ -689,6 +692,34 @@ main {
   font-weight: 900;
   letter-spacing: 0;
   line-height: 1.05;
+}
+
+.editorial-quote--prose {
+  width: min(100%, 42ch);
+  font-size: var(--white-panel-font-size);
+  font-weight: 900;
+  letter-spacing: -.022em;
+  line-height: var(--white-panel-line-height);
+  text-align: left;
+}
+
+.editorial-quote--prose p {
+  margin: 0;
+  text-wrap: pretty;
+}
+
+.editorial-quote--prose p + p {
+  margin-top: 0.65em;
+}
+
+.testimonial-quote,
+.sander-quote,
+.rick-quote {
+  min-height: 510px;
+}
+
+.sander-quote {
+  justify-content: center;
 }
 
 .logo-marquee {
@@ -1459,6 +1490,24 @@ main {
     border-bottom: var(--page-border);
   }
 
+  .testimonial-section > :first-child {
+    border-bottom: var(--page-border);
+  }
+
+  .testimonial-quote,
+  .sander-quote,
+  .rick-quote,
+  .intro-copy,
+  .intro-quote,
+  .profile-copy,
+  .profile-art,
+  .experience-copy,
+  .experience-photo,
+  .manifesto,
+  .artist-quote {
+    min-height: 430px;
+  }
+
   .hero {
     min-height: 360px;
     padding: 0 18px 20px;
@@ -1526,17 +1575,6 @@ main {
     font-style: italic;
     font-weight: 800;
     line-height: 1;
-  }
-
-  .intro-copy,
-  .intro-quote,
-  .profile-copy,
-  .profile-art,
-  .experience-copy,
-  .experience-photo,
-  .manifesto,
-  .artist-quote {
-    min-height: 430px;
   }
 
   .profile-art {

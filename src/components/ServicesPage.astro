@@ -8,11 +8,14 @@ interface Props {
 const { lang = 'nl' } = Astro.props;
 const isEnglish = lang === 'en';
 const currentPath = isEnglish ? '/en/diensten/' : '/diensten/';
+
+const pageTitle = isEnglish ? 'Services – SYNK by Jeanette' : 'Diensten – SYNK by Jeanette';
+const heading = isEnglish ? 'Services SYNK by Jeanette' : 'Diensten SYNK by Jeanette';
 ---
 
-<BaseLayout title="Diensten – Synk" lang={lang} currentPath={currentPath}>
+<BaseLayout title={pageTitle} lang={lang} currentPath={currentPath}>
   <header class="page-title-band services-title">
-    <h1>Diensten SYNK by Jeanette</h1>
+    <h1>{heading}</h1>
   </header>
 
   <article class="services-content">
@@ -49,7 +52,7 @@ const currentPath = isEnglish ? '/en/diensten/' : '/diensten/';
             : 'Vertaalt ideeën naar haalbare plannen, stel teams samen en bewaakt deadlines en deliverables. Budgetbewaking en kwaliteitscontrole Grip op kosten, tijdige oplevering en minimalisering van risico’s.'}
         </li>
         <li>
-          <strong>{isEnglish ? 'Backoffice inrichting en optimalisatie' : 'Backoffice inrichting en optimalisatie'}</strong>{' '}
+          <strong>{isEnglish ? 'Back-office setup and optimisation' : 'Backoffice inrichting en optimalisatie'}</strong>{' '}
           {isEnglish
             ? 'Creating structure in processes, systems, and internal communication for calm and scalability.'
             : 'Structuur aanbrengen in processen, systemen en interne communicatie voor rust en schaalbaarheid.'}

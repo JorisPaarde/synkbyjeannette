@@ -1,7 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import LogoMarquee from './LogoMarquee.astro';
-import ProblemQuote from './ProblemQuote.astro';
 import ScrollArt from './ScrollArt.astro';
 import { withBase } from '../lib/paths';
 
@@ -13,6 +12,14 @@ const { lang = 'nl' } = Astro.props;
 const isEnglish = lang === 'en';
 const currentPath = isEnglish ? '/en/' : '/';
 
+const pageTitle = isEnglish
+  ? 'SYNK by Jeanette – Direction, Results & Peace of Mind'
+  : 'SYNK by Jeanette – regie, resultaat & rust';
+
+const pageDescription = isEnglish
+  ? 'As a remote project manager-producer, Jeanette brings entrepreneurs peace of mind — strategically and with structure.'
+  : 'Als remote project manager-producer brengt Jeanette ondernemers rust — strategisch en gestructureerd.';
+
 const serviceLine = isEnglish
   ? 'EMAIL MANAGEMENT – CALENDAR AND TRAVEL PLANNING – EVENTS – CONCEPT DEVELOPMENT – PROJECT COORDINATION – BACK OFFICE –'
   : 'E-MAILBEHEER - AGENDA EN REISPLANNING - EVENTS - CONCEPTONTWIKKELING - PROJECTREGIE - BACKOFFICE -';
@@ -21,11 +28,17 @@ const profileWords = isEnglish
   ? ['Direction', 'Without', 'Noise', 'Overview', 'Without', 'Overhead']
   : ['Regie', 'Zonder', 'Ruis', 'Overzicht', 'Zonder', 'Overhead'];
 const profileMaskId = `profile-mask-${lang}`;
+
+const profileArtLabel = isEnglish
+  ? 'Portrait of Jeanette with the words Direction without Noise and Overview without Overhead'
+  : 'Portret van Jeanette met de woorden Regie zonder Ruis en Overzicht zonder Overhead';
+
+const tagline = isEnglish ? 'Direction, Results & Peace of Mind' : 'regie, resultaat & rust';
 ---
 
 <BaseLayout
-  title="Synk – Your PA and Project Manager Producer"
-  description="Your PA and Project Manager Producer. Rust, overzicht en strategische precisie."
+  title={pageTitle}
+  description={pageDescription}
   lang={lang}
   currentPath={currentPath}
 >
@@ -35,12 +48,22 @@ const profileMaskId = `profile-mask-${lang}`;
       <h1 class="hero__byline" data-reveal="slideInRight">by Jeanette</h1>
       <p class="hero__statement">
         {isEnglish ? (
-          <>At a high level, it ultimately comes down to<br />one thing: <em>peace of mind.</em> because peace of mind creates space<br />to stay sharp and focus<br />running your business.</>
+          <>
+            As an entrepreneur, there’s really only one thing you want: <em>peace of mind.</em><br />
+            Because peace of mind creates space to be creative and focus on what you’re truly good at: running your business.<br />
+            As a remote project manager-producer, bringing you that peace is my focus.<br />
+            That comforting “it’ll be fine” feeling — that’s what I do it for.
+          </>
         ) : (
-          <>Op hoog niveau draait het uiteindelijk<br />om één ding: <em>rust.</em> Want rust creëert de ruimte<br />om scherp te blijven en te focussen op<br />je expertise.</>
+          <>
+            Als ondernemer wil je eigenlijk maar één ding: <em>rust.</em><br />
+            Want rust geeft ruimte om creatief te zijn en te focussen op waar je echt goed in bent: ondernemen.<br />
+            Als remote project manager-producer is het brengen van jouw rust mijn focus.<br />
+            Dat fijne ‘het-komt-goed-gevoel’, daar doe ik het voor.
+          </>
         )}
       </p>
-      <p class="hero__role">Your PA and<br />Project Manager Producer</p>
+      <p class="hero__role">{tagline}</p>
     </div>
   </section>
 
@@ -48,17 +71,20 @@ const profileMaskId = `profile-mask-${lang}`;
     <p class="hero-mobile-statement__copy">
       {isEnglish ? (
         <>
-          <span>At a high level, it ultimately comes down to</span>
-          <span>one thing: <em>peace of mind.</em> Because peace of mind creates</span>
-          <span>the space to stay sharp and focus on</span>
+          <span>As an entrepreneur, there’s really only one thing you want:</span>
+          <span><em>peace of mind.</em> Because peace of mind creates space</span>
+          <span>to be creative and focus on what you’re truly good at:</span>
           <span>running your business.</span>
+          <span>As a remote project manager-producer, bringing you that peace is my focus.</span>
+          <span>That comforting “it’ll be fine” feeling — that’s what I do it for.</span>
         </>
       ) : (
         <>
-          <span>Op hoog niveau draait het uiteindelijk</span>
-          <span>om één ding: <em>rust.</em> Want rust creëert</span>
-          <span>de ruimte om scherp te blijven</span>
-          <span>en te focussen op je expertise.</span>
+          <span>Als ondernemer wil je eigenlijk maar één ding:</span>
+          <span><em>rust.</em> Want rust geeft ruimte om creatief te zijn</span>
+          <span>en te focussen op waar je echt goed in bent: ondernemen.</span>
+          <span>Als remote project manager-producer is het brengen van jouw rust mijn focus.</span>
+          <span>Dat fijne ‘het-komt-goed-gevoel’, daar doe ik het voor.</span>
         </>
       )}
     </p>
@@ -67,9 +93,17 @@ const profileMaskId = `profile-mask-${lang}`;
   <section class="split-section bordered-section intro-section">
     <div class="intro-copy editorial-panel editorial-panel--white">
       <div class="editorial-copy">
-        <p>Als remote PA, Project Manager en Producer ben ik meer dan een assistent op afstand.</p>
-        <p>Ik ontzorg, denk mee en kijk vooruit.</p>
-        <p>Complexe projecten pak ik vast als een pitbull. No worries, ik bijt niet.</p>
+        {isEnglish ? (
+          <>
+            <p>“Jeanette, can you…”</p>
+            <p>That’s how almost every question from a client begins. Because the “would you” is usually something they can solve internally.</p>
+          </>
+        ) : (
+          <>
+            <p>‘Jeanette, kan jij…’</p>
+            <p>Zo begint bijna elke vraag die ik krijg van een opdrachtgever. Want de ‘wil jij’ is meestal intern wel op te lossen.</p>
+          </>
+        )}
       </div>
     </div>
     <div class="intro-quote editorial-panel editorial-panel--grey editorial-panel--quote">
@@ -89,16 +123,16 @@ const profileMaskId = `profile-mask-${lang}`;
             <span>BEL IK JEANETTE.</span>
           </>
         )}
-        <cite>Abdu Samad<br />Marketing Director Creative Events</cite>
+        <cite>Arco Bregman<br />CEO Youngworks</cite>
       </blockquote>
     </div>
   </section>
 
-  <LogoMarquee />
+  <LogoMarquee lang={lang} />
 
   <section class="split-section bordered-section profile-section">
-    <div class="profile-art" aria-label="Portret van Jeanette met de woorden regie zonder ruis en overzicht zonder overhead" data-reveal="slideInUp">
-      <img src={withBase('/assets/images/jeanette-portrait.png')} alt="Jeanette la Rivière" loading="lazy" />
+    <div class="profile-art" aria-label={profileArtLabel} data-reveal="slideInUp">
+      <img src={withBase('/assets/images/jeanette-portrait.png')} alt="Jeanette la Riviere" loading="lazy" />
       <div class="profile-art__words" aria-hidden="true">
         <svg class="profile-art__mask" viewBox="0 0 430 300" preserveAspectRatio="none" focusable="false">
           <defs>
@@ -117,30 +151,61 @@ const profileMaskId = `profile-mask-${lang}`;
       <div class="editorial-copy">
         {isEnglish ? (
           <>
-            <p>I’m Jeanette la Rivière.</p>
-            <p>Al meer dan 25 jaar breng ik rust voor bedrijven, organisaties &amp; ondernemers.</p>
-            <p>Strategic &amp; Structured. Want om het onmogelijk mogelijk te maken heb je overzicht nodig.</p>
+            <p>I’m Jeanette la Riviere. As a remote project manager-producer, I’ve been bringing peace of mind to entrepreneurs for over 25 years by taking work off their plate — strategically and with structure. Because to make the impossible possible, you need oversight.</p>
           </>
         ) : (
           <>
-            <p>Ik ben Jeanette la Rivière.</p>
-            <p>Al meer dan 25 jaar breng ik rust voor bedrijven, organisaties &amp; ondernemers.</p>
-            <p>Strategisch &amp; gestructureerd. Want om het onmogelijk mogelijk te maken heb je overzicht nodig.</p>
+            <p>Ik ben Jeanette la Riviere. Als remote projectmanager- producer breng ik al meer dan 25 jaar rust voor ondernemers, door hen werk uit handen te nemen. Strategisch en gestructureerd. Want om het onmogelijke mogelijk te maken heb je overzicht nodig.</p>
           </>
         )}
       </div>
     </div>
   </section>
 
+  <section class="split-section bordered-section testimonial-section">
+    <div class="testimonial-quote editorial-panel editorial-panel--grey editorial-panel--quote" data-reveal="slideInUp">
+      <blockquote class="editorial-quote editorial-quote--prose">
+        <p>I very much enjoyed working with Jeanette. She's an experienced project manager/producer with a strong skill set who always strives to service people in the best possible way. She's very dedicated, eager to learn and has a great sense of humour. Jeanette is a people person who works well within a team and knows how to get the job done.</p>
+        <cite>Claudia Casagrande<br />Nike Europe</cite>
+      </blockquote>
+    </div>
+    <div class="testimonial-quote editorial-panel editorial-panel--grey editorial-panel--quote" data-reveal="slideInUp">
+      <blockquote class="editorial-quote editorial-quote--prose">
+        <p>Jeanette is passionate about her work, she thinks in solutions and once committed to a project she will do everything in her power to make stuff happen. And she is fun to work with.</p>
+        <cite>Elwin Bes<br />Film Director</cite>
+      </blockquote>
+    </div>
+  </section>
+
   <section class="split-section bordered-section experience-section">
     <div class="experience-copy editorial-panel editorial-panel--white" data-reveal="slideInUp">
       <div class="editorial-copy editorial-copy--wide">
-        <p>Over 25 jaar is alles wel zo’n beetje voorbijgekomen.</p>
-        <p>Van 24 uur live radiocommercials opnemen op straat in Londen tot het produceren van een Achmea-campagne met 24 echte dolfijnen.</p>
-        <p>Of het produceren van beursstands voor vijf landen in Europa.</p>
+        {isEnglish ? (
+          <>
+            <p>In 25 years, I’ve seen it all. From arranging a radio commercial for Eurostar in London to producing a Unox winter campaign — within 4 hours — with an actor in the sea wearing a Unox hat. Or a campaign with 24 dolphins for Achmea Health Care.</p>
+            <p>But you can still wake me up for email or calendar management and booking travel. The fun is in the fixing.</p>
+          </>
+        ) : (
+          <>
+            <p>In 25 jaar tijd is alles wel zo’n beetje voorbij gekomen. Van het regelen van een radio commercial voor Eurostar in London tot het, binnen 4 uur, produceren van een Unox campagne in de winter met een acteur in de zee met een Unox muts op. Of een campagne met 24 dolfijnen voor Achmea health Care.</p>
+            <p>Maar ook voor e-mail- of agenda-beheer en het boeken van reizen kan je me nog altijd wakker maken. De lol zit ‘m in het fixen.</p>
+          </>
+        )}
       </div>
     </div>
-    <div class="experience-photo" role="img" aria-label="Achmea-campagne met dolfijnen" data-reveal="slideInUp"></div>
+    <div class="experience-photo" role="img" aria-label={isEnglish ? 'Achmea campaign with dolphins' : 'Achmea-campagne met dolfijnen'} data-reveal="slideInUp"></div>
+  </section>
+
+  <section class="split-section bordered-section rick-section">
+    <div class="rick-quote editorial-panel editorial-panel--grey editorial-panel--quote" data-reveal="slideInUp">
+      <blockquote class="editorial-quote editorial-quote--prose">
+        <p>‘Slow motion flying dancers in an exhibition for the former queen?’ No prob.</p>
+        <p>Crazy deadlines with difficult clients? No prob.</p>
+        <p>Connecting with new clients? No prob.</p>
+        <cite>Rick Robin<br />Visual Architect</cite>
+      </blockquote>
+    </div>
+    <div class="rick-quote editorial-panel editorial-panel--white" data-reveal="slideInUp" aria-hidden="true"></div>
   </section>
 
   <ScrollArt lang={lang} />
@@ -154,13 +219,35 @@ const profileMaskId = `profile-mask-${lang}`;
     </div>
   </div>
 
+  <section class="bordered-section sander-section">
+    <div class="sander-quote editorial-panel editorial-panel--grey editorial-panel--quote" data-reveal="slideInUp">
+      <blockquote class="editorial-quote editorial-quote--prose">
+        {isEnglish ? (
+          <p>Jeanette is a hard worker. In our intake, we immediately had a great conversation about what was going on in the agency and where the challenges lay. I’ve rarely seen someone map things out so quickly. What I love about Jeanette is that she’s pleasantly direct — if something’s off or could be better, she’ll tell you. And that works great!</p>
+        ) : (
+          <p>Jeanette is een harde werker. In de intake hadden we direct een goed gesprek over wat er binnen het bureau speelde en waar de uitdagingen lagen. Ik heb zelden meegemaakt dat iemand dat zo snel in kaart brengt. Het mooie aan Jeanette vind ik dat ze prettig direct is, zit haar iets dwars of kan iets beter. Dan krijg je dat terug en dat werkt fijn!</p>
+        )}
+        <cite>Sander Veenendaal<br />CEO</cite>
+      </blockquote>
+    </div>
+  </section>
+
   <section class="split-section bordered-section manifesto-section">
     <div class="manifesto editorial-panel editorial-panel--white" data-reveal="slideInUp">
       <div class="editorial-copy editorial-copy--wide">
-        <p>Ik breng rust, overzicht en strategische precisie in je bedrijf of organisatie.</p>
-        <p>Want slimmer denken is geen slogan – het is een manier van werken die je tijd, energie en mentale ruimte teruggeeft.</p>
-        <p>Think smart. Move with clarity. Live more.</p>
-        <p>{isEnglish ? 'That is Synk by Jeanette.' : 'Dat is Synk by Jeanette.'}</p>
+        {isEnglish ? (
+          <>
+            <p>I work independently but have a broad network of bleeding-edge AI specialists (national &amp; international), strategists, photographers, copywriters, art directors, web developers, producers, and event managers.</p>
+            <p>If needed, I quickly assemble a scalable team that fits your project and style.</p>
+            <p>With SYNK, you’re not buying hours — you’re investing in peace of mind and gaining time.</p>
+          </>
+        ) : (
+          <>
+            <p>Ik werk zelfstandig, maar heb een uitgebreid netwerk van AI bleeding edge specialisten (nationaal &amp; internationaal), strategen, fotografen, copywriters, art directors, webdevelopers, producers en eventmanagers.</p>
+            <p>Indien nodig stel ik snel een schaalbaar team samen, dat past bij jouw project &amp; stijl.</p>
+            <p>Met Synk huur je geen uren, je investeert in rust en wint tijd.</p>
+          </>
+        )}
       </div>
     </div>
     <div class="artist-quote editorial-panel editorial-panel--grey editorial-panel--quote" data-reveal="slideInUp">
@@ -170,7 +257,7 @@ const profileMaskId = `profile-mask-${lang}`;
             <span>Artists are</span>
             <span>dreamers.</span>
             <span class="editorial-quote--dromers__tail">
-              <cite>JW Kaldenbach<br />Photographer</cite>
+              <cite>Jan Willem Kaldenbach<br />Photographer</cite>
               <span class="editorial-quote--dromers__lines">
                 <span>Doers like Jeanette</span>
                 <span>make them possible.</span>
@@ -182,7 +269,7 @@ const profileMaskId = `profile-mask-${lang}`;
             <span>Kunstenaars zijn</span>
             <span>dromers.</span>
             <span class="editorial-quote--dromers__tail">
-              <cite>JW Kaldenbach<br />Photographer</cite>
+              <cite>Jan Willem Kaldenbach<br />Fotograaf</cite>
               <span class="editorial-quote--dromers__lines">
                 <span>Doeners als Jeanette</span>
                 <span>maken ze mogelijk.</span>
@@ -193,6 +280,4 @@ const profileMaskId = `profile-mask-${lang}`;
       </blockquote>
     </div>
   </section>
-
-  <ProblemQuote />
 </BaseLayout>
