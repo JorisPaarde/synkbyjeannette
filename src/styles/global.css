@@ -612,7 +612,7 @@ main {
 
 .hero__content {
   display: flex;
-  width: min(860px, 70vw);
+  width: min(860px, 72vw);
   flex-direction: column;
   text-align: right;
 }
@@ -624,7 +624,7 @@ main {
 }
 
 .hero__byline {
-  margin: 4px 8px 31px 0;
+  margin: 4px 8px 28px 0;
   color: var(--synk-white);
   font-family: 'Balgin Black', 'Futura Medium', Futura, sans-serif;
   font-size: clamp(2rem, 3.5vw, 3rem);
@@ -633,13 +633,15 @@ main {
 }
 
 .hero__statement {
-  width: 88%;
-  margin: 0 0 36px auto;
+  width: min(42ch, 100%);
+  margin: 0 0 28px auto;
   font-family: 'Futura Medium', Futura, sans-serif;
-  font-size: clamp(1.25rem, 2vw, 1.65rem);
+  font-size: clamp(1.15rem, 1.2vw + 0.55rem, 1.45rem);
   font-weight: 900;
-  line-height: 1.5;
+  line-height: 1.48;
+  text-align: left;
   text-wrap: pretty;
+  hyphens: none;
 }
 
 .hero__statement em {
@@ -648,14 +650,19 @@ main {
   font-weight: 900;
 }
 
+.hero__keep {
+  white-space: nowrap;
+}
+
 .hero__role {
-  width: 88%;
+  width: min(42ch, 100%);
   margin: 0 0 0 auto;
   color: var(--synk-tan);
   font-family: 'Balgin Black', 'Futura Medium', Futura, sans-serif;
-  font-size: clamp(1.35rem, 1.85vw, 1.5625rem);
+  font-size: clamp(1.2rem, 1.6vw, 1.45rem);
   font-weight: 600;
-  line-height: 1.5;
+  line-height: 1.4;
+  text-align: left;
 }
 
 .hero-mobile-statement {
@@ -1370,12 +1377,37 @@ main {
 
 @media (max-width: 900px) {
   .hero {
-    min-height: 610px;
-    padding-right: 5%;
+    min-height: 580px;
+    padding: 0 4% 22px;
   }
 
   .hero__content {
-    width: 70vw;
+    width: min(640px, 88vw);
+  }
+
+  .hero__logo {
+    width: 100%;
+    margin-right: 4px;
+  }
+
+  .hero__byline {
+    margin-right: 4px;
+    margin-bottom: 22px;
+    font-size: clamp(1.75rem, 3.2vw, 2.4rem);
+  }
+
+  /* Real measure: avoid the old ~378px % trap; left-aligned in a right-anchored column */
+  .hero__statement {
+    width: 100%;
+    max-width: 44ch;
+    font-size: 1.1rem;
+    line-height: 1.5;
+  }
+
+  .hero__role {
+    width: 100%;
+    max-width: 44ch;
+    font-size: 1.15rem;
   }
 
   .services-results__grid {
@@ -1472,13 +1504,16 @@ main {
   }
 
   .hero {
-    min-height: 360px;
-    padding: 0 18px 20px;
+    min-height: 0;
+    align-items: center;
+    justify-content: center;
+    padding: 28px 20px 32px;
   }
 
   .hero__content {
-    width: 100%;
+    width: min(100%, 19.5rem);
     text-align: center;
+    justify-content: center;
   }
 
   .hero__logo {
@@ -1490,14 +1525,16 @@ main {
   .hero__statement,
   .hero__role {
     width: 100%;
+    max-width: none;
     margin-right: 0;
     margin-left: 0;
+    text-align: center;
   }
 
   .hero__byline {
     margin-top: 4px;
     margin-bottom: 0;
-    font-size: 1.6rem;
+    font-size: 1.5rem;
   }
 
   .hero__statement {
@@ -1505,14 +1542,15 @@ main {
   }
 
   .hero__role {
-    margin-top: auto;
-    font-size: 18px;
+    margin-top: 14px;
+    font-size: 1rem;
   }
 
   .hero-mobile-statement {
     display: flex;
-    min-height: 240px;
+    min-height: 220px;
     align-items: center;
+    justify-content: center;
     padding: var(--white-panel-space);
     border-right: var(--page-border);
     border-left: var(--page-border);
@@ -1523,12 +1561,9 @@ main {
   }
 
   .hero-mobile-statement p {
-    margin: 0;
+    width: min(34ch, 100%);
+    margin: 0 auto;
     text-wrap: pretty;
-  }
-
-  .hero-mobile-statement span {
-    display: block;
   }
 
   .hero-mobile-statement em {
