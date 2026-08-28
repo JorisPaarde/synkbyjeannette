@@ -682,7 +682,8 @@ main {
 .intro-quote cite,
 .artist-quote cite,
 .testimonial-quote cite,
-.sander-quote cite {
+.sander-quote cite,
+.rick-quote cite {
   display: block;
   margin-top: 16px;
   color: #5d6876;
@@ -707,8 +708,13 @@ main {
   text-wrap: pretty;
 }
 
+.editorial-quote--prose p + p {
+  margin-top: 0.65em;
+}
+
 .testimonial-quote,
-.sander-quote {
+.sander-quote,
+.rick-quote {
   min-height: 510px;
 }
 
@@ -1490,6 +1496,7 @@ main {
 
   .testimonial-quote,
   .sander-quote,
+  .rick-quote,
   .intro-copy,
   .intro-quote,
   .profile-copy,
